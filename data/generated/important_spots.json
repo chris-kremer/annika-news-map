@@ -1,0 +1,127 @@
+{
+  "generatedAt": "2026-04-28T15:23:40.245222+00:00",
+  "provider": "the-news-api",
+  "windowDays": 5,
+  "spots": [
+    {
+      "id": "hormuz",
+      "label": "Strait of Hormuz",
+      "lat": 26.57,
+      "lon": 56.25,
+      "kind": "chokepoint",
+      "title": "Shipping and energy risk around Hormuz",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "uae-opec",
+      "label": "Abu Dhabi / OPEC",
+      "lat": 24.45,
+      "lon": 54.38,
+      "kind": "energy",
+      "title": "Energy policy moves in the Gulf",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "taiwan-strait",
+      "label": "Taiwan Strait",
+      "lat": 24.0,
+      "lon": 119.4,
+      "kind": "military",
+      "title": "Military signaling around Taiwan",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "south-china-sea",
+      "label": "South China Sea",
+      "lat": 12.0,
+      "lon": 114.5,
+      "kind": "maritime",
+      "title": "Maritime pressure in the South China Sea",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "red-sea",
+      "label": "Red Sea / Bab el-Mandeb",
+      "lat": 13.3,
+      "lon": 43.2,
+      "kind": "shipping",
+      "title": "Shipping risk in the Red Sea corridor",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "suez",
+      "label": "Suez Canal",
+      "lat": 30.5,
+      "lon": 32.35,
+      "kind": "chokepoint",
+      "title": "Canal transit and rerouting pressure",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "sahel",
+      "label": "Sahel Belt",
+      "lat": 15.0,
+      "lon": -0.5,
+      "kind": "security",
+      "title": "Instability across the Sahel belt",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "sudan",
+      "label": "Sudan / Khartoum",
+      "lat": 15.57,
+      "lon": 32.53,
+      "kind": "conflict",
+      "title": "War and negotiations in Sudan",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "kashmir",
+      "label": "Kashmir",
+      "lat": 34.08,
+      "lon": 74.79,
+      "kind": "border",
+      "title": "India-Pakistan tension around Kashmir",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "eastern-drc",
+      "label": "Eastern DRC",
+      "lat": -1.68,
+      "lon": 29.23,
+      "kind": "minerals",
+      "title": "Conflict and critical minerals in eastern DRC",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    }
+  ]
+}

@@ -1,14 +1,20 @@
 const svg = d3.select("#world-map");
+const atlasStage = document.querySelector(".atlas-stage");
 const mapStatus = document.getElementById("map-status");
+const conflictToggle = document.getElementById("conflict-toggle");
+const importantToggle = document.getElementById("important-toggle");
 const countrySheet = document.getElementById("country-sheet");
 const closeButton = document.getElementById("sheet-close");
 const detailCountry = document.getElementById("detail-country");
 const detailRegion = document.getElementById("detail-region");
-const detailTagline = document.getElementById("detail-tagline");
 const detailDemocracyLabel = document.getElementById("detail-democracy-label");
 const detailDemocracyIndex = document.getElementById("detail-democracy-index");
+const detailEconomicGrowthLabel = document.getElementById("detail-economic-growth-label");
+const detailEconomicGrowth = document.getElementById("detail-economic-growth");
 const detailConflictLabel = document.getElementById("detail-conflict-label");
 const detailConflict = document.getElementById("detail-conflict");
+const factStrip = document.querySelector(".fact-strip");
+const storySectionLabel = document.getElementById("story-section-label");
 const storyList = document.getElementById("story-list");
 
 const sampleCountryData = window.appData.countries;
@@ -24,18 +30,25 @@ let countryLayer;
 let borderLayer;
 let graticuleLayer;
 let hotspotLayer;
+let importantLayer;
 let features = [];
 let borders;
 let lastTimestamp = 0;
 let autoRotate = true;
 let activeFeatureId = null;
+let activeSpotId = null;
 let countryStore = new Map();
-let activeCountryRequestId = 0;
+let activeSheetRequestId = 0;
+let activeSheetKey = "";
 let countryPaths;
 let conflictHoverRoles = new Map();
-let democracyHoverActive = false;
+let metricHoverMode = null;
 let conflictHotspots = [];
 let hotspotNodes;
+let showConflictHotspots = true;
+let importantSpots = [];
+let importantSpotNodes;
+let showImportantSpots = false;
 
 function getCanonicalCountryName(countryName) {
   return countryNameAliases.get(countryName) || countryName;
@@ -51,6 +64,22 @@ function getDefaultMapStatus() {
   return "Drag the globe. Click a country.";
 }
 
+function syncConflictToggle() {
+  conflictToggle.classList.toggle("is-active", showConflictHotspots);
+  conflictToggle.setAttribute("aria-pressed", String(showConflictHotspots));
+}
+
+function syncImportantToggle() {
+  importantToggle.classList.toggle("is-active", showImportantSpots);
+  importantToggle.setAttribute("aria-pressed", String(showImportantSpots));
+}
+
+function isInteractiveElement(target) {
+  return Boolean(
+    target?.closest?.(".country, .conflict-hotspot, .important-spot, .country-sheet, .layer-switches"),
+  );
+}
+
 function createBaseCountry(countryName) {
   return {
     name: getCanonicalCountryName(countryName),
@@ -58,6 +87,9 @@ function createBaseCountry(countryName) {
     tagline:
       "The globe is wired for this country. News and conflict details will fill in as the live pipeline expands.",
     democracyIndex: "Pending score source",
+    economicGrowth: "No recent World Bank data",
+    economicGrowthValue: null,
+    economicGrowthYear: null,
     conflict: "Pending live metadata",
     conflicts: [],
     stories: [
@@ -86,6 +118,36 @@ function getDemocracyBucketColor(bucket) {
     default:
       return "#355261";
   }
+}
+
+function getEconomicGrowthColor(value) {
+  if (typeof value !== "number" || Number.isNaN(value)) {
+    return "#355261";
+  }
+  if (value >= 5) {
+    return "#7ee6b8";
+  }
+  if (value >= 2) {
+    return "#4dd2c2";
+  }
+  if (value >= 0) {
+    return "#d8b06a";
+  }
+  if (value >= -2) {
+    return "#c97a65";
+  }
+  return "#b55f68";
+}
+
+function getMetricFill(feature) {
+  const record = getCountryRecord(feature.properties.name);
+  if (metricHoverMode === "democracy") {
+    return getDemocracyBucketColor(record.democracyIndex);
+  }
+  if (metricHoverMode === "growth") {
+    return getEconomicGrowthColor(record.economicGrowthValue);
+  }
+  return "#355261";
 }
 
 function getConflictRoleColor(role) {
@@ -119,10 +181,10 @@ function syncCountryClasses() {
     .classed("is-conflict-ally", (feature) => conflictHoverRoles.get(feature.properties.name) === "ally")
     .classed("is-conflict-enemy", (feature) => conflictHoverRoles.get(feature.properties.name) === "enemy")
     .classed("is-conflict-secondary", (feature) => conflictHoverRoles.get(feature.properties.name) === "secondary")
-    .classed("is-democracy-hover", () => democracyHoverActive)
+    .classed("is-democracy-hover", () => metricHoverMode !== null)
     .style("fill", (feature) => {
-      if (democracyHoverActive) {
-        return getDemocracyBucketColor(getCountryRecord(feature.properties.name).democracyIndex);
+      if (metricHoverMode) {
+        return getMetricFill(feature);
       }
       if (feature.id === activeFeatureId) {
         return "";
@@ -131,7 +193,7 @@ function syncCountryClasses() {
       return role ? getConflictRoleColor(role) : "";
     })
     .style("stroke", (feature) => {
-      if (democracyHoverActive) {
+      if (metricHoverMode) {
         return "rgba(228, 244, 255, 0.24)";
       }
       const role = conflictHoverRoles.get(feature.properties.name);
@@ -147,7 +209,7 @@ function syncCountryClasses() {
       return "";
     })
     .style("filter", (feature) => {
-      if (democracyHoverActive && feature.id !== activeFeatureId) {
+      if (metricHoverMode && feature.id !== activeFeatureId) {
         return "drop-shadow(0 0 8px rgba(243, 239, 230, 0.08))";
       }
       const role = conflictHoverRoles.get(feature.properties.name);
@@ -165,7 +227,7 @@ function syncCountryClasses() {
 }
 
 function setConflictHover(roleMap) {
-  democracyHoverActive = false;
+  metricHoverMode = null;
   conflictHoverRoles = new Map(roleMap);
   syncCountryClasses();
 }
@@ -175,9 +237,9 @@ function clearConflictHover() {
   syncCountryClasses();
 }
 
-function setDemocracyHover(active) {
+function setMetricHover(mode) {
   conflictHoverRoles.clear();
-  democracyHoverActive = active;
+  metricHoverMode = mode;
   syncCountryClasses();
 }
 
@@ -288,6 +350,42 @@ function renderConflictDetails(selected) {
   detailConflict.appendChild(fallback);
 }
 
+function showCountryFacts() {
+  factStrip.hidden = false;
+  storySectionLabel.textContent = "Recent stories";
+}
+
+function showSpotFacts() {
+  factStrip.hidden = true;
+  storySectionLabel.textContent = "Current coverage";
+}
+
+function renderStories(stories) {
+  storyList.innerHTML = stories
+    .map(
+      (story) => `
+        <article class="story-card">
+          <div class="story-meta">
+            <span>${story.source}</span>
+            <span>${story.time}</span>
+          </div>
+          <h3 class="story-title">
+            ${
+              story.url
+                ? `<a class="story-link" href="${story.url}" target="_blank" rel="noreferrer">${story.title}</a>`
+                : story.title
+            }
+          </h3>
+          <p class="story-copy">${story.summary}</p>
+          <div class="story-tags">
+            ${(story.tags || []).map((tag) => `<span>${tag}</span>`).join("")}
+          </div>
+        </article>
+      `,
+    )
+    .join("");
+}
+
 function buildCountryStore() {
   countryStore = new Map(
     features.map((feature) => [feature.properties.name, createBaseCountry(feature.properties.name)]),
@@ -335,70 +433,75 @@ function getCountryRecord(countryName) {
   return countryStore.get(countryName) || createBaseCountry(countryName);
 }
 
-function bindDemocracyHoverHandlers() {
-  detailDemocracyLabel.classList.add("is-hoverable");
-  detailDemocracyLabel.addEventListener("mouseenter", () => setDemocracyHover(true));
-  detailDemocracyLabel.addEventListener("mouseleave", () => setDemocracyHover(false));
-  detailDemocracyLabel.addEventListener("focus", () => setDemocracyHover(true));
-  detailDemocracyLabel.addEventListener("blur", () => setDemocracyHover(false));
+function bindMetricHoverHandlers(element, mode) {
+  element.classList.add("is-hoverable");
+  element.addEventListener("mouseenter", () => setMetricHover(mode));
+  element.addEventListener("mouseleave", () => setMetricHover(null));
+  element.addEventListener("focus", () => setMetricHover(mode));
+  element.addEventListener("blur", () => setMetricHover(null));
 }
 
 function updateSheet(countryName) {
   const selected = getCountryRecord(countryName);
 
+  showCountryFacts();
   detailCountry.textContent = selected.name;
   detailRegion.textContent = selected.region || "Metadata not populated yet";
-  detailTagline.textContent =
-    selected.tagline ||
-    "The globe is wired for this country. Metadata and stories will fill in as sources are connected.";
   detailDemocracyIndex.textContent = selected.democracyIndex || "Pending score source";
+  detailEconomicGrowth.textContent = selected.economicGrowth || "No recent World Bank data";
   renderConflictDetails(selected);
-  storyList.innerHTML = selected.stories
-    .map(
-      (story) => `
-        <article class="story-card">
-          <div class="story-meta">
-            <span>${story.source}</span>
-            <span>${story.time}</span>
-          </div>
-          <h3 class="story-title">
-            ${
-              story.url
-                ? `<a class="story-link" href="${story.url}" target="_blank" rel="noreferrer">${story.title}</a>`
-                : story.title
-            }
-          </h3>
-          <p class="story-copy">${story.summary}</p>
-          <div class="story-tags">
-            ${story.tags.map((tag) => `<span>${tag}</span>`).join("")}
-          </div>
-        </article>
-      `,
-    )
-    .join("");
+  renderStories(selected.stories);
 }
 
 function setLoadingState(countryName) {
   const selected = getCountryRecord(countryName);
+  showCountryFacts();
   detailCountry.textContent = selected.name;
   detailRegion.textContent = selected.region || "Metadata not populated yet";
-  detailTagline.textContent = "Checking the 24-hour cache and only fetching fresh stories if needed.";
   detailDemocracyIndex.textContent = selected.democracyIndex || "Pending score source";
+  detailEconomicGrowth.textContent = selected.economicGrowth || "No recent World Bank data";
   renderConflictDetails(selected);
-  storyList.innerHTML = `
-    <article class="story-card">
-      <div class="story-meta">
-        <span>System</span>
-        <span>Now</span>
-      </div>
-      <h3 class="story-title">Loading briefing</h3>
-      <p class="story-copy">This country only refreshes when clicked. Results stay cached for 24 hours.</p>
-      <div class="story-tags">
-        <span>Cache</span>
-        <span>On demand</span>
-      </div>
-    </article>
-  `;
+  renderStories([
+    {
+      source: "System",
+      time: "Now",
+      title: "Loading briefing",
+      summary: "This country only refreshes when clicked. Results stay cached for 24 hours.",
+      tags: ["Cache", "On demand"],
+      url: "",
+    },
+  ]);
+}
+
+function updateSpotSheet(spotBriefing) {
+  showSpotFacts();
+  detailCountry.textContent = spotBriefing.label || spotBriefing.name;
+  detailRegion.textContent = spotBriefing.kind || "Important spot";
+  detailConflictLabel.classList.remove("is-hoverable");
+  detailConflictLabel.onmouseenter = null;
+  detailConflictLabel.onmouseleave = null;
+  detailConflictLabel.onfocus = null;
+  detailConflictLabel.onblur = null;
+  detailConflict.replaceChildren();
+  renderStories(spotBriefing.stories || []);
+}
+
+function setSpotLoadingState(spot) {
+  showSpotFacts();
+  detailCountry.textContent = spot.label;
+  detailRegion.textContent = spot.kind.replace("-", " ");
+  detailConflictLabel.classList.remove("is-hoverable");
+  detailConflict.replaceChildren();
+  renderStories([
+    {
+      source: "System",
+      time: "Now",
+      title: "Loading spot coverage",
+      summary: "This important spot refreshes on click and then stays cached for 24 hours.",
+      tags: ["Cache", "Spot", "On demand"],
+      url: "",
+    },
+  ]);
 }
 
 function mergeRemoteBriefing(countryName, briefing) {
@@ -407,6 +510,7 @@ function mergeRemoteBriefing(countryName, briefing) {
 }
 
 async function refreshCountryBriefing(countryName, requestId) {
+  const sheetKey = `country:${countryName}`;
   try {
     const response = await fetch(`/api/briefing?country=${encodeURIComponent(countryName)}`, {
       cache: "no-store",
@@ -415,14 +519,36 @@ async function refreshCountryBriefing(countryName, requestId) {
     if (!response.ok) {
       throw new Error(payload.error || `Briefing request failed: ${response.status}`);
     }
-    if (requestId !== activeCountryRequestId || activeFeatureId === null) {
+    if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
       return;
     }
     mergeRemoteBriefing(countryName, payload.briefing);
     updateSheet(countryName);
   } catch (error) {
     console.error("Briefing refresh failed", error);
-    if (requestId !== activeCountryRequestId || activeFeatureId === null) {
+    if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
+      return;
+    }
+  }
+}
+
+async function refreshSpotBriefing(spotId, requestId) {
+  const sheetKey = `spot:${spotId}`;
+  try {
+    const response = await fetch(`/api/important-spot?spot=${encodeURIComponent(spotId)}`, {
+      cache: "no-store",
+    });
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || `Spot request failed: ${response.status}`);
+    }
+    if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
+      return;
+    }
+    updateSpotSheet(payload.briefing);
+  } catch (error) {
+    console.error("Spot refresh failed", error);
+    if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
       return;
     }
   }
@@ -434,6 +560,7 @@ function refreshPaths() {
   borderLayer.attr("d", path(borders));
   graticuleLayer.attr("d", path(d3.geoGraticule10()));
   updateHotspotPositions();
+  updateImportantSpotPositions();
 }
 
 function setActiveCountry(featureId) {
@@ -453,11 +580,52 @@ function updateHotspotPositions() {
   }
 
   hotspotNodes
-    .style("display", (hotspot) => (isPointVisible(hotspot.lon, hotspot.lat) ? null : "none"))
+    .style("display", (hotspot) => {
+      if (!showConflictHotspots) {
+        return "none";
+      }
+      return isPointVisible(hotspot.lon, hotspot.lat) ? null : "none";
+    })
     .attr("transform", (hotspot) => {
       const projected = projection([hotspot.lon, hotspot.lat]);
       return projected ? `translate(${projected[0]}, ${projected[1]})` : "translate(-9999,-9999)";
     });
+}
+
+function updateImportantSpotPositions() {
+  if (!importantSpotNodes) {
+    return;
+  }
+
+  importantSpotNodes
+    .style("display", (spot) => {
+      if (!showImportantSpots) {
+        return "none";
+      }
+      return isPointVisible(spot.lon, spot.lat) ? null : "none";
+    })
+    .attr("transform", (spot) => {
+      const projected = projection([spot.lon, spot.lat]);
+      return projected ? `translate(${projected[0]}, ${projected[1]})` : "translate(-9999,-9999)";
+    });
+}
+
+function setConflictHotspotsVisible(active) {
+  showConflictHotspots = active;
+  syncConflictToggle();
+  if (hotspotLayer) {
+    hotspotLayer.style("display", showConflictHotspots ? null : "none");
+  }
+  updateHotspotPositions();
+}
+
+function setImportantSpotsVisible(active) {
+  showImportantSpots = active;
+  syncImportantToggle();
+  if (importantLayer) {
+    importantLayer.style("display", showImportantSpots ? null : "none");
+  }
+  updateImportantSpotPositions();
 }
 
 function focusCountry(feature) {
@@ -467,26 +635,52 @@ function focusCountry(feature) {
   refreshPaths();
 }
 
+function focusCoordinates(lon, lat) {
+  const currentRotation = projection.rotate();
+  projection.rotate([-lon, -lat, currentRotation[2]]);
+  refreshPaths();
+}
+
 function openCountry(feature) {
   autoRotate = false;
   clearConflictHover();
-  setDemocracyHover(false);
+  setMetricHover(null);
+  activeSpotId = null;
   focusCountry(feature);
   updateSheet(feature.properties.name);
   setActiveCountry(feature.id);
   countrySheet.classList.remove("is-hidden");
   mapStatus.textContent = feature.properties.name;
-  activeCountryRequestId += 1;
-  const requestId = activeCountryRequestId;
+  activeSheetRequestId += 1;
+  activeSheetKey = `country:${feature.properties.name}`;
+  const requestId = activeSheetRequestId;
   setLoadingState(feature.properties.name);
   refreshCountryBriefing(feature.properties.name, requestId);
 }
 
+function openImportantSpot(spot) {
+  autoRotate = false;
+  clearConflictHover();
+  setMetricHover(null);
+  activeSpotId = spot.id;
+  setActiveCountry(null);
+  focusCoordinates(spot.lon, spot.lat);
+  countrySheet.classList.remove("is-hidden");
+  mapStatus.textContent = spot.label;
+  activeSheetRequestId += 1;
+  activeSheetKey = `spot:${spot.id}`;
+  const requestId = activeSheetRequestId;
+  setSpotLoadingState(spot);
+  refreshSpotBriefing(spot.id, requestId);
+}
+
 function closeCountrySheet() {
   clearConflictHover();
-  setDemocracyHover(false);
+  setMetricHover(null);
+  activeSpotId = null;
   activeFeatureId = null;
-  activeCountryRequestId += 1;
+  activeSheetRequestId += 1;
+  activeSheetKey = "";
   countrySheet.classList.add("is-hidden");
   syncCountryClasses();
   mapStatus.textContent = getDefaultMapStatus();
@@ -522,6 +716,7 @@ function buildGlobe() {
   countryLayer = svg.append("g").attr("class", "country-layer");
   borderLayer = svg.append("path").attr("class", "country-boundary");
   hotspotLayer = svg.append("g").attr("class", "hotspot-layer");
+  importantLayer = svg.append("g").attr("class", "important-layer");
 }
 
 function resizeProjection() {
@@ -556,10 +751,17 @@ function attachInteraction() {
     });
 
   svg.call(dragBehavior);
-  svg.on("click", (event) => {
-    if (event.target === svg.node()) {
+  atlasStage.addEventListener("click", (event) => {
+    if (!isInteractiveElement(event.target)) {
       closeCountrySheet();
     }
+  });
+  atlasStage.addEventListener("dblclick", (event) => {
+    if (isInteractiveElement(event.target)) {
+      return;
+    }
+    autoRotate = true;
+    mapStatus.textContent = getDefaultMapStatus();
   });
 }
 
@@ -590,6 +792,8 @@ function renderConflictHotspots() {
     return;
   }
 
+  hotspotLayer.style("display", showConflictHotspots ? null : "none");
+
   hotspotNodes = hotspotLayer
     .selectAll("g")
     .data(conflictHotspots, (hotspot) => hotspot.id)
@@ -602,6 +806,7 @@ function renderConflictHotspots() {
     });
 
   hotspotNodes
+    .style("pointer-events", () => (showConflictHotspots ? "auto" : "none"))
     .attr("aria-label", (hotspot) => hotspot.label)
     .on("mouseenter", (_, hotspot) => {
       mapStatus.textContent = hotspot.label;
@@ -637,6 +842,57 @@ function renderConflictHotspots() {
   updateHotspotPositions();
 }
 
+function renderImportantSpots() {
+  if (!importantLayer) {
+    return;
+  }
+
+  importantLayer.style("display", showImportantSpots ? null : "none");
+
+  importantSpotNodes = importantLayer
+    .selectAll("g")
+    .data(importantSpots, (spot) => spot.id)
+    .join((enter) => {
+      const group = enter.append("g").attr("class", "important-spot").attr("tabindex", 0);
+      group.append("circle").attr("class", "important-ring");
+      group.append("circle").attr("class", "important-core");
+      group.append("title");
+      return group;
+    });
+
+  importantSpotNodes
+    .style("pointer-events", () => (showImportantSpots ? "auto" : "none"))
+    .attr("aria-label", (spot) => spot.label)
+    .on("mouseenter", (_, spot) => {
+      mapStatus.textContent = `${spot.label}: ${spot.title}`;
+    })
+    .on("mouseleave", () => {
+      mapStatus.textContent = getDefaultMapStatus();
+    })
+    .on("focus", (_, spot) => {
+      mapStatus.textContent = `${spot.label}: ${spot.title}`;
+    })
+    .on("blur", () => {
+      mapStatus.textContent = getDefaultMapStatus();
+    })
+    .on("click", (event, spot) => {
+      event.stopPropagation();
+      openImportantSpot(spot);
+    })
+    .on("keydown", (event, spot) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openImportantSpot(spot);
+      }
+    });
+
+  importantSpotNodes.select(".important-ring").attr("r", 8.5);
+  importantSpotNodes.select(".important-core").attr("r", 3.25);
+  importantSpotNodes.select("title").text((spot) => `${spot.label} — ${spot.title}`);
+
+  updateImportantSpotPositions();
+}
+
 async function loadConflictEvents() {
   try {
     const response = await fetch("data/generated/conflict_events.json", { cache: "no-store" });
@@ -647,6 +903,21 @@ async function loadConflictEvents() {
     conflictHotspots = Array.isArray(payload.hotspots) ? payload.hotspots : [];
   } catch (error) {
     console.error("Conflict events unavailable", error);
+  }
+}
+
+async function loadImportantSpots() {
+  try {
+    const response = await fetch("data/generated/important_spots.json", { cache: "no-store" });
+    if (!response.ok) {
+      importantSpots = [];
+      return;
+    }
+    const payload = await response.json();
+    importantSpots = Array.isArray(payload.spots) ? payload.spots : [];
+  } catch (error) {
+    console.error("Important spots unavailable", error);
+    importantSpots = [];
   }
 }
 
@@ -671,10 +942,11 @@ async function loadGlobe() {
     features = topojson.feature(world, world.objects.countries).features;
     borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
     buildCountryStore();
-    await Promise.all([loadCountryFacts(), loadConflictEvents()]);
+    await Promise.all([loadCountryFacts(), loadConflictEvents(), loadImportantSpots()]);
 
     renderCountries();
     renderConflictHotspots();
+    renderImportantSpots();
     refreshPaths();
     attachInteraction();
     requestAnimationFrame(animate);
@@ -686,6 +958,11 @@ async function loadGlobe() {
 }
 
 closeButton.addEventListener("click", closeCountrySheet);
-bindDemocracyHoverHandlers();
+bindMetricHoverHandlers(detailDemocracyLabel, "democracy");
+bindMetricHoverHandlers(detailEconomicGrowthLabel, "growth");
+conflictToggle.addEventListener("click", () => setConflictHotspotsVisible(!showConflictHotspots));
+importantToggle.addEventListener("click", () => setImportantSpotsVisible(!showImportantSpots));
+syncConflictToggle();
+syncImportantToggle();
 
 loadGlobe();

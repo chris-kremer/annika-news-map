@@ -23,6 +23,7 @@ OUTPUT_PATH = ROOT / "data" / "generated" / "country_facts.json"
 RESTCOUNTRIES_URL = "https://restcountries.com/v3.1/all?fields=name,cca3,region,subregion,altSpellings"
 DEMOCRACY_EIU_URL = "https://ourworldindata.org/grapher/democracy-index-eiu.csv?download-format=tab"
 POLITICAL_REGIME_URL = "https://ourworldindata.org/grapher/political-regime.csv?download-format=tab"
+WORLD_BANK_GROWTH_URL = "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.KD.ZG?format=json&per_page=25000"
 ACLED_TOKEN_URL = "https://acleddata.com/oauth/token"
 ACLED_API_URL = "https://acleddata.com/api/acled/read"
 WIKIPEDIA_CONFLICTS_URL = "https://en.wikipedia.org/wiki/List_of_ongoing_armed_conflicts"
@@ -152,6 +153,34 @@ def latest_rows_by_code(rows: list[dict[str, str]], value_field: str) -> dict[st
         if existing is None or int(year) > int(existing["Year"]):
             latest[code] = row
     return latest
+
+
+def fetch_latest_growth_by_code() -> dict[str, dict[str, object]]:
+    payload = curl_json(WORLD_BANK_GROWTH_URL)
+    if not isinstance(payload, list) or len(payload) < 2 or not isinstance(payload[1], list):
+        raise RuntimeError("Unexpected World Bank response")
+
+    latest: dict[str, dict[str, object]] = {}
+    for row in payload[1]:
+        code = str(row.get("countryiso3code") or "").strip()
+        year = str(row.get("date") or "").strip()
+        value = row.get("value")
+        if not code or not year or value is None:
+            continue
+        try:
+            numeric_value = float(value)
+            numeric_year = int(year)
+        except (TypeError, ValueError):
+            continue
+
+        existing = latest.get(code)
+        if existing is None or numeric_year > int(existing["year"]):
+            latest[code] = {"value": numeric_value, "year": numeric_year}
+    return latest
+
+
+def format_growth_value(value: float, year: int) -> str:
+    return f"{value:.1f}% ({year})"
 
 
 def bucket_democracy(score: float) -> str:
@@ -496,6 +525,7 @@ def build_facts() -> dict:
     country_name_lookup = build_country_name_lookup(rest_by_code, code_to_map_name)
     democracy_rows = latest_rows_by_code(load_csv_rows(DEMOCRACY_EIU_URL), "Democracy Index")
     regime_rows = latest_rows_by_code(load_csv_rows(POLITICAL_REGIME_URL), "Political regime")
+    growth_rows = fetch_latest_growth_by_code()
 
     if acled_token:
         try:
@@ -532,10 +562,21 @@ def build_facts() -> dict:
         countries[map_name] = {
             "region": region,
             "democracyIndex": democracy_index,
+            "economicGrowth": "No recent World Bank data",
+            "economicGrowthValue": None,
+            "economicGrowthYear": None,
             "conflict": acled_conflicts.get(map_name, "No live conflict listing"),
             "conflicts": wikipedia_conflicts.get(map_name, []),
             "factsUpdatedAt": generated_at,
         }
+        growth_row = growth_rows.get(code or "")
+        if growth_row:
+            countries[map_name]["economicGrowth"] = format_growth_value(
+                float(growth_row["value"]),
+                int(growth_row["year"]),
+            )
+            countries[map_name]["economicGrowthValue"] = round(float(growth_row["value"]), 3)
+            countries[map_name]["economicGrowthYear"] = int(growth_row["year"])
         if countries[map_name]["conflicts"]:
             conflict_names = [entry["name"] for entry in countries[map_name]["conflicts"]]
             countries[map_name]["conflict"] = f"Involved in: {', '.join(conflict_names)}"

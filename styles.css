@@ -65,8 +65,9 @@ body {
   right: 0;
   z-index: 3;
   display: flex;
+  gap: 10px;
   justify-content: center;
-  pointer-events: none;
+  align-items: center;
 }
 
 .atlas-hud--top {
@@ -89,6 +90,84 @@ body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   font-size: 0.7rem;
+}
+
+.atlas-mark,
+.atlas-instruction {
+  pointer-events: none;
+}
+
+.layer-switches {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  left: auto;
+  top: auto;
+  z-index: 4;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--panel-line);
+  border-radius: 22px;
+  background: rgba(4, 10, 16, 0.76);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.layer-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-width: 200px;
+}
+
+.layer-switch__text {
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+}
+
+.layer-switch__toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  width: 44px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid rgba(228, 244, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+.layer-switch__toggle:hover,
+.layer-switch__toggle:focus-visible {
+  border-color: rgba(228, 244, 255, 0.22);
+  outline: none;
+}
+
+.layer-switch__toggle.is-active {
+  border-color: rgba(77, 210, 194, 0.35);
+  background: rgba(77, 210, 194, 0.22);
+}
+
+.layer-switch__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(243, 239, 230, 0.92);
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.layer-switch__toggle.is-active .layer-switch__knob {
+  transform: translateX(20px);
+  background: #d9f8f2;
 }
 
 .globe-sphere {
@@ -175,6 +254,32 @@ body {
 .conflict-hotspot:hover .hotspot-core,
 .conflict-hotspot:focus .hotspot-core {
   fill: #ffd1b9;
+}
+
+.important-layer {
+  pointer-events: none;
+}
+
+.important-spot {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.important-ring {
+  fill: rgba(226, 195, 121, 0.08);
+  stroke: rgba(240, 210, 136, 0.55);
+  stroke-width: 1.1;
+}
+
+.important-core {
+  fill: #e2c379;
+  stroke: rgba(255, 244, 219, 0.9);
+  stroke-width: 0.9;
+}
+
+.important-spot:hover .important-core,
+.important-spot:focus .important-core {
+  fill: #fff0c7;
 }
 
 @keyframes hotspot-pulse {
@@ -379,6 +484,16 @@ body {
 }
 
 @media (max-width: 900px) {
+  .layer-switches {
+    right: 14px;
+    bottom: 14px;
+    padding: 12px;
+  }
+
+  .layer-switch {
+    min-width: 180px;
+  }
+
   .country-sheet {
     top: auto;
     left: 14px;

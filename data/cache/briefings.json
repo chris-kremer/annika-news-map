@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-28T10:45:14.498612+00:00",
+  "generatedAt": "2026-04-28T15:03:06.156077+00:00",
   "countries": {
     "Germany": {
       "name": "Germany",
@@ -722,6 +722,89 @@
       "sourceNote": "Live briefing from No providers.",
       "stories": [],
       "cachedAt": "2026-04-28T10:45:14.498547+00:00",
+      "cacheStatus": "fresh"
+    },
+    "United Arab Emirates": {
+      "name": "United Arab Emirates",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about United Arab Emirates.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Factbox-UAE's foreign policy in the spotlight after OPEC exit",
+          "summary": "By Yousef SabaApril 28 (Reuters) - The United Arab Emirates has pursued an assertive foreign policy and carved its own sphere of influence across the Middle Eas...",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.al-monitor.com/originals/2026/04/factbox-uaes-foreign-policy-spotlight-after-opec-exit"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Dubai’s Medcare Hospital Becomes the World’s First to Treat an Adult Spinal Muscular Atrophy (SMA) Patient Outside the US",
+          "summary": "DUBAI, United Arab Emirates -- Medcare Royal Speciality Hospital (MRSH) in Dubai has become the world’s first hospital outside the USA, to offer a newly",
+          "tags": [
+            "general"
+          ],
+          "url": "https://montrealgazette.com/press-releases/business-wire/dubais-medcare-hospital-becomes-the-worlds-first-to-treat-an-adult-spinal-muscular-atrophy-sma-patient-outside-the-us/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "UAE quits Opec in blow to global oil cartel",
+          "summary": "DUBAI - The United Arab Emirates said on Tuesday it was quitting Opec and  Opec+, dealing a heavy blow to the ‌oil exporting groups and their de facto leader,...",
+          "tags": [
+            "business",
+            "general"
+          ],
+          "url": "https://www.bangkokpost.com/business/general/3245784/uae-quits-opec-in-blow-to-global-oil-cartel"
+        }
+      ],
+      "cachedAt": "2026-04-28T14:55:04.354732+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Somaliland": {
+      "name": "Somaliland",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Somaliland.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Cruz Calls for US to Join Israel, Taiwan in Recognizing Somaliland",
+          "summary": "US Sen. Ted Cruz (R-TX) speaks during a Senate Commerce, Science, and Transportation Committee hearing on Capitol Hill in Washington, …",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.algemeiner.com/2026/04/27/cruz-calls-us-join-israel-taiwan-recognizing-somaliland/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 26",
+          "title": "Israel appoints first ever ambassador to Somaliland",
+          "summary": "In the initial phase, Lotem will serve as a non-resident ambassador to Somaliland, reflecting the early stages of diplomatic engagement between the two sides.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.jpost.com/israel-news/article-894180"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 26",
+          "title": "Israël nomme son premier ambassadeur au Somaliland",
+          "summary": "Le ministère israélien des Affaires étrangères a annoncé dimanche la nomination de Michael Lotem comme premier ambassadeur d'Israël au Somaliland, quatre....",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.lalibre.be/international/moyen-orient/2026/04/26/israel-nomme-son-premier-ambassadeur-au-somaliland-3QN3M4UWNNC43NHRUG53YGTXP4/"
+        }
+      ],
+      "cachedAt": "2026-04-28T15:03:06.156058+00:00",
       "cacheStatus": "fresh"
     }
   }
