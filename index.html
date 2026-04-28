@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anakin's News Map</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="vendor/d3.min.js"></script>
+    <script src="vendor/topojson-client.min.js"></script>
+  </head>
+  <body>
+    <main class="atlas-shell">
+      <section class="atlas-stage">
+        <div class="atlas-hud atlas-hud--top">
+          <p class="atlas-mark">Anakin's News Map</p>
+        </div>
+
+        <div class="atlas-canvas">
+          <svg id="world-map" viewBox="0 0 1440 900" aria-label="Interactive globe"></svg>
+        </div>
+
+        <div class="atlas-hud atlas-hud--bottom">
+          <p class="atlas-instruction" id="map-status">Loading globe…</p>
+        </div>
+
+        <aside class="country-sheet is-hidden" id="country-sheet">
+          <button class="sheet-close" id="sheet-close" type="button" aria-label="Close country briefing">
+            Done
+          </button>
+
+          <div class="sheet-inner">
+            <p class="sheet-kicker" id="detail-region">Region</p>
+
+            <h2 id="detail-country">Country</h2>
+            <p class="sheet-tagline" id="detail-tagline"></p>
+
+            <section class="fact-strip" aria-label="Country facts">
+              <article class="fact-pill">
+                <p class="fact-label" id="detail-democracy-label">Democracy index</p>
+                <p class="fact-value" id="detail-democracy-index"></p>
+              </article>
+              <article class="fact-pill fact-pill--alert">
+                <p class="fact-label" id="detail-conflict-label">Conflict status</p>
+                <div class="fact-value conflict-list" id="detail-conflict"></div>
+              </article>
+            </section>
+
+            <section class="story-section">
+              <p class="section-label">Recent stories</p>
+              <div class="story-list" id="story-list"></div>
+            </section>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

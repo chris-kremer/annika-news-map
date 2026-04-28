@@ -1,0 +1,235 @@
+{
+  "generatedAt": "2026-04-27T22:20:14.252901+00:00",
+  "countries": {
+    "Germany": {
+      "name": "Germany",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Germany.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Everything that changes in Germany in May 2026",
+          "summary": "From fuel tax cuts and employee bonuses to new medical screenings for babies and three public holidays, here's a look at the significant changes coming to Germa...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.thelocal.de/20260427/everything-that-changes-in-germany-in-may-2026"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Four out of five Germans believe wealth is unfairly distributed",
+          "summary": "New figures from a nationwide survey suggest that concerns about wealth inequality are now firmly rooted in mainstream opinion in Germany.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.thelocal.de/20260427/four-out-of-five-germans-believe-wealth-is-unfairly-distributed"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Deutsche Bahn announces 12 month ticket price freeze for long-distance travel",
+          "summary": "Long‑distance rail passengers in Germany will be spared a general increase in ticket prices for the next year, after Deutsche Bahn announced an unusual one‑...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.thelocal.de/20260427/deutsche-bahn-announces-12-month-ticket-price-freeze-for-long-distance-travel"
+        }
+      ]
+    },
+    "Ukraine": {
+      "name": "Ukraine",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Ukraine.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "How Iran and Ukraine Exposed America’s Limits w/ Garland Nixon",
+          "summary": "https://youtu.be/QIkzOy-jeqE",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://theduran.com/how-iran-and-ukraine-exposed-americas-limits-w-garland-nixon/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Ukraine summons Israeli envoy in protest of Russian vessel's arrival in Haifa",
+          "summary": "A Ukrainian diplomatic source told Reuters earlier that Israel risks a diplomatic and legal response from Kyiv if it allows the vessel, Panormitis, to dock in t...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.jpost.com/israel-news/article-894352"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Ukraine may have to cede territory to keep EU hopes alive – Merz — RT World News",
+          "summary": "Ukraine’s EU hopes may hinge on accepting territorial concessions in a future peace deal with Russia, according to German Chancellor Friedrich Merz",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.rt.com/news/639185-merz-territorial-concessions-ukraine-eu-bid/"
+        }
+      ]
+    },
+    "Japan": {
+      "name": "Japan",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Japan.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Kansai Airport Sets Record High",
+          "summary": "International passenger traffic at Kansai Airport reached a record high of 27.08 million in fiscal 2025, up around 2 million from the previous year and highligh...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://newsonjapan.com/article/149048.php"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Weather agency ends 1-week advisory after M7.7 quake in northeastern Japan",
+          "summary": "The weather agency on Monday ended a weeklong advisory for an increased risk of a strong earthquake after a magnitude 7.7 temblor struck off the Pacific coast i...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://japantoday.com/category/national/update4-weather-agency-ends-1-week-advisory-after-m7.7-quake-in-northeastern-japan"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "JAL, GMO to test using humanoid robots for airport ground operations",
+          "summary": "Japan Airlines Co and GMO Internet Group Inc said Monday they will launch a demonstration experiment using humanoid robots to move passengers' luggage at Tokyo'...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://japantoday.com/category/tech/jal-gmo-to-test-using-humanoid-robots-for-airport-ground-operations"
+        }
+      ]
+    },
+    "United States of America": {
+      "name": "United States",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about United States.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "The U.S. Shouldn’t Rule the Seas Forever",
+          "summary": "Why the United States can no longer guarantee freedom of navigation—and why it doesn’t need to.",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://foreignpolicy.com/2026/04/27/iran-us-war-hormuz-strait-blockade-trade-maritime-navy-strategy/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Iran Offers to Reopen the Strait of Hormuz",
+          "summary": "But only if the United States postpones nuclear talks and lifts its own naval blockade.",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://foreignpolicy.com/2026/04/27/iran-reopen-strait-hormuz-postpone-nuclear-talks-us-blockade/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Democratic senators launch investigation into Kuwait strike that killed U.S. troops",
+          "summary": "Surviving troops disputed Pentagon's account of the attack on the command post in Kuwait, saying the unit",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.cbsnews.com/news/democratic-senators-launch-investigation-kuwait-strike-killed-u-s-troops/"
+        }
+      ]
+    },
+    "Brazil": {
+      "name": "Brazil",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 2 recent stories about Brazil.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Brazil Bans Betting Companies from Offering Wagers on Elections, Reality Shows and Celebrities",
+          "summary": "Ban targets Kalshi, Polymarket and 25 other prediction market sites",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www1.folha.uol.com.br/internacional/en/brazil/2026/04/brazil-bans-betting-companies-from-offering-wagers-on-elections-reality-shows-and-celebrities.shtml"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 25",
+          "title": "Latin American Pulse for Saturday, April 25, 2026",
+          "summary": "Latin American Pulse: Peru chancellor and defence minister resign over F-16 deal. Brazil expands housing to R$600K.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.riotimesonline.com/latin-american-pulse-for-saturday-april-25-2026/"
+        }
+      ]
+    },
+    "India": {
+      "name": "India",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about India.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Maha mininster stalls action against auto, cab drivers on Marathi issue",
+          "summary": "India News: Mumbai: Maharashtra transport minister Pratap Sarnaik Monday put on hold the decision to cancel licences and permits of auto and taxi drivers from M...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://timesofindia.indiatimes.com/india/maha-mininster-stalls-action-against-auto-cab-drivers-on-marathi-issue/articleshow/130564623.cms"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Rajya Sabha chairman accepts merger of 7 AAP MPs with BJP",
+          "summary": "India News: New Delhi: Rajya Sabha chairman C P Radhakrishnan has officially accepted the merger of seven AAP MPs with BJP - taking the governing party's streng...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://timesofindia.indiatimes.com/india/rajya-sabha-chairman-accepts-merger-of-7-aap-mps-with-bjp/articleshow/130564601.cms"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Johnson Lifts takes majority control of Toshiba JV, targets doubling of topline",
+          "summary": "Chennai: Johnson Lifts has acquired a majority stake in its joint venture with Japan's Toshiba Elevator Corporation, marking a shift in control after .",
+          "tags": [
+            "general"
+          ],
+          "url": "https://timesofindia.indiatimes.com/city/chennai/johnson-lifts-takes-majority-control-of-toshiba-jv-targets-doubling-of-topline/articleshow/130563191.cms"
+        }
+      ]
+    },
+    "Nigeria": {
+      "name": "Nigeria",
+      "updated": "Updated April 27, 2026",
+      "tagline": "No live stories were found for Nigeria in this pass.",
+      "sourceNote": "Live briefing from No providers.",
+      "stories": []
+    }
+  }
+}

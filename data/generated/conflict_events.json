@@ -1,0 +1,212 @@
+{
+  "generatedAt": "2026-04-28T10:23:50.949250+00:00",
+  "provider": "manual-fallback",
+  "windowDays": 30,
+  "hotspots": [
+    {
+      "id": "ukr-donetsk",
+      "label": "Eastern Ukraine frontline",
+      "conflict": "Russo-Ukrainian war",
+      "kind": "frontline",
+      "lat": 48.25,
+      "lon": 37.8,
+      "weight": 10,
+      "countries": [
+        "Ukraine",
+        "Russia",
+        "Belarus"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+    },
+    {
+      "id": "ukr-zaporizhzhia",
+      "label": "Southern Ukraine fighting",
+      "conflict": "Russo-Ukrainian war",
+      "kind": "frontline",
+      "lat": 47.1,
+      "lon": 35.2,
+      "weight": 8,
+      "countries": [
+        "Ukraine",
+        "Russia",
+        "Belarus"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+    },
+    {
+      "id": "gaza-strip",
+      "label": "Gaza fighting",
+      "conflict": "Iran–Israel conflicts",
+      "kind": "urban-war",
+      "lat": 31.42,
+      "lon": 34.36,
+      "weight": 9,
+      "countries": [
+        "Israel",
+        "Palestine",
+        "Iran"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict"
+    },
+    {
+      "id": "south-lebanon",
+      "label": "South Lebanon strikes",
+      "conflict": "Iran–Israel conflicts",
+      "kind": "cross-border",
+      "lat": 33.27,
+      "lon": 35.38,
+      "weight": 6,
+      "countries": [
+        "Israel",
+        "Lebanon",
+        "Iran"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict"
+    },
+    {
+      "id": "red-sea-yemen",
+      "label": "Red Sea / Yemen attacks",
+      "conflict": "Yemeni civil war",
+      "kind": "missile-strike",
+      "lat": 15.3,
+      "lon": 42.7,
+      "weight": 7,
+      "countries": [
+        "Yemen",
+        "Saudi Arabia",
+        "United Arab Emirates",
+        "Israel"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)"
+    },
+    {
+      "id": "khartoum",
+      "label": "Khartoum fighting",
+      "conflict": "Sudanese civil wars",
+      "kind": "urban-war",
+      "lat": 15.57,
+      "lon": 32.53,
+      "weight": 9,
+      "countries": [
+        "Sudan",
+        "Chad",
+        "Egypt",
+        "Ethiopia",
+        "Libya"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War"
+    },
+    {
+      "id": "darfur",
+      "label": "Darfur fighting",
+      "conflict": "Sudanese civil wars",
+      "kind": "frontline",
+      "lat": 13.62,
+      "lon": 24.25,
+      "weight": 8,
+      "countries": [
+        "Sudan",
+        "Chad",
+        "Libya"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War"
+    },
+    {
+      "id": "sahel-tri-border",
+      "label": "Sahel insurgency belt",
+      "conflict": "Islamist insurgencies in the Maghreb",
+      "kind": "insurgency",
+      "lat": 14.9,
+      "lon": -0.2,
+      "weight": 8,
+      "countries": [
+        "Mali",
+        "Burkina Faso",
+        "Niger",
+        "Benin",
+        "Togo"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)"
+    },
+    {
+      "id": "lake-chad",
+      "label": "Lake Chad / Boko Haram activity",
+      "conflict": "Civil conflicts in Nigeria",
+      "kind": "insurgency",
+      "lat": 13.0,
+      "lon": 13.4,
+      "weight": 7,
+      "countries": [
+        "Nigeria",
+        "Niger",
+        "Cameroon",
+        "Chad"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria"
+    },
+    {
+      "id": "cameroon-far-north",
+      "label": "Far North Cameroon violence",
+      "conflict": "Cameroonian conflicts",
+      "kind": "insurgency",
+      "lat": 10.65,
+      "lon": 14.33,
+      "weight": 5,
+      "countries": [
+        "Cameroon",
+        "Nigeria",
+        "Niger",
+        "Chad"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)"
+    },
+    {
+      "id": "myanmar-sagaing",
+      "label": "Sagaing / Myanmar fighting",
+      "conflict": "Myanmar civil war",
+      "kind": "frontline",
+      "lat": 23.75,
+      "lon": 95.7,
+      "weight": 8,
+      "countries": [
+        "Myanmar",
+        "India",
+        "Bangladesh",
+        "Thailand",
+        "China"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Myanmar_civil_war"
+    },
+    {
+      "id": "drc-kivu",
+      "label": "Eastern DRC / Kivu clashes",
+      "conflict": "Kivu conflict",
+      "kind": "insurgency",
+      "lat": -1.68,
+      "lon": 29.23,
+      "weight": 7,
+      "countries": [
+        "Congo (Democratic Republic of the)",
+        "Rwanda",
+        "Uganda",
+        "Burundi"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kivu_conflict"
+    },
+    {
+      "id": "kashmir-line",
+      "label": "Kashmir militarized zone",
+      "conflict": "Kashmir conflict",
+      "kind": "border-conflict",
+      "lat": 34.23,
+      "lon": 74.85,
+      "weight": 6,
+      "countries": [
+        "India",
+        "Pakistan",
+        "China"
+      ],
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kashmir_conflict"
+    }
+  ]
+}

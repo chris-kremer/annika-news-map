@@ -1,0 +1,728 @@
+{
+  "generatedAt": "2026-04-28T10:45:14.498612+00:00",
+  "countries": {
+    "Germany": {
+      "name": "Germany",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Germany.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Everything that changes in Germany in May 2026",
+          "summary": "From fuel tax cuts and employee bonuses to new medical screenings for babies and three public holidays, here's a look at the significant changes coming to Germa...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.thelocal.de/20260427/everything-that-changes-in-germany-in-may-2026"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Four out of five Germans believe wealth is unfairly distributed",
+          "summary": "New figures from a nationwide survey suggest that concerns about wealth inequality are now firmly rooted in mainstream opinion in Germany.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.thelocal.de/20260427/four-out-of-five-germans-believe-wealth-is-unfairly-distributed"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Deutsche Bahn announces 12 month ticket price freeze for long-distance travel",
+          "summary": "Long‑distance rail passengers in Germany will be spared a general increase in ticket prices for the next year, after Deutsche Bahn announced an unusual one‑...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.thelocal.de/20260427/deutsche-bahn-announces-12-month-ticket-price-freeze-for-long-distance-travel"
+        }
+      ],
+      "cachedAt": "2026-04-27T22:25:07.304604+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Romania": {
+      "name": "Romania",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Romania.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 26",
+          "title": "Guerra in Ucraina, Zelensky: pronti a negoziati in Azerbaigian",
+          "summary": "Attacchi e droni russi colpiscono Ucraina e Romania. Zelensky propone negoziati in Azerbaigian per una soluzione diplomatica.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.ilsole24ore.com/art/guerra-ucraina-zelensky-pronti-negoziati-azerbaigian-AIbw02hC"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 25",
+          "title": "Guerra in Ucraina: almeno 7 morti e diversi feriti dopo attacchi russi con oltre 600 droni",
+          "summary": "Mosca ha lanciato un massiccio attacco contro tutta l'Ucraina. La maggior parte delle vittime e dei feriti degli attacchi notturni russi si è verificata nella ...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://it.euronews.com/2026/04/25/guerra-in-ucraina-almeno-7-morti-e-diversi-feriti-dopo-attacchi-russi-con-oltre-600-droni"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 25",
+          "title": "British jets authorized to attack Russian drones – NATO member — RT World News",
+          "summary": "Romania said British jets had authorization to shoot down the UAVs in Ukrainian airspace not far from the border",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.rt.com/news/639055-british-jets-authorized-attack-russian-drones/"
+        }
+      ],
+      "cachedAt": "2026-04-27T22:25:59.527017+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Sudan": {
+      "name": "Sudan",
+      "updated": "Updated April 27, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Sudan.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Sudan: Millions of civilians on the brink of famine amid starvation, siege, and international inaction",
+          "summary": "Sudan’s food insecurity crisis is a long-lasting and complex hunger crisis that is undermining the foundations of survival for entire communities",
+          "tags": [
+            "general"
+          ],
+          "url": "https://euromedmonitor.org/en/article/7036/Sudan:-Millions-of-civilians-on-the-brink-of-famine-amid-starvation,-siege,-and-international-inaction"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Nepal Cabinet Shake-Up: Inside Removal of 2 Ministers From Balen Shah Govt",
+          "summary": "Within just 30 days of Balen Shah's government, the ‘New Nepal’ he had promised is experiencing a political churn. The ministerial rollercoaster hit a drop ...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.thequint.com/news/world/nepal-government-balen-shah-home-minister-sudan-gurung-removed"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 25",
+          "title": "Pakistan among 10 countries home to two-thirds of world's acutely food-insecure: report",
+          "summary": "ROME: Two-thirds of people facing food crises globally last year lived in just 10 countries, with a third of them in Sudan, Nigeria and the Democratic Republic ...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.geo.tv/latest/661590-pakistan-among-10-countries-home-to-two-thirds-of-worlds-acutely-food-insecure-report"
+        }
+      ],
+      "cachedAt": "2026-04-27T22:26:19.085700+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Botswana": {
+      "name": "Botswana",
+      "updated": "Updated April 28, 2026",
+      "tagline": "No live stories were found for Botswana in this pass.",
+      "sourceNote": "Live briefing from No providers.",
+      "stories": [],
+      "cachedAt": "2026-04-28T07:02:25.008794+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Mauritania": {
+      "name": "Mauritania",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 1 recent story about Mauritania.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Marocco e Mauritania, cosi la Spagna replica in Africa il modello-Albania sui migranti",
+          "summary": "Sui migranti anche la Spagna pensa al modello-Albania adottato dal governo Meloni nel 2023 e tramite l’agenzia di sviluppo FIAP apre in Mauritania due centri ...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://formiche.net/2026/04/marocco-e-mauritania-cosi-la-spagna-replica-in-africa-il-modello-albania-sui-migranti/"
+        }
+      ],
+      "cachedAt": "2026-04-28T07:02:57.161339+00:00",
+      "cacheStatus": "fresh"
+    },
+    "France": {
+      "name": "France",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about France.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Roquette Showcases Its Expanded Consumer Healthcare Capabilities at Vitafoods Europe 2026",
+          "summary": "Experts will share insights on consumer ready innovations for everyday health at booth 3F112 LILLE, France -- Roquette, a global leader in plant-based",
+          "tags": [
+            "general"
+          ],
+          "url": "https://montrealgazette.com/press-releases/business-wire/roquette-showcases-its-expanded-consumer-healthcare-capabilities-at-vitafoods-europe-2026/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Avec sa V4, DeepSeek ambitionne de rivaliser avec Claude et ChatGPT < Growth Hacking France",
+          "summary": "La startup chinoise dévoile DeepSeek V4, une nouvelle génération de modèles disponible en open source et en pré-version, avec deux déclinaisons aux profil...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://growthhackingfrance.com/avec-sa-v4-deepseek-ambitionne-de-rivaliser-avec-claude-et-chatgpt/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "European markets to open higher as Trump considers Iran peace proposal",
+          "summary": "European stocks are expected to open higher on Tuesday as investors assess the latest developments in the Iran war, and look ahead to earnings reports.",
+          "tags": [
+            "general",
+            "business"
+          ],
+          "url": "https://www.cnbc.com/2026/04/28/european-markets-stoxx-600-ftse-dax-cac-iran-latest-news.html"
+        }
+      ],
+      "cachedAt": "2026-04-28T08:01:44.757791+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Bahamas": {
+      "name": "Bahamas",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Bahamas.",
+      "sourceNote": "Live briefing from GDELT.",
+      "stories": [
+        {
+          "source": "pjmedia.com",
+          "time": "Apr 27",
+          "title": "Did Biden Send the Bahamas Straight to Beijing ? ",
+          "summary": "Matched by GDELT from pjmedia.com.",
+          "tags": [
+            "United States",
+            "English"
+          ],
+          "url": "https://pjmedia.com/sarah-anderson/2026/04/27/tracking-china-in-the-americas-that-time-biden-sent-the-bahamas-running-to-beijing-n4952228"
+        },
+        {
+          "source": "programme-tv.net",
+          "time": "Apr 27",
+          "title": "Bahamas , le royaume des requins - ( S1 ) - Thalassa , aventures extrêmes",
+          "summary": "Matched by GDELT from programme-tv.net.",
+          "tags": [
+            "France",
+            "French"
+          ],
+          "url": "https://www.programme-tv.net/programme/culture-infos/r1550199035-thalassa-aventures-extremes/30146180-bahamas-le-royaume-des-requins/"
+        },
+        {
+          "source": "sun-sentinel.com",
+          "time": "Apr 25",
+          "title": "NCL set for water park showdown with Royal Caribbean in Bahamas",
+          "summary": "Matched by GDELT from sun-sentinel.com.",
+          "tags": [
+            "United States",
+            "English"
+          ],
+          "url": "https://www.sun-sentinel.com/2026/04/25/ncl-set-for-water-park-showdown-with-royal-caribbean-in-bahamas/"
+        }
+      ],
+      "cachedAt": "2026-04-28T08:02:46.314283+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Egypt": {
+      "name": "Egypt",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Egypt.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "German Tourist Dies After Egypt Snake Bite: Police",
+          "summary": "The 57-year-old man was watching the snake-charming show at a hotel in Hurghada, a popular beach holiday destination on the Red Sea, in early April.",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.deccanchronicle.com/world/german-tourist-dies-after-egypt-snake-bite-police-1953223"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Russia has three football friendly matches scheduled in May, June",
+          "summary": "The Russian national football team will play friendlies against Egypt, Burkina Faso and Trinidad and Tobago",
+          "tags": [
+            "general"
+          ],
+          "url": "https://tass.com/sports/2122979"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 26",
+          "title": "Egyptian sports commentator snubs Israeli goalkeeper, causes uproar",
+          "summary": "BeIN Sports commentator sparks backlash after refusing to mention Israeli goalkeeper Daniel Peretz by name during an FA Cup match.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.israelnationalnews.com/news/426117"
+        }
+      ],
+      "cachedAt": "2026-04-28T08:03:09.103847+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Ireland": {
+      "name": "Ireland",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Ireland.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Football Manager: Video game fanatic travels more than 1,000 miles to achieve dream",
+          "summary": "Andrea Lai traveled from Italy to Northern Ireland to see Coleraine FC play after playing as the team on the video game Football Manager.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.bbc.com/news/articles/ckgeg519385o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Fox hunting: Bid to ban the practice begins again at Stormont",
+          "summary": "Northern Ireland is the only part of the UK where fox hunting is still permitted.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.bbc.com/news/articles/clydyln22n0o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "One in three Irish people have experienced fraud or scams, Central Bank research suggests",
+          "summary": "The Central Bank’s survey of 3,000 adults found that 38% of fraud victims never reported their experience to their financial service provider or any authority",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.thejournal.ie/one-in-three-irish-people-have-experienced-fraud-or-scams-central-bank-research-suggests-7025468-Apr2026/"
+        }
+      ],
+      "cachedAt": "2026-04-28T08:25:42.139420+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Antarctica": {
+      "name": "Antarctica",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 4 recent stories about Antarctica.",
+      "sourceNote": "Live briefing from The News API + GDELT.",
+      "stories": [
+        {
+          "source": "trthaber.com",
+          "time": "Apr 27",
+          "title": "  Türk Antarktika Bilim Üssü  hazırlıkları tamamlandı",
+          "summary": "Matched by GDELT from trthaber.com.",
+          "tags": [
+            "Turkey",
+            "Turkish"
+          ],
+          "url": "https://www.trthaber.com/haber/gundem/turk-antarktika-bilim-ussu-hazirliklari-tamamlandi-943170.html"
+        },
+        {
+          "source": "trthaber.com",
+          "time": "Apr 27",
+          "title": "  Türk Antarktika Bilim Üssü  hazırlıkları tamamlandı",
+          "summary": "Matched by GDELT from trthaber.com.",
+          "tags": [
+            "Turkey",
+            "Turkish"
+          ],
+          "url": "https://www.trthaber.com/haber/bilim-teknoloji/turk-antarktika-bilim-ussu-hazirliklari-tamamlandi-943170.html"
+        },
+        {
+          "source": "jagranjosh.com",
+          "time": "Apr 26",
+          "title": "Who Owns Antarctica and Do People Live There ? ",
+          "summary": "Matched by GDELT from jagranjosh.com.",
+          "tags": [
+            "India",
+            "English"
+          ],
+          "url": "https://www.jagranjosh.com/general-knowledge/who-owns-antarctica-and-do-people-live-there-1820008224-1"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 26",
+          "title": "Bondinho do Pão de Açúcar terá homenagem a títulos da seleção",
+          "summary": "Guaraná Antarctica irá pendurar latas gigantes inspiradas nas camisas históricas do Brasil",
+          "tags": [
+            "general"
+          ],
+          "url": "https://veja.abril.com.br/esporte/bondinho-do-pao-de-acucar-tera-homenagem-a-titulos-da-selecao/"
+        }
+      ],
+      "cachedAt": "2026-04-28T08:27:11.837262+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Bangladesh": {
+      "name": "Bangladesh",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Bangladesh.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Missing, slain USF students’ families demand ‘highest possible punishment’ for alleged killer roommate",
+          "summary": "Relatives of slain University of South Florida doctoral students Zamil Limon and Nahida Bristy demanded their accused killer, Hisham Abugharbieh, be prosecuted ...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://nypost.com/2026/04/27/us-news/missing-slain-usf-students-families-demand-highest-possible-punishment-for-alleged-killer-roommate/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Can Dinesh Trivedi's Dhaka posting mend frayed India-Bangladesh ties?",
+          "summary": "Former Union minister Dinesh Trivedi has been appointed as India's next High Commissioner to Bangladesh, signalling efforts to strengthen bilateral relations be...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.rediff.com/news/report/can-dinesh-trivedis-dhaka-posting-mend-frayed-india-bangladesh-ties/20260428.htm"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Bangladesh PM Tarique Rahman shows signs of Improving relations with India",
+          "summary": "By Satyaki Chakraborty At long last, there are clear signs that India-Bangladesh bilateral relations are set to be normalised under the new Bangladesh Prime Min...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.dailyexcelsior.com/bangladesh-pm-tarique-rahman-shows-signs-of-improving-relations-with-india/"
+        }
+      ],
+      "cachedAt": "2026-04-28T08:27:42.969339+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Chad": {
+      "name": "Chad",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Chad.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "At least 42 people killed in Chad during clashes over water resources",
+          "summary": "At least 42 people were killed in eastern Chad after a clash between two families over a water point escalated into a cycle of reprisals, the country’s deputy...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://japantoday.com/category/world/at-least-42-people-killed-in-eastern-chad-during-clashes-over-water-resources-authorities-say1"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Tuareg rebels in control of Kidal",
+          "summary": "In today's edition, two days after a wave of coordinated attacks across the country, Mali remains on edge. Also, 42 people are killed in Chad after a clash bet...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.france24.com/en/tuareg-rebels-in-control-of-kidal"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "'Chad Powers' Michael Waldron Re-Ups Overall Deal With 20th Television",
+          "summary": "'Chad Powers' co-creator and showrunner Michael Waldron has extended his overall deal with 20th Television, teases Season 2 tremiere window on Hulu.",
+          "tags": [
+            "entertainment"
+          ],
+          "url": "https://deadline.com/2026/04/michael-waldron-deal-20th-television-chad-powers-season-2-1236871358/"
+        }
+      ],
+      "cachedAt": "2026-04-28T08:45:04.865495+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Niger": {
+      "name": "Niger",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Niger.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Mali: l'Alliance des États du Sahel réagit a minima aux attaques des jihadistes et rebelles touaregs",
+          "summary": "Après les attaques coordonnées, les 25 et 26 avril, entre les jihadistes du Groupe de soutien à l'islam et aux musulmans (Jnim) et du Front de libération de...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.rfi.fr/fr/afrique/20260427-mali-l-alliance-des-%C3%A9tats-du-sahel-r%C3%A9agit-a-minima-aux-attaques-des-jihadistes-et-rebelles-touaregs"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "'Unable to cope': Malian army, Wagner 'overstretched' by Tuareg separatists and jihadist militants",
+          "summary": "Oliver Farry is pleased to welcome Paul Melly, Consulting Fellow on the Africa Program at Chatham House. According to Melly, what we are witnessing is the conve...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.france24.com/en/unable-to-cope-malian-army-wagner-overstretched-by-tuareg-separatists-and-jihadist-militants"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 26",
+          "title": "Le Niger lance officiellement l’enrôlement général pour obtenir la carte d’identité nationale biométrique AES",
+          "summary": "Ce nouveau document d’identité numérique constitue une réponse contre la fraude et l’insécurité, selon le ministère de l’Intérieur nigérien, et do...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://francais.rt.com/afrique/133579-niger-lance-officiellement-enrolement-general-pour-obtenir-carte-identite-nationale-biometrique"
+        }
+      ],
+      "cachedAt": "2026-04-28T09:11:26.943772+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Ukraine": {
+      "name": "Ukraine",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Ukraine.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "On The Ground With Ukraine's Drone Hunters Targeting Russian UAVs",
+          "summary": "Ukrainian interceptor drone units are working to counter Russia’s growing use of aerial threats along the front line. Tasked with tracking and destroying both...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.rferl.org/a/inside-ukraine-s-drone-hunters-targeting-russian-uavs/33743632.html"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "EA-Ukraine VideoCast: Kyiv Advances Without Trump's Support",
+          "summary": "30-minute analysis of how Ukraine is progressing, despite lack of support from Trump Adminsitration, in its resistance of Russia's invasion",
+          "tags": [
+            "general"
+          ],
+          "url": "https://eaworldview.com/2026/04/ukraine-trump-kyiv-advances-without-support/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Ukraine War, Day 1,525: Russia Ships Stolen Ukrainian Grain to Israel",
+          "summary": "Photo: Dobra Kobra/Shutterstock Monday’s Coverage: Russia and North Korea Declare “Long-Term” Military Cooperation Russia is shipping stolen Ukrainian gra...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://eaworldview.com/2026/04/ukraine-war-stolen-grain-russia-ships-to-israel/"
+        }
+      ],
+      "cachedAt": "2026-04-28T09:14:20.498881+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Iran": {
+      "name": "Iran",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Iran.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Iran condemns U.S. seizure of vessels carrying Iranian oil on high seas",
+          "summary": "Iran's Foreign Ministry spokesman Esmaeil Baghaei on Monday strongly condemned the U.S. seizure of vessels carrying Iranian oil on the high seas.\n\n\"This is the ...",
+          "tags": [
+            "general"
+          ],
+          "url": "http://www.ecns.cn/world/2026-04-28/detail-ihfczwep1364619.shtml"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "U.S. stocks little changed as investors weigh Iran proposal",
+          "summary": "U.S. stocks ended mixed on Monday with the S&P 500 and the Nasdaq Composite Index closing at record highs as investors assessed a reported Iranian proposal to r...",
+          "tags": [
+            "general"
+          ],
+          "url": "http://www.ecns.cn/world/2026-04-28/detail-ihfczwep1364616.shtml"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Où va l'Amérique: la fin de l'hégémonie ou le choix de l'apocalypse?",
+          "summary": "Le mot",
+          "tags": [
+            "general"
+          ],
+          "url": "https://fr.sputniknews.africa/20260428/ou-va-lamerique-la-fin-de-lhegemonie-ou-le-choix-de-lapocalypse-1085364840.html"
+        }
+      ],
+      "cachedAt": "2026-04-28T09:14:46.644966+00:00",
+      "cacheStatus": "fresh"
+    },
+    "United States of America": {
+      "name": "United States",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about United States.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Novartis CEO warns reality of Trump's drug pricing policy will set in over 'the next 18 months'",
+          "summary": "Novartis' CEO warned Tuesday that U.S. drug pricing policy under President Donald Trump poses a",
+          "tags": [
+            "general",
+            "business"
+          ],
+          "url": "https://www.cnbc.com/2026/04/28/novartis-ceo-stock-earnings-mfn-trump-drug-pricing-policy.html"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "US and Iran clash over Tehran's nuclear program as review of atomic treaty begins at UN",
+          "summary": "The United States and Iran have clashed over Tehran’s nuclear program as a review of the treaty meant to prevent the spread of atomic weapons got underway at ...",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://abcnews.com/US/wireStory/us-iran-clash-tehrans-nuclear-program-review-atomic-132434159"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "European markets to open higher as Trump considers Iran peace proposal",
+          "summary": "European stocks are expected to open higher on Tuesday as investors assess the latest developments in the Iran war, and look ahead to earnings reports.",
+          "tags": [
+            "general",
+            "business"
+          ],
+          "url": "https://www.cnbc.com/2026/04/28/european-markets-stoxx-600-ftse-dax-cac-iran-latest-news.html"
+        }
+      ],
+      "cachedAt": "2026-04-28T09:15:58.530215+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Belarus": {
+      "name": "Belarus",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 1 recent story about Belarus.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "India and EAEU To Convene in Moscow This June for Next Round of Free Trade Agreement Talks",
+          "summary": "Russia, Armenia, Belarus, Kazakhstan, and Kyrgyzstan are the five member countries of EAEU.",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.deccanchronicle.com/nation/india-and-eaeu-to-convene-in-moscow-this-june-for-next-round-of-free-trade-agreement-talks-1953104"
+        }
+      ],
+      "cachedAt": "2026-04-28T09:36:27.502901+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Russia": {
+      "name": "Russia",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Russia.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "EU's top diplomat calls on Southeast Asian countries to seek alternatives to Russian oil",
+          "summary": "BANDAR SERI BEGAWAN, April 28 (Reuters) - The European Union's foreign policy chief Kaja Kallas urged partner countries in Southeast Asia on Tuesday not to turn...",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.al-monitor.com/originals/2026/04/eus-top-diplomat-calls-southeast-asian-countries-seek-alternatives-russian-oil"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Russia invites over 180 foreign delegations to first international security forum",
+          "summary": "The forum will host a presentation of Russian products for the protection of the population, installations, and land, Rosoboronexport specified",
+          "tags": [
+            "general"
+          ],
+          "url": "https://tass.com/defense/2123291"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Russia develops system to counter fiber-optic drones",
+          "summary": "According to the patent description, during a large-scale attack, the system can activate a \"wall of fire\" extending tens of kilometers",
+          "tags": [
+            "general"
+          ],
+          "url": "https://tass.com/defense/2123287"
+        }
+      ],
+      "cachedAt": "2026-04-28T09:36:32.348703+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Saudi Arabia": {
+      "name": "Saudi Arabia",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Saudi Arabia.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Lewandowski set to leave Barcelona after four years as contract offer falls short of his ambitions",
+          "summary": "International Sports News: Robert Lewandowski is likely to leave FC Barcelona after four years, as his contract expires and the club has made an unappealing off...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://timesofindia.indiatimes.com/sports/international-sports/lewandowski-set-to-leave-barcelona-after-four-years-as-contract-offer-falls-short-of-his-ambitions/articleshow/130564225.cms"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "n 2020, researchers tracking a dry lakebed spotted shallow marks in the silt and found human footprints from 120,000 years ago",
+          "summary": "Science News: Recent archaeological findings in Saudi Arabia indicate that human footprints dating back 120,000 years challenge previous beliefs about early hum...",
+          "tags": [
+            "science",
+            "general",
+            "tech"
+          ],
+          "url": "https://timesofindia.indiatimes.com/science/n-2020-researchers-tracking-a-dry-lakebed-spotted-shallow-marks-in-the-silt-and-found-human-footprints-from-120000-years-ago/articleshow/130550668.cms"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Saudi Arabia's dazzling vision was crashing into reality even before the Iran war broke out",
+          "summary": "Saudi Arabia's plans to transform its economy were already facing headwinds when the Iran war broke out, placing them even further in jeopardy.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.abc.net.au/news/2026-04-28/saudi-arabia-grand-visions-iran-war/106611066"
+        }
+      ],
+      "cachedAt": "2026-04-28T09:37:54.051247+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Libya": {
+      "name": "Libya",
+      "updated": "Updated April 28, 2026",
+      "tagline": "No live stories were found for Libya in this pass.",
+      "sourceNote": "Live briefing from No providers.",
+      "stories": [],
+      "cachedAt": "2026-04-28T10:45:14.498547+00:00",
+      "cacheStatus": "fresh"
+    }
+  }
+}

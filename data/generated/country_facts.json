@@ -1,0 +1,3517 @@
+{
+  "generatedAt": "2026-04-28T09:35:04.406625+00:00",
+  "countries": {
+    "Fiji": {
+      "region": "Melanesia",
+      "democracyIndex": "50-60",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Tanzania": {
+      "region": "Eastern Africa",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Insurgency in Cabo Delgado",
+      "conflicts": [
+        {
+          "name": "Insurgency in Cabo Delgado",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_Cabo_Delgado",
+          "countries": [
+            "Mozambique",
+            "Tanzania"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "W. Sahara": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Canada": {
+      "region": "North America",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "United States of America": {
+      "region": "North America",
+      "democracyIndex": "70+",
+      "conflict": "Involved in: Mexican drug war",
+      "conflicts": [
+        {
+          "name": "Mexican drug war",
+          "url": "https://en.wikipedia.org/wiki/Mexican_drug_war",
+          "countries": [
+            "Mexico",
+            "Belize",
+            "El Salvador",
+            "Honduras",
+            "Guatemala",
+            "Nicaragua",
+            "United States of America"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Kazakhstan": {
+      "region": "Central Asia",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Uzbekistan": {
+      "region": "Central Asia",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Papua New Guinea": {
+      "region": "Melanesia",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Ethnic violence in Papua New Guinea",
+      "conflicts": [
+        {
+          "name": "Ethnic violence in Papua New Guinea",
+          "url": "https://en.wikipedia.org/wiki/Ethnic_violence_in_Papua_New_Guinea",
+          "countries": [
+            "Papua New Guinea"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Indonesia": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "60-70",
+      "conflict": "Involved in: Papua conflict",
+      "conflicts": [
+        {
+          "name": "Papua conflict",
+          "url": "https://en.wikipedia.org/wiki/Papua_conflict",
+          "countries": [
+            "Indonesia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Argentina": {
+      "region": "South America",
+      "democracyIndex": "60-70",
+      "conflict": "Involved in: Brazilian drug war",
+      "conflicts": [
+        {
+          "name": "Brazilian drug war",
+          "url": "https://en.wikipedia.org/wiki/Brazilian_drug_war",
+          "countries": [
+            "Brazil",
+            "Argentina",
+            "Bolivia",
+            "Colombia",
+            "France",
+            "Peru",
+            "Paraguay",
+            "Venezuela"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Chile": {
+      "region": "South America",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Dem. Rep. Congo": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Somalia": {
+      "region": "Eastern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Somali Civil War",
+      "conflicts": [
+        {
+          "name": "Somali Civil War",
+          "url": "https://en.wikipedia.org/wiki/Somali_Civil_War",
+          "countries": [
+            "Somalia",
+            "Kenya"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Djibouti",
+                "Italy",
+                "Libya",
+                "Saudi Arabia",
+                "South Africa",
+                "United States of America"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Ethiopia"
+              ]
+            },
+            {
+              "label": "Side 3",
+              "countries": [
+                "Ethiopia"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Kenya": {
+      "region": "Eastern Africa",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Somali Civil War",
+      "conflicts": [
+        {
+          "name": "Somali Civil War",
+          "url": "https://en.wikipedia.org/wiki/Somali_Civil_War",
+          "countries": [
+            "Somalia",
+            "Kenya"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Djibouti",
+                "Italy",
+                "Libya",
+                "Saudi Arabia",
+                "South Africa",
+                "United States of America"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Ethiopia"
+              ]
+            },
+            {
+              "label": "Side 3",
+              "countries": [
+                "Ethiopia"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Sudan": {
+      "region": "Northern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Sudanese civil wars",
+      "conflicts": [
+        {
+          "name": "Sudanese civil wars",
+          "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+          "countries": [
+            "Sudan",
+            "Chad",
+            "Egypt",
+            "Ethiopia",
+            "Libya"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Chad": {
+      "region": "Middle Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Sudanese civil wars, Islamist insurgencies in the Maghreb, Civil conflicts in Nigeria, Cameroonian conflicts",
+      "conflicts": [
+        {
+          "name": "Sudanese civil wars",
+          "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+          "countries": [
+            "Sudan",
+            "Chad",
+            "Egypt",
+            "Ethiopia",
+            "Libya"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Civil conflicts in Nigeria",
+          "url": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria",
+          "countries": [
+            "Nigeria",
+            "Niger",
+            "Cameroon",
+            "Chad"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Cameroonian conflicts",
+          "url": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)",
+          "countries": [
+            "Cameroon",
+            "Nigeria",
+            "Niger",
+            "Chad"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Haiti": {
+      "region": "Caribbean",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Haitian crisis",
+      "conflicts": [
+        {
+          "name": "Haitian crisis",
+          "url": "https://en.wikipedia.org/wiki/Haitian_crisis_(2018%E2%80%93present)",
+          "countries": [
+            "Haiti"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Dominican Rep.": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Russia": {
+      "region": "Eastern Europe",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Russo-Ukrainian war, North Caucasus conflict",
+      "conflicts": [
+        {
+          "name": "Russo-Ukrainian war",
+          "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
+          "countries": [
+            "Ukraine",
+            "Russia",
+            "Belarus"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Russia",
+                "North Korea",
+                "Belarus"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Ukraine"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "North Caucasus conflict",
+          "url": "https://en.wikipedia.org/wiki/Russo-Caucasian_conflict",
+          "countries": [
+            "Russia",
+            "Azerbaijan",
+            "Georgia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Bahamas": {
+      "region": "Caribbean",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Falkland Is.": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Norway": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Greenland": {
+      "region": "North America",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Fr. S. Antarctic Lands": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Timor-Leste": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "South Africa": {
+      "region": "Southern Africa",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Lesotho": {
+      "region": "Southern Africa",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Mexico": {
+      "region": "North America",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Mexican drug war",
+      "conflicts": [
+        {
+          "name": "Mexican drug war",
+          "url": "https://en.wikipedia.org/wiki/Mexican_drug_war",
+          "countries": [
+            "Mexico",
+            "Belize",
+            "El Salvador",
+            "Honduras",
+            "Guatemala",
+            "Nicaragua",
+            "United States of America"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Uruguay": {
+      "region": "South America",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Brazil": {
+      "region": "South America",
+      "democracyIndex": "60-70",
+      "conflict": "Involved in: Brazilian drug war",
+      "conflicts": [
+        {
+          "name": "Brazilian drug war",
+          "url": "https://en.wikipedia.org/wiki/Brazilian_drug_war",
+          "countries": [
+            "Brazil",
+            "Argentina",
+            "Bolivia",
+            "Colombia",
+            "France",
+            "Peru",
+            "Paraguay",
+            "Venezuela"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Bolivia": {
+      "region": "South America",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Brazilian drug war",
+      "conflicts": [
+        {
+          "name": "Brazilian drug war",
+          "url": "https://en.wikipedia.org/wiki/Brazilian_drug_war",
+          "countries": [
+            "Brazil",
+            "Argentina",
+            "Bolivia",
+            "Colombia",
+            "France",
+            "Peru",
+            "Paraguay",
+            "Venezuela"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Peru": {
+      "region": "South America",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Brazilian drug war, Peruvian conflict",
+      "conflicts": [
+        {
+          "name": "Brazilian drug war",
+          "url": "https://en.wikipedia.org/wiki/Brazilian_drug_war",
+          "countries": [
+            "Brazil",
+            "Argentina",
+            "Bolivia",
+            "Colombia",
+            "France",
+            "Peru",
+            "Paraguay",
+            "Venezuela"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Peruvian conflict",
+          "url": "https://en.wikipedia.org/wiki/Peruvian_conflict",
+          "countries": [
+            "Peru"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Colombia": {
+      "region": "South America",
+      "democracyIndex": "60-70",
+      "conflict": "Involved in: Colombian conflict, Insurgency in Ecuador, Venezuelan conflict, Brazilian drug war",
+      "conflicts": [
+        {
+          "name": "Colombian conflict",
+          "url": "https://en.wikipedia.org/wiki/Colombian_conflict",
+          "countries": [
+            "Colombia",
+            "Venezuela",
+            "Ecuador"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Colombia",
+                "Peru",
+                "Panama",
+                "Mexico",
+                "Brazil",
+                "Ecuador",
+                "United States of America",
+                "Spain",
+                "United Kingdom"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Spain"
+              ]
+            },
+            {
+              "label": "Side 3",
+              "countries": [
+                "Venezuela",
+                "Cuba",
+                "Belarus",
+                "Nicaragua",
+                "Libya",
+                "Albania"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Insurgency in Ecuador",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_Ecuador",
+          "countries": [
+            "Ecuador",
+            "Colombia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Venezuelan conflict",
+          "url": "https://en.wikipedia.org/wiki/Crisis_in_Venezuela",
+          "countries": [
+            "Venezuela",
+            "Colombia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Brazilian drug war",
+          "url": "https://en.wikipedia.org/wiki/Brazilian_drug_war",
+          "countries": [
+            "Brazil",
+            "Argentina",
+            "Bolivia",
+            "Colombia",
+            "France",
+            "Peru",
+            "Paraguay",
+            "Venezuela"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Panama": {
+      "region": "Central America",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Costa Rica": {
+      "region": "Central America",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Nicaragua": {
+      "region": "Central America",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Mexican drug war",
+      "conflicts": [
+        {
+          "name": "Mexican drug war",
+          "url": "https://en.wikipedia.org/wiki/Mexican_drug_war",
+          "countries": [
+            "Mexico",
+            "Belize",
+            "El Salvador",
+            "Honduras",
+            "Guatemala",
+            "Nicaragua",
+            "United States of America"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Honduras": {
+      "region": "Central America",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Mexican drug war",
+      "conflicts": [
+        {
+          "name": "Mexican drug war",
+          "url": "https://en.wikipedia.org/wiki/Mexican_drug_war",
+          "countries": [
+            "Mexico",
+            "Belize",
+            "El Salvador",
+            "Honduras",
+            "Guatemala",
+            "Nicaragua",
+            "United States of America"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "El Salvador": {
+      "region": "Central America",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Mexican drug war",
+      "conflicts": [
+        {
+          "name": "Mexican drug war",
+          "url": "https://en.wikipedia.org/wiki/Mexican_drug_war",
+          "countries": [
+            "Mexico",
+            "Belize",
+            "El Salvador",
+            "Honduras",
+            "Guatemala",
+            "Nicaragua",
+            "United States of America"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Guatemala": {
+      "region": "Central America",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Mexican drug war",
+      "conflicts": [
+        {
+          "name": "Mexican drug war",
+          "url": "https://en.wikipedia.org/wiki/Mexican_drug_war",
+          "countries": [
+            "Mexico",
+            "Belize",
+            "El Salvador",
+            "Honduras",
+            "Guatemala",
+            "Nicaragua",
+            "United States of America"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Belize": {
+      "region": "Central America",
+      "democracyIndex": "Pending score source",
+      "conflict": "Involved in: Mexican drug war",
+      "conflicts": [
+        {
+          "name": "Mexican drug war",
+          "url": "https://en.wikipedia.org/wiki/Mexican_drug_war",
+          "countries": [
+            "Mexico",
+            "Belize",
+            "El Salvador",
+            "Honduras",
+            "Guatemala",
+            "Nicaragua",
+            "United States of America"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Venezuela": {
+      "region": "South America",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Colombian conflict, Venezuelan conflict, Brazilian drug war",
+      "conflicts": [
+        {
+          "name": "Colombian conflict",
+          "url": "https://en.wikipedia.org/wiki/Colombian_conflict",
+          "countries": [
+            "Colombia",
+            "Venezuela",
+            "Ecuador"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Colombia",
+                "Peru",
+                "Panama",
+                "Mexico",
+                "Brazil",
+                "Ecuador",
+                "United States of America",
+                "Spain",
+                "United Kingdom"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Spain"
+              ]
+            },
+            {
+              "label": "Side 3",
+              "countries": [
+                "Venezuela",
+                "Cuba",
+                "Belarus",
+                "Nicaragua",
+                "Libya",
+                "Albania"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Venezuelan conflict",
+          "url": "https://en.wikipedia.org/wiki/Crisis_in_Venezuela",
+          "countries": [
+            "Venezuela",
+            "Colombia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Brazilian drug war",
+          "url": "https://en.wikipedia.org/wiki/Brazilian_drug_war",
+          "countries": [
+            "Brazil",
+            "Argentina",
+            "Bolivia",
+            "Colombia",
+            "France",
+            "Peru",
+            "Paraguay",
+            "Venezuela"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Guyana": {
+      "region": "South America",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Suriname": {
+      "region": "South America",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "France": {
+      "region": "Western Europe",
+      "democracyIndex": "70+",
+      "conflict": "Involved in: Brazilian drug war",
+      "conflicts": [
+        {
+          "name": "Brazilian drug war",
+          "url": "https://en.wikipedia.org/wiki/Brazilian_drug_war",
+          "countries": [
+            "Brazil",
+            "Argentina",
+            "Bolivia",
+            "Colombia",
+            "France",
+            "Peru",
+            "Paraguay",
+            "Venezuela"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Ecuador": {
+      "region": "South America",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Colombian conflict, Insurgency in Ecuador",
+      "conflicts": [
+        {
+          "name": "Colombian conflict",
+          "url": "https://en.wikipedia.org/wiki/Colombian_conflict",
+          "countries": [
+            "Colombia",
+            "Venezuela",
+            "Ecuador"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Colombia",
+                "Peru",
+                "Panama",
+                "Mexico",
+                "Brazil",
+                "Ecuador",
+                "United States of America",
+                "Spain",
+                "United Kingdom"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Spain"
+              ]
+            },
+            {
+              "label": "Side 3",
+              "countries": [
+                "Venezuela",
+                "Cuba",
+                "Belarus",
+                "Nicaragua",
+                "Libya",
+                "Albania"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Insurgency in Ecuador",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_Ecuador",
+          "countries": [
+            "Ecuador",
+            "Colombia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Puerto Rico": {
+      "region": "Caribbean",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Jamaica": {
+      "region": "Caribbean",
+      "democracyIndex": "60-70",
+      "conflict": "Involved in: Jamaican political conflict",
+      "conflicts": [
+        {
+          "name": "Jamaican political conflict",
+          "url": "https://en.wikipedia.org/wiki/Jamaican_political_conflict",
+          "countries": [
+            "Jamaica"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Cuba": {
+      "region": "Caribbean",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Zimbabwe": {
+      "region": "Southern Africa",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Botswana": {
+      "region": "Southern Africa",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Namibia": {
+      "region": "Southern Africa",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Senegal": {
+      "region": "Western Africa",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Casamance conflict",
+      "conflicts": [
+        {
+          "name": "Casamance conflict",
+          "url": "https://en.wikipedia.org/wiki/Casamance_conflict",
+          "countries": [
+            "Senegal",
+            "Gambia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Mali": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Mauritania": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Benin": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Niger": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb, Civil conflicts in Nigeria, Cameroonian conflicts",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Civil conflicts in Nigeria",
+          "url": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria",
+          "countries": [
+            "Nigeria",
+            "Niger",
+            "Cameroon",
+            "Chad"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Cameroonian conflicts",
+          "url": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)",
+          "countries": [
+            "Cameroon",
+            "Nigeria",
+            "Niger",
+            "Chad"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Nigeria": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb, Civil conflicts in Nigeria, Cameroonian conflicts",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Civil conflicts in Nigeria",
+          "url": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria",
+          "countries": [
+            "Nigeria",
+            "Niger",
+            "Cameroon",
+            "Chad"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Cameroonian conflicts",
+          "url": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)",
+          "countries": [
+            "Cameroon",
+            "Nigeria",
+            "Niger",
+            "Chad"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Cameroon": {
+      "region": "Middle Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb, Civil conflicts in Nigeria, Cameroonian conflicts, Central African Republic Civil War",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Civil conflicts in Nigeria",
+          "url": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria",
+          "countries": [
+            "Nigeria",
+            "Niger",
+            "Cameroon",
+            "Chad"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Cameroonian conflicts",
+          "url": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)",
+          "countries": [
+            "Cameroon",
+            "Nigeria",
+            "Niger",
+            "Chad"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Central African Republic Civil War",
+          "url": "https://en.wikipedia.org/wiki/Central_African_Republic_Civil_War",
+          "countries": [
+            "Cameroon"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Togo": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Ghana": {
+      "region": "Western Africa",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Côte d'Ivoire": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Guinea": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Guinea-Bissau": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Liberia": {
+      "region": "Western Africa",
+      "democracyIndex": "50-60",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Sierra Leone": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Burkina Faso": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Central African Rep.": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Congo": {
+      "region": "Middle Africa",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Gabon": {
+      "region": "Middle Africa",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Eq. Guinea": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Zambia": {
+      "region": "Eastern Africa",
+      "democracyIndex": "50-60",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Malawi": {
+      "region": "Eastern Africa",
+      "democracyIndex": "50-60",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Mozambique": {
+      "region": "Eastern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Insurgency in Cabo Delgado",
+      "conflicts": [
+        {
+          "name": "Insurgency in Cabo Delgado",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_Cabo_Delgado",
+          "countries": [
+            "Mozambique",
+            "Tanzania"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "eSwatini": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Angola": {
+      "region": "Middle Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Cabinda War",
+      "conflicts": [
+        {
+          "name": "Cabinda War",
+          "url": "https://en.wikipedia.org/wiki/Cabinda_War",
+          "countries": [
+            "Angola"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Burundi": {
+      "region": "Eastern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Congolese conflicts",
+      "conflicts": [
+        {
+          "name": "Congolese conflicts",
+          "url": "https://en.wikipedia.org/wiki/Congolese_Civil_War_(disambiguation)",
+          "countries": [
+            "Rwanda",
+            "Burundi",
+            "Uganda"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Israel": {
+      "region": "Western Asia",
+      "democracyIndex": "70+",
+      "conflict": "Involved in: Iran–Israel conflicts, Yemeni civil war, Syrian conflict",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Yemeni civil war",
+          "url": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)",
+          "countries": [
+            "Yemen",
+            "Saudi Arabia",
+            "United Arab Emirates",
+            "Israel"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Syrian conflict",
+          "url": "https://en.wikipedia.org/wiki/Syrian_conflict_(2024%E2%80%93present)",
+          "countries": [
+            "Syria",
+            "Israel",
+            "Lebanon",
+            "Iraq",
+            "Turkey"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Lebanon": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Syrian conflict",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Syrian conflict",
+          "url": "https://en.wikipedia.org/wiki/Syrian_conflict_(2024%E2%80%93present)",
+          "countries": [
+            "Syria",
+            "Israel",
+            "Lebanon",
+            "Iraq",
+            "Turkey"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Madagascar": {
+      "region": "Eastern Africa",
+      "democracyIndex": "50-60",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Palestine": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Gambia": {
+      "region": "Western Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Casamance conflict",
+      "conflicts": [
+        {
+          "name": "Casamance conflict",
+          "url": "https://en.wikipedia.org/wiki/Casamance_conflict",
+          "countries": [
+            "Senegal",
+            "Gambia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Tunisia": {
+      "region": "Northern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Algeria": {
+      "region": "Northern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Jordan": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "United Arab Emirates": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Yemeni civil war",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Yemeni civil war",
+          "url": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)",
+          "countries": [
+            "Yemen",
+            "Saudi Arabia",
+            "United Arab Emirates",
+            "Israel"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Qatar": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Kuwait": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Iraq": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Insurgencies in Iran, Syrian conflict, Kurdish nationalist conflicts",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Insurgencies in Iran",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Iran",
+          "countries": [
+            "Iran",
+            "Iraq",
+            "Turkey"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Syrian conflict",
+          "url": "https://en.wikipedia.org/wiki/Syrian_conflict_(2024%E2%80%93present)",
+          "countries": [
+            "Syria",
+            "Israel",
+            "Lebanon",
+            "Iraq",
+            "Turkey"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Kurdish nationalist conflicts",
+          "url": "https://en.wikipedia.org/wiki/Timeline_of_Kurdish_uprisings",
+          "countries": [
+            "Iran",
+            "Iraq",
+            "Syria",
+            "Turkey"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Oman": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Vanuatu": {
+      "region": "Melanesia",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Cambodia": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Thailand": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "60-70",
+      "conflict": "Involved in: Myanmar civil war, South Thailand insurgency",
+      "conflicts": [
+        {
+          "name": "Myanmar civil war",
+          "url": "https://en.wikipedia.org/wiki/Myanmar_conflict",
+          "countries": [
+            "Myanmar",
+            "India",
+            "Bangladesh",
+            "Thailand",
+            "China"
+          ],
+          "sides": []
+        },
+        {
+          "name": "South Thailand insurgency",
+          "url": "https://en.wikipedia.org/wiki/South_Thailand_insurgency",
+          "countries": [
+            "Thailand"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Laos": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Insurgency in Laos",
+      "conflicts": [
+        {
+          "name": "Insurgency in Laos",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_Laos",
+          "countries": [
+            "Laos"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Myanmar": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Myanmar civil war, Insurgencies in India, Insurgencies in Bangladesh",
+      "conflicts": [
+        {
+          "name": "Myanmar civil war",
+          "url": "https://en.wikipedia.org/wiki/Myanmar_conflict",
+          "countries": [
+            "Myanmar",
+            "India",
+            "Bangladesh",
+            "Thailand",
+            "China"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in India",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_India",
+          "countries": [
+            "India",
+            "Myanmar",
+            "Bhutan"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in Bangladesh",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Bangladesh",
+          "countries": [
+            "Bangladesh",
+            "Myanmar",
+            "India"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Vietnam": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "North Korea": {
+      "region": "Eastern Asia",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "South Korea": {
+      "region": "Eastern Asia",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Mongolia": {
+      "region": "Eastern Asia",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "India": {
+      "region": "Southern Asia",
+      "democracyIndex": "70+",
+      "conflict": "Involved in: Myanmar civil war, Kashmir conflict, Insurgencies in Pakistan, Insurgencies in India",
+      "conflicts": [
+        {
+          "name": "Myanmar civil war",
+          "url": "https://en.wikipedia.org/wiki/Myanmar_conflict",
+          "countries": [
+            "Myanmar",
+            "India",
+            "Bangladesh",
+            "Thailand",
+            "China"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Kashmir conflict",
+          "url": "https://en.wikipedia.org/wiki/Kashmir_conflict",
+          "countries": [
+            "India",
+            "Pakistan",
+            "China"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in Pakistan",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Pakistan",
+          "countries": [
+            "Pakistan",
+            "Afghanistan",
+            "India",
+            "Iran"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in India",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_India",
+          "countries": [
+            "India",
+            "Myanmar",
+            "Bhutan"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Bangladesh": {
+      "region": "Southern Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Myanmar civil war, Insurgencies in Bangladesh",
+      "conflicts": [
+        {
+          "name": "Myanmar civil war",
+          "url": "https://en.wikipedia.org/wiki/Myanmar_conflict",
+          "countries": [
+            "Myanmar",
+            "India",
+            "Bangladesh",
+            "Thailand",
+            "China"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in Bangladesh",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Bangladesh",
+          "countries": [
+            "Bangladesh",
+            "Myanmar",
+            "India"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Bhutan": {
+      "region": "Southern Asia",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Insurgencies in India",
+      "conflicts": [
+        {
+          "name": "Insurgencies in India",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_India",
+          "countries": [
+            "India",
+            "Myanmar",
+            "Bhutan"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Nepal": {
+      "region": "Southern Asia",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Pakistan": {
+      "region": "Southern Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Afghan conflict, Kashmir conflict, Insurgencies in Pakistan",
+      "conflicts": [
+        {
+          "name": "Afghan conflict",
+          "url": "https://en.wikipedia.org/wiki/Afghan_conflict",
+          "countries": [
+            "Afghanistan",
+            "Pakistan",
+            "Tajikistan"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Kashmir conflict",
+          "url": "https://en.wikipedia.org/wiki/Kashmir_conflict",
+          "countries": [
+            "India",
+            "Pakistan",
+            "China"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in Pakistan",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Pakistan",
+          "countries": [
+            "Pakistan",
+            "Afghanistan",
+            "India",
+            "Iran"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Afghanistan": {
+      "region": "Southern Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Afghan conflict, Insurgencies in Pakistan",
+      "conflicts": [
+        {
+          "name": "Afghan conflict",
+          "url": "https://en.wikipedia.org/wiki/Afghan_conflict",
+          "countries": [
+            "Afghanistan",
+            "Pakistan",
+            "Tajikistan"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in Pakistan",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Pakistan",
+          "countries": [
+            "Pakistan",
+            "Afghanistan",
+            "India",
+            "Iran"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Tajikistan": {
+      "region": "Central Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Afghan conflict",
+      "conflicts": [
+        {
+          "name": "Afghan conflict",
+          "url": "https://en.wikipedia.org/wiki/Afghan_conflict",
+          "countries": [
+            "Afghanistan",
+            "Pakistan",
+            "Tajikistan"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Kyrgyzstan": {
+      "region": "Central Asia",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Turkmenistan": {
+      "region": "Central Asia",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Iran": {
+      "region": "Southern Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Insurgencies in Iran, Kurdish nationalist conflicts, Insurgencies in Pakistan",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Insurgencies in Iran",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Iran",
+          "countries": [
+            "Iran",
+            "Iraq",
+            "Turkey"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Kurdish nationalist conflicts",
+          "url": "https://en.wikipedia.org/wiki/Timeline_of_Kurdish_uprisings",
+          "countries": [
+            "Iran",
+            "Iraq",
+            "Syria",
+            "Turkey"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in Pakistan",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Pakistan",
+          "countries": [
+            "Pakistan",
+            "Afghanistan",
+            "India",
+            "Iran"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Syria": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Syrian conflict, Kurdish nationalist conflicts, Insurgencies in Turkey",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Syrian conflict",
+          "url": "https://en.wikipedia.org/wiki/Syrian_conflict_(2024%E2%80%93present)",
+          "countries": [
+            "Syria",
+            "Israel",
+            "Lebanon",
+            "Iraq",
+            "Turkey"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Kurdish nationalist conflicts",
+          "url": "https://en.wikipedia.org/wiki/Timeline_of_Kurdish_uprisings",
+          "countries": [
+            "Iran",
+            "Iraq",
+            "Syria",
+            "Turkey"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgencies in Turkey",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Turkey",
+          "countries": [
+            "Turkey",
+            "Syria",
+            "Iraq"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Armenia": {
+      "region": "Western Asia",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Nagorno-Karabakh conflict",
+      "conflicts": [
+        {
+          "name": "Nagorno-Karabakh conflict",
+          "url": "https://en.wikipedia.org/wiki/Nagorno-Karabakh_conflict",
+          "countries": [
+            "Armenia",
+            "Azerbaijan"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Sweden": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Belarus": {
+      "region": "Eastern Europe",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Russo-Ukrainian war",
+      "conflicts": [
+        {
+          "name": "Russo-Ukrainian war",
+          "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
+          "countries": [
+            "Ukraine",
+            "Russia",
+            "Belarus"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Russia",
+                "North Korea",
+                "Belarus"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Ukraine"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Ukraine": {
+      "region": "Eastern Europe",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Russo-Ukrainian war",
+      "conflicts": [
+        {
+          "name": "Russo-Ukrainian war",
+          "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
+          "countries": [
+            "Ukraine",
+            "Russia",
+            "Belarus"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Russia",
+                "North Korea",
+                "Belarus"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Ukraine"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Poland": {
+      "region": "Central Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Austria": {
+      "region": "Central Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Hungary": {
+      "region": "Central Europe",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Moldova": {
+      "region": "Eastern Europe",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Romania": {
+      "region": "Southeast Europe",
+      "democracyIndex": "50-60",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Lithuania": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Latvia": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Estonia": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Germany": {
+      "region": "Western Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Bulgaria": {
+      "region": "Southeast Europe",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Greece": {
+      "region": "Southern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Turkey": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Insurgencies in Iran, Syrian conflict, Kurdish nationalist conflicts",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Insurgencies in Iran",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Iran",
+          "countries": [
+            "Iran",
+            "Iraq",
+            "Turkey"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Syrian conflict",
+          "url": "https://en.wikipedia.org/wiki/Syrian_conflict_(2024%E2%80%93present)",
+          "countries": [
+            "Syria",
+            "Israel",
+            "Lebanon",
+            "Iraq",
+            "Turkey"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Kurdish nationalist conflicts",
+          "url": "https://en.wikipedia.org/wiki/Timeline_of_Kurdish_uprisings",
+          "countries": [
+            "Iran",
+            "Iraq",
+            "Syria",
+            "Turkey"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Albania": {
+      "region": "Southeast Europe",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Croatia": {
+      "region": "Southeast Europe",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Switzerland": {
+      "region": "Western Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Luxembourg": {
+      "region": "Western Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Belgium": {
+      "region": "Western Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Netherlands": {
+      "region": "Western Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Portugal": {
+      "region": "Southern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Spain": {
+      "region": "Southern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Ireland": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "New Caledonia": {
+      "region": "Melanesia",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Solomon Is.": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "New Zealand": {
+      "region": "Australia and New Zealand",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Australia": {
+      "region": "Australia and New Zealand",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Sri Lanka": {
+      "region": "Southern Asia",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "China": {
+      "region": "Eastern Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Myanmar civil war, Kashmir conflict",
+      "conflicts": [
+        {
+          "name": "Myanmar civil war",
+          "url": "https://en.wikipedia.org/wiki/Myanmar_conflict",
+          "countries": [
+            "Myanmar",
+            "India",
+            "Bangladesh",
+            "Thailand",
+            "China"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Kashmir conflict",
+          "url": "https://en.wikipedia.org/wiki/Kashmir_conflict",
+          "countries": [
+            "India",
+            "Pakistan",
+            "China"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Taiwan": {
+      "region": "Eastern Asia",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Italy": {
+      "region": "Southern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Denmark": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "United Kingdom": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "Involved in: Iran–Israel conflicts",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Iceland": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Azerbaijan": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Nagorno-Karabakh conflict, North Caucasus conflict",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Nagorno-Karabakh conflict",
+          "url": "https://en.wikipedia.org/wiki/Nagorno-Karabakh_conflict",
+          "countries": [
+            "Armenia",
+            "Azerbaijan"
+          ],
+          "sides": []
+        },
+        {
+          "name": "North Caucasus conflict",
+          "url": "https://en.wikipedia.org/wiki/Russo-Caucasian_conflict",
+          "countries": [
+            "Russia",
+            "Azerbaijan",
+            "Georgia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Georgia": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: North Caucasus conflict",
+      "conflicts": [
+        {
+          "name": "North Caucasus conflict",
+          "url": "https://en.wikipedia.org/wiki/Russo-Caucasian_conflict",
+          "countries": [
+            "Russia",
+            "Azerbaijan",
+            "Georgia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Philippines": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "60-70",
+      "conflict": "Involved in: Civil conflict in the Philippines, Cross border attacks in Sabah",
+      "conflicts": [
+        {
+          "name": "Civil conflict in the Philippines",
+          "url": "https://en.wikipedia.org/wiki/Civil_conflict_in_the_Philippines",
+          "countries": [
+            "Philippines"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Cross border attacks in Sabah",
+          "url": "https://en.wikipedia.org/wiki/Cross_border_attacks_in_Sabah",
+          "countries": [
+            "Malaysia",
+            "Philippines"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Malaysia": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "70+",
+      "conflict": "Involved in: Cross border attacks in Sabah",
+      "conflicts": [
+        {
+          "name": "Cross border attacks in Sabah",
+          "url": "https://en.wikipedia.org/wiki/Cross_border_attacks_in_Sabah",
+          "countries": [
+            "Malaysia",
+            "Philippines"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Brunei": {
+      "region": "South-Eastern Asia",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Slovenia": {
+      "region": "Central Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Finland": {
+      "region": "Northern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Slovakia": {
+      "region": "Central Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Czechia": {
+      "region": "Central Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Eritrea": {
+      "region": "Eastern Africa",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Japan": {
+      "region": "Eastern Asia",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Paraguay": {
+      "region": "South America",
+      "democracyIndex": "50-60",
+      "conflict": "Involved in: Brazilian drug war, Insurgency in Paraguay",
+      "conflicts": [
+        {
+          "name": "Brazilian drug war",
+          "url": "https://en.wikipedia.org/wiki/Brazilian_drug_war",
+          "countries": [
+            "Brazil",
+            "Argentina",
+            "Bolivia",
+            "Colombia",
+            "France",
+            "Peru",
+            "Paraguay",
+            "Venezuela"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Insurgency in Paraguay",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_Paraguay",
+          "countries": [
+            "Paraguay"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Yemen": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Yemeni civil war",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Yemeni civil war",
+          "url": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)",
+          "countries": [
+            "Yemen",
+            "Saudi Arabia",
+            "United Arab Emirates",
+            "Israel"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Saudi Arabia": {
+      "region": "Western Asia",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Iran–Israel conflicts, Yemeni civil war",
+      "conflicts": [
+        {
+          "name": "Iran–Israel conflicts",
+          "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+          "countries": [
+            "Israel",
+            "Palestine",
+            "Lebanon",
+            "Syria",
+            "Iran",
+            "Jordan",
+            "Iraq",
+            "Saudi Arabia",
+            "Kuwait",
+            "Qatar",
+            "United Arab Emirates",
+            "Oman",
+            "Yemen",
+            "Turkey",
+            "Azerbaijan",
+            "United Kingdom"
+          ],
+          "sides": [
+            {
+              "label": "Side 1",
+              "countries": [
+                "Iran"
+              ]
+            },
+            {
+              "label": "Side 2",
+              "countries": [
+                "Israel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Yemeni civil war",
+          "url": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)",
+          "countries": [
+            "Yemen",
+            "Saudi Arabia",
+            "United Arab Emirates",
+            "Israel"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Antarctica": {
+      "region": "Antarctic",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "N. Cyprus": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Cyprus": {
+      "region": "Southern Europe",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Morocco": {
+      "region": "Northern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Islamist insurgencies in the Maghreb, Western Sahara conflict",
+      "conflicts": [
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Western Sahara conflict",
+          "url": "https://en.wikipedia.org/wiki/Western_Sahara_conflict",
+          "countries": [
+            "Morocco"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Egypt": {
+      "region": "Northern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Sudanese civil wars, Islamist insurgency in Egypt",
+      "conflicts": [
+        {
+          "name": "Sudanese civil wars",
+          "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+          "countries": [
+            "Sudan",
+            "Chad",
+            "Egypt",
+            "Ethiopia",
+            "Libya"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Islamist insurgency in Egypt",
+          "url": "https://en.wikipedia.org/wiki/Terrorism_in_Egypt",
+          "countries": [
+            "Egypt"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Libya": {
+      "region": "Northern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Sudanese civil wars, Islamist insurgencies in the Maghreb, Libyan crisis",
+      "conflicts": [
+        {
+          "name": "Sudanese civil wars",
+          "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+          "countries": [
+            "Sudan",
+            "Chad",
+            "Egypt",
+            "Ethiopia",
+            "Libya"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Islamist insurgencies in the Maghreb",
+          "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+          "countries": [
+            "Algeria",
+            "Benin",
+            "Burkina Faso",
+            "Cameroon",
+            "Chad",
+            "Côte d'Ivoire",
+            "Libya",
+            "Mali",
+            "Mauritania",
+            "Morocco",
+            "Niger",
+            "Nigeria",
+            "Togo",
+            "Tunisia"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Libyan crisis",
+          "url": "https://en.wikipedia.org/wiki/Libyan_crisis_(2011%E2%80%93present)",
+          "countries": [
+            "Libya"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Ethiopia": {
+      "region": "Eastern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Sudanese civil wars, Ethiopian civil conflict",
+      "conflicts": [
+        {
+          "name": "Sudanese civil wars",
+          "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+          "countries": [
+            "Sudan",
+            "Chad",
+            "Egypt",
+            "Ethiopia",
+            "Libya"
+          ],
+          "sides": []
+        },
+        {
+          "name": "Ethiopian civil conflict",
+          "url": "https://en.wikipedia.org/wiki/Ethiopian_civil_conflict_(2018%E2%80%93present)",
+          "countries": [
+            "Ethiopia"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Djibouti": {
+      "region": "Eastern Africa",
+      "democracyIndex": "<50",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Somaliland": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Uganda": {
+      "region": "Eastern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Congolese conflicts",
+      "conflicts": [
+        {
+          "name": "Congolese conflicts",
+          "url": "https://en.wikipedia.org/wiki/Congolese_Civil_War_(disambiguation)",
+          "countries": [
+            "Rwanda",
+            "Burundi",
+            "Uganda"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Rwanda": {
+      "region": "Eastern Africa",
+      "democracyIndex": "<50",
+      "conflict": "Involved in: Congolese conflicts",
+      "conflicts": [
+        {
+          "name": "Congolese conflicts",
+          "url": "https://en.wikipedia.org/wiki/Congolese_Civil_War_(disambiguation)",
+          "countries": [
+            "Rwanda",
+            "Burundi",
+            "Uganda"
+          ],
+          "sides": []
+        }
+      ],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Bosnia and Herz.": {
+      "region": "Southeast Europe",
+      "democracyIndex": "50-60",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Macedonia": {
+      "region": "Southeast Europe",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Serbia": {
+      "region": "Southeast Europe",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Montenegro": {
+      "region": "Southeast Europe",
+      "democracyIndex": "60-70",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Kosovo": {
+      "region": "Southeast Europe",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "Trinidad and Tobago": {
+      "region": "Caribbean",
+      "democracyIndex": "70+",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    },
+    "S. Sudan": {
+      "region": "Region not loaded",
+      "democracyIndex": "Pending score source",
+      "conflict": "No live conflict listing",
+      "conflicts": [],
+      "factsUpdatedAt": "2026-04-28T09:35:04.406625+00:00"
+    }
+  }
+}
