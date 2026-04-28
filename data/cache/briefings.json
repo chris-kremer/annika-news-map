@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-28T15:03:06.156077+00:00",
+  "generatedAt": "2026-04-28T15:46:50.968353+00:00",
   "countries": {
     "Germany": {
       "name": "Germany",
@@ -805,6 +805,89 @@
         }
       ],
       "cachedAt": "2026-04-28T15:03:06.156058+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Oman": {
+      "name": "Oman",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Oman.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Trade volume between Russia, Oman increase fourfold from start of 2026 — minister",
+          "summary": "\"Russian exports contribute to strengthening of food security of Oman through supplies of wheat and barley,\" Maxim Reshetnikov noted",
+          "tags": [
+            "general"
+          ],
+          "url": "https://tass.com/economy/2123157"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Iran FM meets Putin, Russia’s military intel chief as talks stall: What to know",
+          "summary": "Iranian Foreign Minister Abbas Araghchi headed to Russia following visits to Pakistan and Oman over the weekend as talks with Washington are at a standstill.",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.al-monitor.com/originals/2026/04/iran-fm-meets-putin-russias-military-intel-chief-talks-stall-what-know"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 27",
+          "title": "Iran FM blames US for failure of talks after landing in Russia",
+          "summary": "Iran's top diplomat blamed Washington on Monday for the failure of talks after landing in Russia as part of a whirlwind diplomatic tour, with direct negotiation...",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.al-monitor.com/originals/2026/04/iran-fm-blames-us-failure-talks-after-landing-russia"
+        }
+      ],
+      "cachedAt": "2026-04-28T15:25:06.989311+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Mali": {
+      "name": "Mali",
+      "updated": "Updated April 28, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Mali.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "India Condemns Terror Attacks In Mali, Offers Condolences",
+          "summary": "India has strongly condemned the recent terror attacks in Mali, including the death of the country's defence minister, and reiterated its commitment to combatin...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.rediff.com/news/report/india-condemns-terror-attacks-in-mali/20260428.htm"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "MEA condemns Mali terror attacks, calls for regional stability",
+          "summary": "India News: NEW DELHI: The ministry of external affairs on Tuesday issued a statement condemning the \\\"terrorist attacks\\\" in Mali across multiple locations. \\\"...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://timesofindia.indiatimes.com/india/mea-condemns-mali-terror-attacks-calls-for-regional-stability/articleshow/130580851.cms"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Mali, attacco dei terroristi addestrati da Ucraina e Occidente: i russi dell'Africa Corps fermano il golpe",
+          "summary": "Il ministero della Difesa russo rivela: istruttori ucraini ed europei hanno preparato i 12mila assalitori, usando missili Stinger e Mistral. Mosca accusa:",
+          "tags": [
+            "general",
+            "politics"
+          ],
+          "url": "https://www.lantidiplomatico.it/dettnews-mali_attacco_dei_terroristi_addestrati_da_ucraina_e_occidente_i_russi_dellafrica_corps_fermano_il_golpe/45289_66582/"
+        }
+      ],
+      "cachedAt": "2026-04-28T15:46:50.968342+00:00",
       "cacheStatus": "fresh"
     }
   }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anakin's News Map</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260428i" />
     <script src="vendor/d3.min.js"></script>
     <script src="vendor/topojson-client.min.js"></script>
   </head>
@@ -27,8 +27,19 @@
           <div class="layer-switch">
             <span class="layer-switch__text">Live conflicts</span>
             <button
-              class="layer-switch__toggle is-active"
+              class="layer-switch__toggle"
               id="conflict-toggle"
+              type="button"
+              aria-pressed="false"
+            >
+              <span class="layer-switch__knob"></span>
+            </button>
+          </div>
+          <div class="layer-switch">
+            <span class="layer-switch__text">Key Areas</span>
+            <button
+              class="layer-switch__toggle is-active"
+              id="important-toggle"
               type="button"
               aria-pressed="true"
             >
@@ -36,16 +47,26 @@
             </button>
           </div>
           <div class="layer-switch">
-            <span class="layer-switch__text">Important spots</span>
+            <span class="layer-switch__text">US Carriers</span>
             <button
               class="layer-switch__toggle"
-              id="important-toggle"
+              id="carrier-toggle"
               type="button"
               aria-pressed="false"
             >
               <span class="layer-switch__knob"></span>
             </button>
           </div>
+        </div>
+
+        <svg id="connector-layer" aria-hidden="true"></svg>
+
+        <div class="hotspot-popup is-hidden" id="hotspot-popup">
+          <p class="hotspot-popup__label" id="popup-label"></p>
+          <p class="hotspot-popup__conflict" id="popup-conflict"></p>
+          <p class="hotspot-popup__countries" id="popup-countries"></p>
+          <div class="hotspot-popup__market is-hidden" id="popup-market"></div>
+          <a class="hotspot-popup__link is-hidden" id="popup-link" target="_blank" rel="noreferrer">View source ↗</a>
         </div>
 
         <aside class="country-sheet is-hidden" id="country-sheet">
@@ -74,6 +95,7 @@
             </section>
 
             <section class="story-section">
+              <div class="spot-context is-hidden" id="spot-context"></div>
               <p class="section-label" id="story-section-label">Recent stories</p>
               <div class="story-list" id="story-list"></div>
             </section>
@@ -82,7 +104,7 @@
       </section>
     </main>
 
-    <script src="data.js"></script>
-    <script src="app.js"></script>
+    <script src="data.js?v=20260428i"></script>
+    <script src="app.js?v=20260428i"></script>
   </body>
 </html>

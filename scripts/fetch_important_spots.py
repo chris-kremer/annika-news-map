@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import urllib.parse
 from datetime import datetime, timedelta, timezone
@@ -13,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ENV_PATH = ROOT / ".env.local"
 OUTPUT_PATH = ROOT / "data" / "generated" / "important_spots.json"
 THE_NEWS_ENDPOINT = "https://api.thenewsapi.com/v1/news/top"
+GDELT_ENDPOINT = "https://api.gdeltproject.org/api/v2/doc/doc"
 
 SPOT_CONFIGS = [
     {
@@ -25,6 +27,16 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en",
         "fallbackTitle": "Shipping and energy risk around Hormuz",
+        "marketUrl": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+        "marketFallback": {
+            "title": "Strait of Hormuz traffic returns to normal by end of June?",
+            "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+            "yesProbability": "60%",
+            "volume": "$816,715",
+            "resolveDate": "2026-06-30",
+            "updatedLabel": "Apr 28, 2026",
+            "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee.",
+        },
     },
     {
         "id": "uae-opec",
@@ -47,6 +59,16 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en,zh",
         "fallbackTitle": "Military signaling around Taiwan",
+        "marketUrl": "https://polymarket.com/event/will-china-invade-taiwan-by-december-31-2027",
+        "marketFallback": {
+            "title": "Will China invade Taiwan by December 31, 2027?",
+            "url": "https://polymarket.com/event/will-china-invade-taiwan-by-december-31-2027",
+            "yesProbability": "18%",
+            "volume": "$364,909",
+            "resolveDate": "2027-12-31",
+            "updatedLabel": "Apr 28, 2026",
+            "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee.",
+        },
     },
     {
         "id": "south-china-sea",
@@ -80,6 +102,27 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en,ar",
         "fallbackTitle": "Canal transit and rerouting pressure",
+    },
+    {
+        "id": "cuba",
+        "label": "Cuba",
+        "lat": 23.13,
+        "lon": -82.35,
+        "kind": "flashpoint",
+        "search": '(Cuba OR Havana) AND (United States OR sanctions OR military OR blackout OR protests)',
+        "locale": "",
+        "language": "en,es",
+        "fallbackTitle": "US-Cuba tension and internal pressure",
+        "marketUrl": "https://polymarket.com/event/us-strike-on-cuba-by",
+        "marketFallback": {
+            "title": "US strike on Cuba by...?",
+            "url": "https://polymarket.com/event/us-strike-on-cuba-by",
+            "yesProbability": "40%",
+            "volume": "$3,100,806",
+            "resolveDate": "2026-12-31",
+            "updatedLabel": "Apr 15, 2026",
+            "note": 'Prediction-market pricing from Polymarket. Current leading branch is "December 31." This is a market signal, not a forecast guarantee.',
+        },
     },
     {
         "id": "sahel",
@@ -155,6 +198,18 @@ def curl_json(url: str) -> dict:
     return json.loads(result.stdout)
 
 
+def curl_text(url: str) -> str:
+    result = subprocess.run(
+        ["curl", "-sfL", url],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or f"curl failed for {url}")
+    return result.stdout
+
+
 def format_story_date(raw_value: str) -> str:
     if not raw_value:
         return "Recent"
@@ -176,6 +231,18 @@ def normalize_thenews_article(article: dict) -> dict:
         "tags": tags[:3],
         "url": article.get("url") or "",
         "_published_at": article.get("published_at", ""),
+    }
+
+
+def normalize_gdelt_article(article: dict) -> dict:
+    return {
+        "source": article.get("domain") or "GDELT",
+        "time": format_story_date(article.get("seendate", "")),
+        "title": article.get("title") or "Untitled article",
+        "summary": f"Matched by GDELT from {article.get('domain', 'global coverage')}.",
+        "tags": [tag for tag in [article.get("sourcecountry"), article.get("language")] if tag][:3],
+        "url": article.get("url") or "",
+        "_published_at": article.get("seendate", ""),
     }
 
 
@@ -232,8 +299,61 @@ def fetch_top_story(config: dict, api_token: str) -> dict | None:
     return articles[0] if articles else None
 
 
-def build_spot_briefing(config: dict, articles: list[dict], limit: int = 5) -> dict:
-    deduped = dedupe_articles(articles)[:limit]
+def fetch_gdelt_articles(config: dict, limit: int) -> list[dict]:
+    params = {
+        "query": config["search"],
+        "mode": "ArtList",
+        "format": "json",
+        "maxrecords": str(limit),
+        "timespan": "5days",
+    }
+    url = f"{GDELT_ENDPOINT}?{urllib.parse.urlencode(params)}"
+    payload = curl_json(url)
+    return [normalize_gdelt_article(article) for article in payload.get("articles", [])]
+
+
+def fetch_polymarket_card(url: str, fallback_card: dict | None = None) -> dict:
+    try:
+        html = curl_text(url)
+    except Exception:
+        if fallback_card:
+            return dict(fallback_card)
+        raise
+
+    title_match = re.search(r'<meta property="og:title" content="([^"]+)"', html)
+    volume_match = re.search(r"\$([\d,]+) has traded on", html)
+    prob_match = re.search(r"current crowd-sourced probability is (\d+(?:\.\d+)?)% for \\\\\"Yes", html)
+    if not prob_match:
+        prob_match = re.search(r"current probability for .*? is (\d+(?:\.\d+)?)% for \\\\\"Yes", html)
+    if not prob_match:
+        prob_match = re.search(r"price of (\d+(?:\.\d+)?)¢ for .*? means traders collectively believe there is a (\d+(?:\.\d+)?)% chance", html)
+    end_match = re.search(r'"endDate":"([^"]+)"', html)
+    updated_match = re.search(r"as of ([A-Za-z]+ \d{1,2}, \d{4})", html)
+
+    probability = None
+    if prob_match:
+        if len(prob_match.groups()) >= 2:
+            probability = prob_match.group(2)
+        else:
+            probability = prob_match.group(1)
+
+    resolve_date = None
+    if end_match:
+        resolve_date = end_match.group(1)[:10]
+
+    return {
+        "title": title_match.group(1) if title_match else "Polymarket market",
+        "url": url,
+        "yesProbability": f"{probability}%" if probability else "Unavailable",
+        "volume": f"${volume_match.group(1)}" if volume_match else "Unavailable",
+        "resolveDate": resolve_date or "Unavailable",
+        "updatedLabel": updated_match.group(1) if updated_match else "Today",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee.",
+    }
+
+
+def build_spot_briefing(config: dict, thenews_articles: list[dict], gdelt_articles: list[dict], limit: int = 5) -> dict:
+    deduped = dedupe_articles(thenews_articles + gdelt_articles)[:limit]
     for article in deduped:
         article.pop("_published_at", None)
 
@@ -255,6 +375,14 @@ def build_spot_briefing(config: dict, articles: list[dict], limit: int = 5) -> d
         "label": config["label"],
         "kind": format_kind(config["kind"]),
         "windowDays": 5,
+        "sourceNote": " + ".join(
+            [
+                source
+                for source, has_items in [("The News API", bool(thenews_articles)), ("GDELT", bool(gdelt_articles))]
+                if has_items
+            ]
+        )
+        or "Fallback",
         "stories": deduped,
     }
 
@@ -297,6 +425,12 @@ def build_payload() -> dict:
         if api_token:
             try:
                 article = fetch_top_story(config, api_token)
+            except Exception:
+                article = None
+        if not article:
+            try:
+                gdelt_articles = fetch_gdelt_articles(config, limit=1)
+                article = gdelt_articles[0] if gdelt_articles else None
             except Exception:
                 article = None
         spots.append(normalize_spot(config, article))

@@ -1,0 +1,422 @@
+{
+  "generatedAt": "2026-04-28T18:23:09.261481+00:00",
+  "countries": {},
+  "spots": {
+    "hormuz": {
+      "id": "hormuz",
+      "name": "Strait of Hormuz",
+      "label": "Strait of Hormuz",
+      "kind": "Chokepoint",
+      "windowDays": 5,
+      "sourceNote": "GDELT",
+      "stories": [
+        {
+          "source": "shorouknews.com",
+          "time": "Recent",
+          "title": "ترامب : إيران تريد منا فتح مضيق هرمز في أقرب وقت ممكن",
+          "summary": "Matched by GDELT from shorouknews.com.",
+          "tags": [
+            "Egypt",
+            "Arabic"
+          ],
+          "url": "https://www.shorouknews.com/news/view.aspx?cdate=28042026&id=69b2aea1-b004-47ad-84b6-528cbfcdc97f"
+        },
+        {
+          "source": "graphic.com.gh",
+          "time": "Recent",
+          "title": "Only five ships pass through Strait of Hormuz in 24 hours",
+          "summary": "Matched by GDELT from graphic.com.gh.",
+          "tags": [
+            "Ghana",
+            "English"
+          ],
+          "url": "https://www.graphic.com.gh/international/international-news/only-five-ships-pass-through-strait-of-hormuz-in-24-hours.html"
+        },
+        {
+          "source": "marketscreener.com",
+          "time": "Recent",
+          "title": "Only five ships pass through Strait of Hormuz in 24 hours",
+          "summary": "Matched by GDELT from marketscreener.com.",
+          "tags": [
+            "English"
+          ],
+          "url": "https://www.marketscreener.com/news/only-five-ships-pass-through-strait-of-hormuz-in-24-hours-ce7f59dfdb8ff320"
+        }
+      ],
+      "cachedAt": "2026-04-28T15:45:14.511792+00:00",
+      "cacheStatus": "fresh",
+      "marketCard": {
+        "title": "Strait of Hormuz traffic returns to normal by end of June?",
+        "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+        "yesProbability": "60%",
+        "volume": "$822,862",
+        "resolveDate": "2026-06-30",
+        "updatedLabel": "April 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      }
+    },
+    "suez": {
+      "id": "suez",
+      "name": "Suez Canal",
+      "label": "Suez Canal",
+      "kind": "Chokepoint",
+      "windowDays": 5,
+      "sourceNote": "Fallback",
+      "stories": [
+        {
+          "source": "System",
+          "time": "Now",
+          "title": "Canal transit and rerouting pressure",
+          "summary": "No recent live stories matched this important-spot query in the current pass.",
+          "tags": [
+            "Chokepoint",
+            "Query",
+            "Sparse"
+          ],
+          "url": ""
+        }
+      ],
+      "cachedAt": "2026-04-28T17:52:17.232076+00:00",
+      "cacheStatus": "fresh"
+    },
+    "eastern-drc": {
+      "id": "eastern-drc",
+      "name": "Eastern DRC",
+      "label": "Eastern DRC",
+      "kind": "Minerals",
+      "windowDays": 5,
+      "sourceNote": "GDELT",
+      "stories": [
+        {
+          "source": "globalsecurity.org",
+          "time": "Recent",
+          "title": "UN mission chief urges conditions for credible ceasefire monitoring in eastern DR Congo",
+          "summary": "Matched by GDELT from globalsecurity.org.",
+          "tags": [
+            "Syria",
+            "English"
+          ],
+          "url": "https://www.globalsecurity.org/military/library/news/2026/04/mil-260425-pdo01.htm"
+        },
+        {
+          "source": "bignewsnetwork.com",
+          "time": "Recent",
+          "title": "UN mission chief urges conditions for credible ceasefire monitoring in eastern DR Congo",
+          "summary": "Matched by GDELT from bignewsnetwork.com.",
+          "tags": [
+            "United States",
+            "English"
+          ],
+          "url": "http://www.bignewsnetwork.com/news/279009761/un-mission-chief-urges-conditions-for-credible-ceasefire-monitoring-in-eastern-dr-congo"
+        },
+        {
+          "source": "standardmedia.co.ke",
+          "time": "Recent",
+          "title": "UN helps return hundreds of DR Congo refugees from Burundi",
+          "summary": "Matched by GDELT from standardmedia.co.ke.",
+          "tags": [
+            "Kenya",
+            "English"
+          ],
+          "url": "https://www.standardmedia.co.ke/africa/article/2001546141/un-helps-return-hundreds-of-dr-congo-refugees-from-burundi"
+        }
+      ],
+      "cachedAt": "2026-04-28T17:54:23.077582+00:00",
+      "cacheStatus": "fresh"
+    },
+    "uae-opec": {
+      "id": "uae-opec",
+      "name": "Abu Dhabi / OPEC",
+      "label": "Abu Dhabi / OPEC",
+      "kind": "Energy",
+      "windowDays": 5,
+      "sourceNote": "Fallback",
+      "stories": [
+        {
+          "source": "System",
+          "time": "Now",
+          "title": "Energy policy moves in the Gulf",
+          "summary": "No recent live stories matched this important-spot query in the current pass.",
+          "tags": [
+            "Energy",
+            "Query",
+            "Sparse"
+          ],
+          "url": ""
+        }
+      ],
+      "cachedAt": "2026-04-28T17:55:01.450600+00:00",
+      "cacheStatus": "fresh"
+    },
+    "kashmir": {
+      "id": "kashmir",
+      "name": "Kashmir",
+      "label": "Kashmir",
+      "kind": "Border",
+      "windowDays": 5,
+      "sourceNote": "GDELT",
+      "stories": [
+        {
+          "source": "koreatimes.co.kr",
+          "time": "Recent",
+          "title": "Why China will see India latest defense deal with South Korea as  inevitably sensitive  ",
+          "summary": "Matched by GDELT from koreatimes.co.kr.",
+          "tags": [
+            "South Korea",
+            "English"
+          ],
+          "url": "https://www.koreatimes.co.kr/world/20260426/why-china-will-see-indias-latest-defense-deal-with-south-korea-as-inevitably-sensitive"
+        },
+        {
+          "source": "tribuneindia.com",
+          "time": "Recent",
+          "title": "Hero of Hill Kaka and Op Sarp Vinash warrior Tahir Fazal passes away at 62",
+          "summary": "Matched by GDELT from tribuneindia.com.",
+          "tags": [
+            "India",
+            "English"
+          ],
+          "url": "https://www.tribuneindia.com/news/j-k/hero-of-hill-kaka-and-op-sarp-vinash-warrior-tahir-fazal-passes-away-at-62/"
+        },
+        {
+          "source": "rediff.com",
+          "time": "Recent",
+          "title": "Pahalgam Terror Attack : Hard Lessons For India",
+          "summary": "Matched by GDELT from rediff.com.",
+          "tags": [
+            "India",
+            "English"
+          ],
+          "url": "https://www.rediff.com/news/column/pahalgam-terror-attack-hard-lessons-for-india/20260424.htm"
+        }
+      ],
+      "cachedAt": "2026-04-28T17:55:23.971961+00:00",
+      "cacheStatus": "fresh"
+    },
+    "sudan": {
+      "id": "sudan",
+      "name": "Sudan / Khartoum",
+      "label": "Sudan / Khartoum",
+      "kind": "Conflict",
+      "windowDays": 5,
+      "sourceNote": "Fallback",
+      "stories": [
+        {
+          "source": "System",
+          "time": "Now",
+          "title": "War and negotiations in Sudan",
+          "summary": "No recent live stories matched this important-spot query in the current pass.",
+          "tags": [
+            "Conflict",
+            "Query",
+            "Sparse"
+          ],
+          "url": ""
+        }
+      ],
+      "cachedAt": "2026-04-28T17:55:31.245862+00:00",
+      "cacheStatus": "fresh"
+    },
+    "taiwan-strait": {
+      "id": "taiwan-strait",
+      "name": "Taiwan Strait",
+      "label": "Taiwan Strait",
+      "kind": "Military",
+      "windowDays": 5,
+      "sourceNote": "GDELT",
+      "stories": [
+        {
+          "source": "khaama.com",
+          "time": "Recent",
+          "title": "Taiwan Puts Forces on Alert After Detecting Chinese Warships Near Penghu",
+          "summary": "Matched by GDELT from khaama.com.",
+          "tags": [
+            "Afghanistan",
+            "English"
+          ],
+          "url": "https://www.khaama.com/taiwan-puts-forces-on-alert-after-detecting-chinese-warships-near-penghu/"
+        },
+        {
+          "source": "econotimes.com",
+          "time": "Recent",
+          "title": "China Conducts Live - Fire Drills Near Luzon as U . S .- Philippines Balikatan Exercises Expand",
+          "summary": "Matched by GDELT from econotimes.com.",
+          "tags": [
+            "United States",
+            "English"
+          ],
+          "url": "http://www.econotimes.com/China-Conducts-Live-Fire-Drills-Near-Luzon-as-US-Philippines-Balikatan-Exercises-Expand-1740037"
+        },
+        {
+          "source": "chiangraitimes.com",
+          "time": "Recent",
+          "title": "Japan Shocks China With A Bold Move In The Taiwan Strait",
+          "summary": "Matched by GDELT from chiangraitimes.com.",
+          "tags": [
+            "Thailand",
+            "English"
+          ],
+          "url": "https://www.chiangraitimes.com/news-asia/japan-shocks-china-in-the-taiwan-strait/"
+        }
+      ],
+      "marketCard": {
+        "title": "Will China invade Taiwan by December 31, 2027?",
+        "url": "https://polymarket.com/event/will-china-invade-taiwan-by-december-31-2027",
+        "yesProbability": "18%",
+        "volume": "$364,909",
+        "resolveDate": "2027-12-31",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      },
+      "cachedAt": "2026-04-28T17:57:20.408621+00:00",
+      "cacheStatus": "fresh"
+    },
+    "sahel": {
+      "id": "sahel",
+      "name": "Sahel Belt",
+      "label": "Sahel Belt",
+      "kind": "Security",
+      "windowDays": 5,
+      "sourceNote": "Fallback",
+      "stories": [
+        {
+          "source": "System",
+          "time": "Now",
+          "title": "Instability across the Sahel belt",
+          "summary": "No recent live stories matched this important-spot query in the current pass.",
+          "tags": [
+            "Security",
+            "Query",
+            "Sparse"
+          ],
+          "url": ""
+        }
+      ],
+      "cachedAt": "2026-04-28T17:57:27.446399+00:00",
+      "cacheStatus": "fresh"
+    },
+    "south-china-sea": {
+      "id": "south-china-sea",
+      "name": "South China Sea",
+      "label": "South China Sea",
+      "kind": "Maritime",
+      "windowDays": 5,
+      "sourceNote": "Fallback",
+      "stories": [
+        {
+          "source": "System",
+          "time": "Now",
+          "title": "Maritime pressure in the South China Sea",
+          "summary": "No recent live stories matched this important-spot query in the current pass.",
+          "tags": [
+            "Maritime",
+            "Query",
+            "Sparse"
+          ],
+          "url": ""
+        }
+      ],
+      "cachedAt": "2026-04-28T17:59:06.751570+00:00",
+      "cacheStatus": "fresh"
+    },
+    "red-sea": {
+      "id": "red-sea",
+      "name": "Red Sea / Bab el-Mandeb",
+      "label": "Red Sea / Bab el-Mandeb",
+      "kind": "Shipping",
+      "windowDays": 5,
+      "sourceNote": "GDELT",
+      "stories": [
+        {
+          "source": "maritime-executive.com",
+          "time": "Recent",
+          "title": "MSC and Celestyal Cruise Ships Transits Suez After Escape from Persian Gulf",
+          "summary": "Matched by GDELT from maritime-executive.com.",
+          "tags": [
+            "United States",
+            "English"
+          ],
+          "url": "https://maritime-executive.com/article/msc-and-celestyal-cruise-ships-transits-suez-after-escape-from-persian-gulf"
+        },
+        {
+          "source": "strategypage.com",
+          "time": "Recent",
+          "title": "Surface Forces : Red Sea Failures And The Strait of Hormuz",
+          "summary": "Matched by GDELT from strategypage.com.",
+          "tags": [
+            "China",
+            "English"
+          ],
+          "url": "http://www.strategypage.com/%5Chtmw%5Chtsurf%5Carticles%5C2026042441740.aspx"
+        },
+        {
+          "source": "breitbart.com",
+          "time": "Recent",
+          "title": "Iran Claims Somalia Banning Israeli Ships from Bab al - Mandab Strait",
+          "summary": "Matched by GDELT from breitbart.com.",
+          "tags": [
+            "United States",
+            "English"
+          ],
+          "url": "https://www.breitbart.com/national-security/2026/04/23/iran-claims-somalia-banning-israeli-ships-from-bab-al-mandab-strait/"
+        }
+      ],
+      "cachedAt": "2026-04-28T18:07:12.606292+00:00",
+      "cacheStatus": "fresh"
+    },
+    "cuba": {
+      "id": "cuba",
+      "name": "Cuba",
+      "label": "Cuba",
+      "kind": "Flashpoint",
+      "windowDays": 5,
+      "sourceNote": "GDELT",
+      "stories": [
+        {
+          "source": "portfolio.hu",
+          "time": "Recent",
+          "title": "Íme Donald Trump következő háborúja : már készen vannak a tervek – Bármikor megindulhat a leszámolás",
+          "summary": "Matched by GDELT from portfolio.hu.",
+          "tags": [
+            "Hungary",
+            "Hungarian"
+          ],
+          "url": "https://www.portfolio.hu/global/20260428/ime-donald-trump-kovetkezo-haboruja-mar-keszen-vannak-a-tervek-barmikor-megindulhat-a-leszamolas-833368"
+        },
+        {
+          "source": "latinpost.com",
+          "time": "Recent",
+          "title": "Cuba Díaz - Canel Warns  No Negotiation  Unless U . S . Meets Havana Terms",
+          "summary": "Matched by GDELT from latinpost.com.",
+          "tags": [
+            "United States",
+            "English"
+          ],
+          "url": "https://www.latinpost.com/articles/167284/20260423/cubas-diaz-canel-warns-no-negotiation-unless-us-meets-havanas-terms.htm"
+        },
+        {
+          "source": "theatlantic.com",
+          "time": "Recent",
+          "title": "Cuban Despair - The Atlantic",
+          "summary": "Matched by GDELT from theatlantic.com.",
+          "tags": [
+            "United States",
+            "English"
+          ],
+          "url": "https://www.theatlantic.com/ideas/2026/04/cuba-crisis-oil-blockade/686865/"
+        }
+      ],
+      "marketCard": {
+        "title": "US military action against Cuba by...?",
+        "url": "https://polymarket.com/event/us-strike-on-cuba-by",
+        "yesProbability": "65%",
+        "volume": "$3,195,276",
+        "resolveDate": "2026-12-31",
+        "updatedLabel": "April 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      },
+      "cachedAt": "2026-04-28T18:19:27.778846+00:00",
+      "cacheStatus": "fresh"
+    }
+  }
+}

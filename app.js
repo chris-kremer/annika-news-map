@@ -1,8 +1,34 @@
 const svg = d3.select("#world-map");
 const atlasStage = document.querySelector(".atlas-stage");
+const hotspotPopup = document.getElementById("hotspot-popup");
+const popupLabel = document.getElementById("popup-label");
+const popupConflict = document.getElementById("popup-conflict");
+const popupCountries = document.getElementById("popup-countries");
+const popupMarket = document.getElementById("popup-market");
+const popupLink = document.getElementById("popup-link");
+
+const connectorLayer = document.getElementById("connector-layer");
+
+let hotspotHideTimer = null;
+
+function cancelHotspotHide() {
+  if (hotspotHideTimer) {
+    clearTimeout(hotspotHideTimer);
+    hotspotHideTimer = null;
+  }
+}
+
+function scheduleHotspotHide() {
+  cancelHotspotHide();
+  hotspotHideTimer = setTimeout(() => closeHotspotPopup(), 220);
+}
+
+hotspotPopup.addEventListener("mouseenter", cancelHotspotHide);
+hotspotPopup.addEventListener("mouseleave", scheduleHotspotHide);
 const mapStatus = document.getElementById("map-status");
 const conflictToggle = document.getElementById("conflict-toggle");
 const importantToggle = document.getElementById("important-toggle");
+const carrierToggle = document.getElementById("carrier-toggle");
 const countrySheet = document.getElementById("country-sheet");
 const closeButton = document.getElementById("sheet-close");
 const detailCountry = document.getElementById("detail-country");
@@ -14,6 +40,7 @@ const detailEconomicGrowth = document.getElementById("detail-economic-growth");
 const detailConflictLabel = document.getElementById("detail-conflict-label");
 const detailConflict = document.getElementById("detail-conflict");
 const factStrip = document.querySelector(".fact-strip");
+const spotContext = document.getElementById("spot-context");
 const storySectionLabel = document.getElementById("story-section-label");
 const storyList = document.getElementById("story-list");
 
@@ -31,6 +58,7 @@ let borderLayer;
 let graticuleLayer;
 let hotspotLayer;
 let importantLayer;
+let carrierLayer;
 let features = [];
 let borders;
 let lastTimestamp = 0;
@@ -45,10 +73,13 @@ let conflictHoverRoles = new Map();
 let metricHoverMode = null;
 let conflictHotspots = [];
 let hotspotNodes;
-let showConflictHotspots = true;
+let showConflictHotspots = false;
 let importantSpots = [];
 let importantSpotNodes;
-let showImportantSpots = false;
+let showImportantSpots = true;
+let carrierSpots = [];
+let carrierSpotNodes;
+let showCarrierSpots = false;
 
 function getCanonicalCountryName(countryName) {
   return countryNameAliases.get(countryName) || countryName;
@@ -74,9 +105,16 @@ function syncImportantToggle() {
   importantToggle.setAttribute("aria-pressed", String(showImportantSpots));
 }
 
+function syncCarrierToggle() {
+  carrierToggle.classList.toggle("is-active", showCarrierSpots);
+  carrierToggle.setAttribute("aria-pressed", String(showCarrierSpots));
+}
+
 function isInteractiveElement(target) {
   return Boolean(
-    target?.closest?.(".country, .conflict-hotspot, .important-spot, .country-sheet, .layer-switches"),
+    target?.closest?.(
+      ".country, .conflict-hotspot, .important-spot, .carrier-spot, .country-sheet, .layer-switches, .hotspot-popup",
+    ),
   );
 }
 
@@ -352,12 +390,36 @@ function renderConflictDetails(selected) {
 
 function showCountryFacts() {
   factStrip.hidden = false;
+  spotContext.classList.add("is-hidden");
+  spotContext.replaceChildren();
   storySectionLabel.textContent = "Recent stories";
 }
 
 function showSpotFacts() {
   factStrip.hidden = true;
   storySectionLabel.textContent = "Current coverage";
+}
+
+function renderMarketCard(cardRoot, marketCard, compact = false) {
+  cardRoot.replaceChildren();
+  if (!marketCard) {
+    cardRoot.classList.add("is-hidden");
+    return;
+  }
+
+  const card = document.createElement("article");
+  card.className = compact ? "market-card market-card--compact" : "market-card";
+  card.innerHTML = `
+    <p class="market-card__kicker">Market Signal</p>
+    <h3 class="market-card__title">${marketCard.title}</h3>
+    <p class="market-card__prediction">Current prediction: <span>${marketCard.yesProbability}</span></p>
+  `;
+  cardRoot.appendChild(card);
+  cardRoot.classList.remove("is-hidden");
+}
+
+function renderSpotContext(spotBriefing) {
+  renderMarketCard(spotContext, spotBriefing.marketCard);
 }
 
 function renderStories(stories) {
@@ -476,14 +538,135 @@ function setLoadingState(countryName) {
 function updateSpotSheet(spotBriefing) {
   showSpotFacts();
   detailCountry.textContent = spotBriefing.label || spotBriefing.name;
-  detailRegion.textContent = spotBriefing.kind || "Important spot";
+  detailRegion.textContent = spotBriefing.kind || "Key area";
   detailConflictLabel.classList.remove("is-hoverable");
   detailConflictLabel.onmouseenter = null;
   detailConflictLabel.onmouseleave = null;
   detailConflictLabel.onfocus = null;
   detailConflictLabel.onblur = null;
   detailConflict.replaceChildren();
+  renderSpotContext(spotBriefing);
   renderStories(spotBriefing.stories || []);
+}
+
+let activePopupHotspot = null;
+
+function clearConnector() {
+  while (connectorLayer.firstChild) connectorLayer.removeChild(connectorLayer.firstChild);
+}
+
+function drawConnector(dotX, dotY, popupEl, flipped) {
+  clearConnector();
+  const rect = popupEl.getBoundingClientRect();
+  const stageRect = atlasStage.getBoundingClientRect();
+  // Popup position relative to stage
+  const px = rect.left - stageRect.left;
+  const py = rect.top - stageRect.top;
+  const pw = rect.width;
+  const ph = rect.height;
+
+  // Connect hotspot dot → nearest popup edge midpoint
+  const targetX = flipped ? px + pw : px;
+  const targetY = py + ph / 2;
+
+  const ns = "http://www.w3.org/2000/svg";
+
+  const line = document.createElementNS(ns, "line");
+  line.setAttribute("class", "connector-line");
+  line.setAttribute("x1", dotX);
+  line.setAttribute("y1", dotY);
+  line.setAttribute("x2", targetX);
+  line.setAttribute("y2", targetY);
+  connectorLayer.appendChild(line);
+
+  const dot = document.createElementNS(ns, "circle");
+  dot.setAttribute("class", "connector-dot");
+  dot.setAttribute("cx", dotX);
+  dot.setAttribute("cy", dotY);
+  dot.setAttribute("r", 2.5);
+  connectorLayer.appendChild(dot);
+}
+
+function closeHotspotPopup() {
+  hotspotPopup.classList.add("is-hidden");
+  popupMarket.classList.add("is-hidden");
+  popupMarket.replaceChildren();
+  activePopupHotspot = null;
+  clearConnector();
+}
+
+function refreshConnector() {
+  if (!activePopupHotspot || hotspotPopup.classList.contains("is-hidden")) return;
+
+  const svgEl = document.getElementById("world-map");
+  const svgRect = svgEl.getBoundingClientRect();
+  const stageRect = atlasStage.getBoundingClientRect();
+  const projected = projection([activePopupHotspot.lon, activePopupHotspot.lat]);
+
+  // Hide popup if hotspot rotates behind the globe
+  if (!projected || !isPointVisible(activePopupHotspot.lon, activePopupHotspot.lat)) {
+    hotspotPopup.classList.add("is-hidden");
+    clearConnector();
+    return;
+  }
+
+  hotspotPopup.classList.remove("is-hidden");
+  const scaleX = svgRect.width / 1440;
+  const scaleY = svgRect.height / 900;
+  const screenX = svgRect.left - stageRect.left + projected[0] * scaleX;
+  const screenY = svgRect.top - stageRect.top + projected[1] * scaleY;
+  const flipLeft = hotspotPopup.classList.contains("is-flipped");
+  drawConnector(screenX, screenY, hotspotPopup, flipLeft);
+}
+
+function openConflictHotspot(hotspot, clickEvent, isClick = false) {
+  if (isClick) autoRotate = false;
+  mapStatus.textContent = hotspot.label;
+
+  // Fill popup content
+  popupLabel.textContent = hotspot.label;
+  popupConflict.textContent = hotspot.conflict;
+  popupCountries.textContent = (hotspot.countries || []).join(" · ");
+  renderMarketCard(popupMarket, hotspot.marketCard, true);
+
+  if (hotspot.sourceUrl) {
+    popupLink.href = hotspot.sourceUrl;
+    popupLink.classList.remove("is-hidden");
+  } else {
+    popupLink.classList.add("is-hidden");
+  }
+
+  // Position popup near the hotspot using SVG projected coordinates
+  const svgEl = document.getElementById("world-map");
+  const svgRect = svgEl.getBoundingClientRect();
+  const stageRect = atlasStage.getBoundingClientRect();
+
+  const projected = projection([hotspot.lon, hotspot.lat]);
+  if (!projected) return;
+
+  const scaleX = svgRect.width / 1440;
+  const scaleY = svgRect.height / 900;
+
+  const screenX = svgRect.left - stageRect.left + projected[0] * scaleX;
+  const screenY = svgRect.top - stageRect.top + projected[1] * scaleY;
+
+  const popupW = hotspotPopup.offsetWidth || 270;
+  const offset = 18;
+  const flipThreshold = stageRect.width - popupW - 48;
+
+  const flipLeft = screenX > flipThreshold;
+  hotspotPopup.classList.toggle("is-flipped", flipLeft);
+
+  const left = flipLeft ? screenX - popupW - offset : screenX + offset;
+  const top = screenY - 28;
+
+  hotspotPopup.style.left = `${left}px`;
+  hotspotPopup.style.top = `${top}px`;
+  hotspotPopup.classList.remove("is-hidden");
+  activePopupHotspot = hotspot;
+
+  // Draw connector after popup is placed
+  requestAnimationFrame(() => drawConnector(screenX, screenY, hotspotPopup, flipLeft));
 }
 
 function setSpotLoadingState(spot) {
@@ -492,13 +675,15 @@ function setSpotLoadingState(spot) {
   detailRegion.textContent = spot.kind.replace("-", " ");
   detailConflictLabel.classList.remove("is-hoverable");
   detailConflict.replaceChildren();
+  spotContext.classList.add("is-hidden");
+  spotContext.replaceChildren();
   renderStories([
     {
       source: "System",
       time: "Now",
-      title: "Loading spot coverage",
-      summary: "This important spot refreshes on click and then stays cached for 24 hours.",
-      tags: ["Cache", "Spot", "On demand"],
+      title: "Loading key area coverage",
+      summary: "This key area refreshes on click and then stays cached for 24 hours.",
+      tags: ["Cache", "Key area", "On demand"],
       url: "",
     },
   ]);
@@ -561,6 +746,7 @@ function refreshPaths() {
   graticuleLayer.attr("d", path(d3.geoGraticule10()));
   updateHotspotPositions();
   updateImportantSpotPositions();
+  updateCarrierPositions();
 }
 
 function setActiveCountry(featureId) {
@@ -610,6 +796,24 @@ function updateImportantSpotPositions() {
     });
 }
 
+function updateCarrierPositions() {
+  if (!carrierSpotNodes) {
+    return;
+  }
+
+  carrierSpotNodes
+    .style("display", (spot) => {
+      if (!showCarrierSpots) {
+        return "none";
+      }
+      return isPointVisible(spot.lon, spot.lat) ? null : "none";
+    })
+    .attr("transform", (spot) => {
+      const projected = projection([spot.lon, spot.lat]);
+      return projected ? `translate(${projected[0]}, ${projected[1]})` : "translate(-9999,-9999)";
+    });
+}
+
 function setConflictHotspotsVisible(active) {
   showConflictHotspots = active;
   syncConflictToggle();
@@ -626,6 +830,15 @@ function setImportantSpotsVisible(active) {
     importantLayer.style("display", showImportantSpots ? null : "none");
   }
   updateImportantSpotPositions();
+}
+
+function setCarrierSpotsVisible(active) {
+  showCarrierSpots = active;
+  syncCarrierToggle();
+  if (carrierLayer) {
+    carrierLayer.style("display", showCarrierSpots ? null : "none");
+  }
+  updateCarrierPositions();
 }
 
 function focusCountry(feature) {
@@ -658,15 +871,24 @@ function openCountry(feature) {
   refreshCountryBriefing(feature.properties.name, requestId);
 }
 
-function openImportantSpot(spot) {
-  autoRotate = false;
+function openImportantSpot(spot, options = {}) {
+  const { hoverPreview = false } = options;
+  if (!hoverPreview) {
+    autoRotate = false;
+  }
   clearConflictHover();
   setMetricHover(null);
+  closeHotspotPopup();
   activeSpotId = spot.id;
   setActiveCountry(null);
-  focusCoordinates(spot.lon, spot.lat);
+  if (!hoverPreview) {
+    focusCoordinates(spot.lon, spot.lat);
+  }
   countrySheet.classList.remove("is-hidden");
   mapStatus.textContent = spot.label;
+  if (activeSheetKey === `spot:${spot.id}` && hoverPreview) {
+    return;
+  }
   activeSheetRequestId += 1;
   activeSheetKey = `spot:${spot.id}`;
   const requestId = activeSheetRequestId;
@@ -717,6 +939,7 @@ function buildGlobe() {
   borderLayer = svg.append("path").attr("class", "country-boundary");
   hotspotLayer = svg.append("g").attr("class", "hotspot-layer");
   importantLayer = svg.append("g").attr("class", "important-layer");
+  carrierLayer = svg.append("g").attr("class", "carrier-layer");
 }
 
 function resizeProjection() {
@@ -754,6 +977,7 @@ function attachInteraction() {
   atlasStage.addEventListener("click", (event) => {
     if (!isInteractiveElement(event.target)) {
       closeCountrySheet();
+      closeHotspotPopup();
     }
   });
   atlasStage.addEventListener("dblclick", (event) => {
@@ -787,6 +1011,24 @@ function renderCountries() {
   syncCountryClasses();
 }
 
+function syncHotspotAnimations() {
+  const blastDuration = 2000;
+  const flickerDuration = 1800;
+  const phase1 = -(performance.now() % blastDuration) / 1000;
+  const phase2 = phase1 - 0.65;
+  const phaseCore = -(performance.now() % flickerDuration) / 1000;
+
+  document.querySelectorAll(".hotspot-halo--1").forEach((el) => {
+    el.style.animationDelay = `${phase1}s`;
+  });
+  document.querySelectorAll(".hotspot-halo--2").forEach((el) => {
+    el.style.animationDelay = `${phase2}s`;
+  });
+  document.querySelectorAll(".hotspot-core").forEach((el) => {
+    el.style.animationDelay = `${phaseCore}s`;
+  });
+}
+
 function renderConflictHotspots() {
   if (!hotspotLayer) {
     return;
@@ -799,7 +1041,8 @@ function renderConflictHotspots() {
     .data(conflictHotspots, (hotspot) => hotspot.id)
     .join((enter) => {
       const group = enter.append("g").attr("class", "conflict-hotspot").attr("tabindex", 0);
-      group.append("circle").attr("class", "hotspot-halo");
+      group.append("circle").attr("class", "hotspot-halo hotspot-halo--1");
+      group.append("circle").attr("class", "hotspot-halo hotspot-halo--2");
       group.append("circle").attr("class", "hotspot-core");
       group.append("title");
       return group;
@@ -808,38 +1051,53 @@ function renderConflictHotspots() {
   hotspotNodes
     .style("pointer-events", () => (showConflictHotspots ? "auto" : "none"))
     .attr("aria-label", (hotspot) => hotspot.label)
-    .on("mouseenter", (_, hotspot) => {
+    .on("mouseenter", (event, hotspot) => {
+      cancelHotspotHide();
       mapStatus.textContent = hotspot.label;
+      openConflictHotspot(hotspot, event, false);
     })
-    .on("mouseleave", () => {
+    .on("mouseleave", (_, hotspot) => {
+      scheduleHotspotHide();
       mapStatus.textContent = getDefaultMapStatus();
     })
-    .on("focus", (_, hotspot) => {
+    .on("focus", (event, hotspot) => {
+      cancelHotspotHide();
       mapStatus.textContent = hotspot.label;
+      openConflictHotspot(hotspot, event, false);
     })
     .on("blur", () => {
+      scheduleHotspotHide();
       mapStatus.textContent = getDefaultMapStatus();
     })
     .on("click", (event, hotspot) => {
       event.stopPropagation();
-      if (hotspot.sourceUrl) {
-        window.open(hotspot.sourceUrl, "_blank", "noreferrer");
+      openConflictHotspot(hotspot, event, true);
+    })
+    .on("keydown", (event, hotspot) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openConflictHotspot(hotspot, event);
       }
     });
 
   hotspotNodes
-    .select(".hotspot-halo")
-    .attr("r", (hotspot) => Math.max(8, hotspot.weight * 1.5));
+    .select(".hotspot-halo--1")
+    .attr("r", (hotspot) => Math.max(10, hotspot.weight * 1.8));
+
+  hotspotNodes
+    .select(".hotspot-halo--2")
+    .attr("r", (hotspot) => Math.max(10, hotspot.weight * 1.8));
 
   hotspotNodes
     .select(".hotspot-core")
-    .attr("r", (hotspot) => Math.max(2.2, Math.min(6.5, hotspot.weight * 0.45)));
+    .attr("r", (hotspot) => Math.max(3, Math.min(7.5, hotspot.weight * 0.55)));
 
   hotspotNodes
     .select("title")
     .text((hotspot) => `${hotspot.label} — ${hotspot.conflict}`);
 
   updateHotspotPositions();
+  syncHotspotAnimations();
 }
 
 function renderImportantSpots() {
@@ -854,6 +1112,7 @@ function renderImportantSpots() {
     .data(importantSpots, (spot) => spot.id)
     .join((enter) => {
       const group = enter.append("g").attr("class", "important-spot").attr("tabindex", 0);
+      group.append("circle").attr("class", "important-hit");
       group.append("circle").attr("class", "important-ring");
       group.append("circle").attr("class", "important-core");
       group.append("title");
@@ -861,36 +1120,111 @@ function renderImportantSpots() {
     });
 
   importantSpotNodes
-    .style("pointer-events", () => (showImportantSpots ? "auto" : "none"))
+    .style("pointer-events", () => (showImportantSpots ? "all" : "none"))
     .attr("aria-label", (spot) => spot.label)
     .on("mouseenter", (_, spot) => {
       mapStatus.textContent = `${spot.label}: ${spot.title}`;
+      openImportantSpot(spot, { hoverPreview: true });
     })
     .on("mouseleave", () => {
       mapStatus.textContent = getDefaultMapStatus();
     })
     .on("focus", (_, spot) => {
       mapStatus.textContent = `${spot.label}: ${spot.title}`;
+      openImportantSpot(spot, { hoverPreview: true });
     })
     .on("blur", () => {
       mapStatus.textContent = getDefaultMapStatus();
     })
     .on("click", (event, spot) => {
       event.stopPropagation();
-      openImportantSpot(spot);
+      openImportantSpot(spot, { hoverPreview: false });
     })
     .on("keydown", (event, spot) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        openImportantSpot(spot);
+        openImportantSpot(spot, { hoverPreview: false });
       }
     });
 
-  importantSpotNodes.select(".important-ring").attr("r", 8.5);
-  importantSpotNodes.select(".important-core").attr("r", 3.25);
+  importantSpotNodes
+    .select(".important-hit")
+    .on("click", (event, spot) => {
+      event.preventDefault();
+      event.stopPropagation();
+      openImportantSpot(spot, { hoverPreview: false });
+    })
+    .on("pointerup", (event, spot) => {
+      event.preventDefault();
+      event.stopPropagation();
+      openImportantSpot(spot, { hoverPreview: false });
+    });
+
+  importantSpotNodes.select(".important-hit").attr("r", 19);
+  importantSpotNodes.select(".important-ring").attr("r", 10.5);
+  importantSpotNodes.select(".important-core").attr("r", 5);
   importantSpotNodes.select("title").text((spot) => `${spot.label} — ${spot.title}`);
 
   updateImportantSpotPositions();
+}
+
+function renderCarrierSpots() {
+  if (!carrierLayer) {
+    return;
+  }
+
+  carrierLayer.style("display", showCarrierSpots ? null : "none");
+
+  carrierSpotNodes = carrierLayer
+    .selectAll("g")
+    .data(carrierSpots, (spot) => spot.id)
+    .join((enter) => {
+      const group = enter.append("g").attr("class", "carrier-spot").attr("tabindex", 0);
+      group.append("circle").attr("class", "carrier-hit");
+      group.append("circle").attr("class", "carrier-ring");
+      group.append("circle").attr("class", "carrier-core");
+      group.append("title");
+      return group;
+    });
+
+  carrierSpotNodes
+    .style("pointer-events", () => (showCarrierSpots ? "all" : "none"))
+    .attr("aria-label", (spot) => spot.name)
+    .on("mouseenter", (_, spot) => {
+      mapStatus.textContent = `${spot.name}: ${spot.area}`;
+    })
+    .on("mouseleave", () => {
+      mapStatus.textContent = getDefaultMapStatus();
+    })
+    .on("focus", (_, spot) => {
+      mapStatus.textContent = `${spot.name}: ${spot.area}`;
+    })
+    .on("blur", () => {
+      mapStatus.textContent = getDefaultMapStatus();
+    })
+    .on("click", (event, spot) => {
+      event.stopPropagation();
+      if (spot.sourceUrl) {
+        window.open(spot.sourceUrl, "_blank", "noreferrer");
+      }
+    })
+    .on("keydown", (event, spot) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        if (spot.sourceUrl) {
+          window.open(spot.sourceUrl, "_blank", "noreferrer");
+        }
+      }
+    });
+
+  carrierSpotNodes.select(".carrier-hit").attr("r", 13);
+  carrierSpotNodes.select(".carrier-ring").attr("r", 9);
+  carrierSpotNodes.select(".carrier-core").attr("r", 4.2);
+  carrierSpotNodes
+    .select("title")
+    .text((spot) => `${spot.name} — ${spot.area} — ${spot.status}`);
+
+  updateCarrierPositions();
 }
 
 async function loadConflictEvents() {
@@ -921,6 +1255,21 @@ async function loadImportantSpots() {
   }
 }
 
+async function loadCarrierSpots() {
+  try {
+    const response = await fetch("data/generated/us_carriers.json", { cache: "no-store" });
+    if (!response.ok) {
+      carrierSpots = [];
+      return;
+    }
+    const payload = await response.json();
+    carrierSpots = Array.isArray(payload.carriers) ? payload.carriers : [];
+  } catch (error) {
+    console.error("Carrier spots unavailable", error);
+    carrierSpots = [];
+  }
+}
+
 function animate(timestamp) {
   if (autoRotate && lastTimestamp) {
     const delta = timestamp - lastTimestamp;
@@ -929,6 +1278,7 @@ function animate(timestamp) {
     refreshPaths();
   }
 
+  refreshConnector();
   lastTimestamp = timestamp;
   requestAnimationFrame(animate);
 }
@@ -942,11 +1292,12 @@ async function loadGlobe() {
     features = topojson.feature(world, world.objects.countries).features;
     borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
     buildCountryStore();
-    await Promise.all([loadCountryFacts(), loadConflictEvents(), loadImportantSpots()]);
+    await Promise.all([loadCountryFacts(), loadConflictEvents(), loadImportantSpots(), loadCarrierSpots()]);
 
     renderCountries();
     renderConflictHotspots();
     renderImportantSpots();
+    renderCarrierSpots();
     refreshPaths();
     attachInteraction();
     requestAnimationFrame(animate);
@@ -962,7 +1313,9 @@ bindMetricHoverHandlers(detailDemocracyLabel, "democracy");
 bindMetricHoverHandlers(detailEconomicGrowthLabel, "growth");
 conflictToggle.addEventListener("click", () => setConflictHotspotsVisible(!showConflictHotspots));
 importantToggle.addEventListener("click", () => setImportantSpotsVisible(!showImportantSpots));
+carrierToggle.addEventListener("click", () => setCarrierSpotsVisible(!showCarrierSpots));
 syncConflictToggle();
 syncImportantToggle();
+syncCarrierToggle();
 
 loadGlobe();

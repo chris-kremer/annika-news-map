@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-28T10:23:50.949250+00:00",
+  "generatedAt": "2026-04-28T18:13:28.286029+00:00",
   "provider": "manual-fallback",
   "windowDays": 30,
   "hotspots": [
@@ -16,7 +16,26 @@
         "Russia",
         "Belarus"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
+      "marketUrl": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+      "marketFallback": {
+        "title": "Russia x Ukraine ceasefire by end of 2026?",
+        "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+        "yesProbability": "26%",
+        "volume": "$14,502,614",
+        "resolveDate": "2026-12-31",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      },
+      "marketCard": {
+        "title": "Russia x Ukraine ceasefire by end of 2026?",
+        "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+        "yesProbability": "26%",
+        "volume": "$14,502,614",
+        "resolveDate": "2026-12-31",
+        "updatedLabel": "April 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      }
     },
     {
       "id": "ukr-zaporizhzhia",
@@ -31,7 +50,26 @@
         "Russia",
         "Belarus"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
+      "marketUrl": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+      "marketFallback": {
+        "title": "Russia x Ukraine ceasefire by end of 2026?",
+        "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+        "yesProbability": "26%",
+        "volume": "$14,502,614",
+        "resolveDate": "2026-12-31",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      },
+      "marketCard": {
+        "title": "Russia x Ukraine ceasefire by end of 2026?",
+        "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+        "yesProbability": "26%",
+        "volume": "$14,502,614",
+        "resolveDate": "2026-12-31",
+        "updatedLabel": "April 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      }
     },
     {
       "id": "gaza-strip",
@@ -61,7 +99,26 @@
         "Lebanon",
         "Iran"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+      "marketUrl": "https://polymarket.com/event/will-hamaz-disarm-by-december-31",
+      "marketFallback": {
+        "title": "Will Hamas agree to disarm by...?",
+        "url": "https://polymarket.com/event/will-hamaz-disarm-by-december-31",
+        "yesProbability": "17%",
+        "volume": "$1,661,246",
+        "resolveDate": "2026-06-30",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "marketCard": {
+        "title": "Will Hamas agree to disarm by...?",
+        "url": "https://polymarket.com/event/will-hamaz-disarm-by-december-31",
+        "yesProbability": "17%",
+        "volume": "$1,661,246",
+        "resolveDate": "2026-06-30",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      }
     },
     {
       "id": "red-sea-yemen",
@@ -94,7 +151,26 @@
         "Ethiopia",
         "Libya"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+      "marketUrl": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+      "marketFallback": {
+        "title": "Sudan civil war ceasefire by...?",
+        "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+        "yesProbability": "5%",
+        "volume": "$61,515",
+        "resolveDate": "2026-06-30",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "marketCard": {
+        "title": "Sudan civil war ceasefire by...?",
+        "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+        "yesProbability": "5%",
+        "volume": "$61,515",
+        "resolveDate": "2026-06-30",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      }
     },
     {
       "id": "darfur",
@@ -109,7 +185,26 @@
         "Chad",
         "Libya"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+      "marketUrl": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+      "marketFallback": {
+        "title": "Sudan civil war ceasefire by...?",
+        "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+        "yesProbability": "5%",
+        "volume": "$61,515",
+        "resolveDate": "2026-06-30",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "marketCard": {
+        "title": "Sudan civil war ceasefire by...?",
+        "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+        "yesProbability": "5%",
+        "volume": "$61,515",
+        "resolveDate": "2026-06-30",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      }
     },
     {
       "id": "sahel-tri-border",
@@ -206,7 +301,26 @@
         "Pakistan",
         "China"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Kashmir_conflict"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kashmir_conflict",
+      "marketUrl": "https://polymarket.com/event/india-strike-on-pakistan-by",
+      "marketFallback": {
+        "title": "India strike on Pakistan by...?",
+        "url": "https://polymarket.com/event/india-strike-on-pakistan-by",
+        "yesProbability": "27%",
+        "volume": "$938,647",
+        "resolveDate": "2026-12-31",
+        "updatedLabel": "Apr 15, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"December 31, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "marketCard": {
+        "title": "India strike on Pakistan by...?",
+        "url": "https://polymarket.com/event/india-strike-on-pakistan-by",
+        "yesProbability": "27%",
+        "volume": "$938,647",
+        "resolveDate": "2026-12-31",
+        "updatedLabel": "Apr 15, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"December 31, 2026.\" This is a market signal, not a forecast guarantee."
+      }
     }
   ]
 }

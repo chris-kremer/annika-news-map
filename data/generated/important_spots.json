@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-28T15:23:40.245222+00:00",
+  "generatedAt": "2026-04-28T15:30:16.147976+00:00",
   "provider": "the-news-api",
   "windowDays": 5,
   "spots": [
@@ -70,6 +70,18 @@
       "lon": 32.35,
       "kind": "chokepoint",
       "title": "Canal transit and rerouting pressure",
+      "summary": "No live article matched this spot in the current pass.",
+      "url": "",
+      "time": "Recent",
+      "source": "Fallback"
+    },
+    {
+      "id": "cuba",
+      "label": "Cuba",
+      "lat": 23.13,
+      "lon": -82.35,
+      "kind": "flashpoint",
+      "title": "US-Cuba tension and internal pressure",
       "summary": "No live article matched this spot in the current pass.",
       "url": "",
       "time": "Recent",

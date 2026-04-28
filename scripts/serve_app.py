@@ -48,6 +48,34 @@ def is_fresh(country_payload: dict) -> bool:
     return datetime.now(timezone.utc) - cached_at < CACHE_TTL
 
 
+def build_market_card(url: str, fallback_card: dict | None = None) -> dict:
+    try:
+        return fetch_important_spots.fetch_polymarket_card(url, fallback_card)
+    except Exception:
+        if fallback_card:
+            return dict(fallback_card)
+        return {
+            "title": "Polymarket market",
+            "url": url,
+            "yesProbability": "Unavailable",
+            "volume": "Unavailable",
+            "resolveDate": "Unavailable",
+            "updatedLabel": "Today",
+            "note": "Open the linked Polymarket market for the live tape.",
+        }
+    
+
+def ensure_spot_market_card(spot_id: str, briefing: dict) -> dict:
+    config = fetch_important_spots.get_spot_config(spot_id)
+    market_url = config.get("marketUrl")
+    if not market_url or briefing.get("marketCard"):
+        return briefing
+
+    enriched = dict(briefing)
+    enriched["marketCard"] = build_market_card(market_url, config.get("marketFallback"))
+    return enriched
+
+
 def fetch_country(country_name: str) -> dict:
     env = fetch_briefings.load_env()
     api_token = env.get("THE_NEWS_API_TOKEN")
@@ -81,8 +109,23 @@ def fetch_spot(spot_id: str) -> dict:
         raise RuntimeError("Missing THE_NEWS_API_TOKEN in .env.local")
 
     config = fetch_important_spots.get_spot_config(spot_id)
-    articles = fetch_important_spots.fetch_spot_articles(config, api_token, limit=5)
-    briefing = fetch_important_spots.build_spot_briefing(config, articles, limit=5)
+    thenews_articles = fetch_important_spots.fetch_spot_articles(config, api_token, limit=5)
+    gdelt_articles = []
+    if len(thenews_articles) < 2:
+        try:
+            gdelt_articles = fetch_important_spots.fetch_gdelt_articles(config, limit=3)
+        except Exception:
+            gdelt_articles = []
+
+    briefing = fetch_important_spots.build_spot_briefing(
+        config,
+        thenews_articles,
+        gdelt_articles,
+        limit=5,
+    )
+    market_url = config.get("marketUrl")
+    if market_url:
+        briefing["marketCard"] = build_market_card(market_url, config.get("marketFallback"))
     briefing["cachedAt"] = datetime.now(timezone.utc).isoformat()
     briefing["cacheStatus"] = "fresh"
     return briefing
@@ -174,7 +217,12 @@ class AppHandler(SimpleHTTPRequestHandler):
         force_refresh = params.get("refresh", ["0"])[0] == "1"
 
         if cached and is_fresh(cached) and not force_refresh:
-            self.end_json({"spot": spot_id, "briefing": cached, "fromCache": True})
+            briefing = ensure_spot_market_card(spot_id, cached)
+            if briefing is not cached:
+                spots[spot_id] = briefing
+                cache["generatedAt"] = datetime.now(timezone.utc).isoformat()
+                save_cache(SPOT_CACHE_PATH, cache)
+            self.end_json({"spot": spot_id, "briefing": briefing, "fromCache": True})
             return
 
         try:

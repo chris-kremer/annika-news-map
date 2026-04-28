@@ -10,6 +10,8 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+import fetch_important_spots
+
 
 ROOT = Path(__file__).resolve().parents[1]
 ENV_PATH = ROOT / ".env.local"
@@ -30,6 +32,16 @@ MANUAL_HOTSPOTS = [
         "weight": 10,
         "countries": ["Ukraine", "Russia", "Belarus"],
         "sourceUrl": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
+        "marketUrl": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+        "marketFallback": {
+            "title": "Russia x Ukraine ceasefire by end of 2026?",
+            "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+            "yesProbability": "26%",
+            "volume": "$14,502,614",
+            "resolveDate": "2026-12-31",
+            "updatedLabel": "Apr 28, 2026",
+            "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee.",
+        },
     },
     {
         "id": "ukr-zaporizhzhia",
@@ -41,6 +53,16 @@ MANUAL_HOTSPOTS = [
         "weight": 8,
         "countries": ["Ukraine", "Russia", "Belarus"],
         "sourceUrl": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
+        "marketUrl": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+        "marketFallback": {
+            "title": "Russia x Ukraine ceasefire by end of 2026?",
+            "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+            "yesProbability": "26%",
+            "volume": "$14,502,614",
+            "resolveDate": "2026-12-31",
+            "updatedLabel": "Apr 28, 2026",
+            "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee.",
+        },
     },
     {
         "id": "gaza-strip",
@@ -63,6 +85,16 @@ MANUAL_HOTSPOTS = [
         "weight": 6,
         "countries": ["Israel", "Lebanon", "Iran"],
         "sourceUrl": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+        "marketUrl": "https://polymarket.com/event/will-hamaz-disarm-by-december-31",
+        "marketFallback": {
+            "title": "Will Hamas agree to disarm by...?",
+            "url": "https://polymarket.com/event/will-hamaz-disarm-by-december-31",
+            "yesProbability": "17%",
+            "volume": "$1,661,246",
+            "resolveDate": "2026-06-30",
+            "updatedLabel": "Apr 28, 2026",
+            "note": 'Prediction-market pricing from Polymarket. Current leading branch is "June 30, 2026." This is a market signal, not a forecast guarantee.',
+        },
     },
     {
         "id": "red-sea-yemen",
@@ -85,6 +117,16 @@ MANUAL_HOTSPOTS = [
         "weight": 9,
         "countries": ["Sudan", "Chad", "Egypt", "Ethiopia", "Libya"],
         "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+        "marketUrl": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+        "marketFallback": {
+            "title": "Sudan civil war ceasefire by...?",
+            "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+            "yesProbability": "5%",
+            "volume": "$61,515",
+            "resolveDate": "2026-06-30",
+            "updatedLabel": "Apr 28, 2026",
+            "note": 'Prediction-market pricing from Polymarket. Current leading branch is "June 30, 2026." This is a market signal, not a forecast guarantee.',
+        },
     },
     {
         "id": "darfur",
@@ -96,6 +138,16 @@ MANUAL_HOTSPOTS = [
         "weight": 8,
         "countries": ["Sudan", "Chad", "Libya"],
         "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
+        "marketUrl": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+        "marketFallback": {
+            "title": "Sudan civil war ceasefire by...?",
+            "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+            "yesProbability": "5%",
+            "volume": "$61,515",
+            "resolveDate": "2026-06-30",
+            "updatedLabel": "Apr 28, 2026",
+            "note": 'Prediction-market pricing from Polymarket. Current leading branch is "June 30, 2026." This is a market signal, not a forecast guarantee.',
+        },
     },
     {
         "id": "sahel-tri-border",
@@ -162,6 +214,16 @@ MANUAL_HOTSPOTS = [
         "weight": 6,
         "countries": ["India", "Pakistan", "China"],
         "sourceUrl": "https://en.wikipedia.org/wiki/Kashmir_conflict",
+        "marketUrl": "https://polymarket.com/event/india-strike-on-pakistan-by",
+        "marketFallback": {
+            "title": "India strike on Pakistan by...?",
+            "url": "https://polymarket.com/event/india-strike-on-pakistan-by",
+            "yesProbability": "27%",
+            "volume": "$938,647",
+            "resolveDate": "2026-12-31",
+            "updatedLabel": "Apr 15, 2026",
+            "note": 'Prediction-market pricing from Polymarket. Current leading branch is "December 31, 2026." This is a market signal, not a forecast guarantee.',
+        },
     },
 ]
 
@@ -372,11 +434,21 @@ def build_hotspots_from_ucdp(events: list[dict]) -> list[dict]:
 
 def build_manual_payload() -> dict:
     generated_at = datetime.now(timezone.utc).isoformat()
+    hotspots = []
+    for hotspot in MANUAL_HOTSPOTS:
+        enriched = dict(hotspot)
+        market_url = hotspot.get("marketUrl")
+        if market_url:
+            enriched["marketCard"] = fetch_important_spots.fetch_polymarket_card(
+                market_url,
+                hotspot.get("marketFallback"),
+            )
+        hotspots.append(enriched)
     return {
         "generatedAt": generated_at,
         "provider": "manual-fallback",
         "windowDays": WINDOW_DAYS,
-        "hotspots": MANUAL_HOTSPOTS,
+        "hotspots": hotspots,
     }
 
 

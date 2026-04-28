@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-04-28T00:00:00Z",
+  "source": "USNI Fleet and Marine Tracker",
+  "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026",
+  "asOf": "2026-04-27",
+  "carriers": [
+    {
+      "id": "ford-red-sea",
+      "name": "USS Gerald R. Ford",
+      "hull": "CVN-78",
+      "lat": 19.8,
+      "lon": 38.7,
+      "area": "Red Sea",
+      "status": "Operating in the Red Sea",
+      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+    },
+    {
+      "id": "lincoln-arabian-sea",
+      "name": "USS Abraham Lincoln",
+      "hull": "CVN-72",
+      "lat": 17.1,
+      "lon": 64.8,
+      "area": "Arabian Sea",
+      "status": "Operating in the Arabian Sea",
+      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+    },
+    {
+      "id": "bush-arabian-sea",
+      "name": "USS George H.W. Bush",
+      "hull": "CVN-77",
+      "lat": 14.0,
+      "lon": 66.2,
+      "area": "Arabian Sea",
+      "status": "Operating in the Arabian Sea AOR",
+      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+    },
+    {
+      "id": "george-washington-yokosuka",
+      "name": "USS George Washington",
+      "hull": "CVN-73",
+      "lat": 35.283,
+      "lon": 139.667,
+      "area": "Yokosuka, Japan",
+      "status": "In port in Yokosuka",
+      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+    },
+    {
+      "id": "theodore-roosevelt-east-pac",
+      "name": "USS Theodore Roosevelt",
+      "hull": "CVN-71",
+      "lat": 27.0,
+      "lon": -126.0,
+      "area": "Eastern Pacific",
+      "status": "Operating in the Eastern Pacific",
+      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+    },
+    {
+      "id": "nimitz-magellan",
+      "name": "USS Nimitz",
+      "hull": "CVN-68",
+      "lat": -53.2,
+      "lon": -71.2,
+      "area": "Strait of Magellan / South Atlantic transit",
+      "status": "Spotted transiting the Strait of Magellan",
+      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+    }
+  ]
+}
