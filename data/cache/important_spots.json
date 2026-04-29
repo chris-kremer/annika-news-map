@@ -79,75 +79,6 @@
       "cachedAt": "2026-04-28T17:52:17.232076+00:00",
       "cacheStatus": "fresh"
     },
-    "eastern-drc": {
-      "id": "eastern-drc",
-      "name": "Eastern DRC",
-      "label": "Eastern DRC",
-      "kind": "Minerals",
-      "windowDays": 5,
-      "sourceNote": "GDELT",
-      "stories": [
-        {
-          "source": "globalsecurity.org",
-          "time": "Recent",
-          "title": "UN mission chief urges conditions for credible ceasefire monitoring in eastern DR Congo",
-          "summary": "Matched by GDELT from globalsecurity.org.",
-          "tags": [
-            "Syria",
-            "English"
-          ],
-          "url": "https://www.globalsecurity.org/military/library/news/2026/04/mil-260425-pdo01.htm"
-        },
-        {
-          "source": "bignewsnetwork.com",
-          "time": "Recent",
-          "title": "UN mission chief urges conditions for credible ceasefire monitoring in eastern DR Congo",
-          "summary": "Matched by GDELT from bignewsnetwork.com.",
-          "tags": [
-            "United States",
-            "English"
-          ],
-          "url": "http://www.bignewsnetwork.com/news/279009761/un-mission-chief-urges-conditions-for-credible-ceasefire-monitoring-in-eastern-dr-congo"
-        },
-        {
-          "source": "standardmedia.co.ke",
-          "time": "Recent",
-          "title": "UN helps return hundreds of DR Congo refugees from Burundi",
-          "summary": "Matched by GDELT from standardmedia.co.ke.",
-          "tags": [
-            "Kenya",
-            "English"
-          ],
-          "url": "https://www.standardmedia.co.ke/africa/article/2001546141/un-helps-return-hundreds-of-dr-congo-refugees-from-burundi"
-        }
-      ],
-      "cachedAt": "2026-04-28T17:54:23.077582+00:00",
-      "cacheStatus": "fresh"
-    },
-    "uae-opec": {
-      "id": "uae-opec",
-      "name": "Abu Dhabi / OPEC",
-      "label": "Abu Dhabi / OPEC",
-      "kind": "Energy",
-      "windowDays": 5,
-      "sourceNote": "Fallback",
-      "stories": [
-        {
-          "source": "System",
-          "time": "Now",
-          "title": "Energy policy moves in the Gulf",
-          "summary": "No recent live stories matched this important-spot query in the current pass.",
-          "tags": [
-            "Energy",
-            "Query",
-            "Sparse"
-          ],
-          "url": ""
-        }
-      ],
-      "cachedAt": "2026-04-28T17:55:01.450600+00:00",
-      "cacheStatus": "fresh"
-    },
     "kashmir": {
       "id": "kashmir",
       "name": "Kashmir",
@@ -191,30 +122,6 @@
         }
       ],
       "cachedAt": "2026-04-28T17:55:23.971961+00:00",
-      "cacheStatus": "fresh"
-    },
-    "sudan": {
-      "id": "sudan",
-      "name": "Sudan / Khartoum",
-      "label": "Sudan / Khartoum",
-      "kind": "Conflict",
-      "windowDays": 5,
-      "sourceNote": "Fallback",
-      "stories": [
-        {
-          "source": "System",
-          "time": "Now",
-          "title": "War and negotiations in Sudan",
-          "summary": "No recent live stories matched this important-spot query in the current pass.",
-          "tags": [
-            "Conflict",
-            "Query",
-            "Sparse"
-          ],
-          "url": ""
-        }
-      ],
-      "cachedAt": "2026-04-28T17:55:31.245862+00:00",
       "cacheStatus": "fresh"
     },
     "taiwan-strait": {
@@ -269,30 +176,6 @@
         "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
       },
       "cachedAt": "2026-04-28T17:57:20.408621+00:00",
-      "cacheStatus": "fresh"
-    },
-    "sahel": {
-      "id": "sahel",
-      "name": "Sahel Belt",
-      "label": "Sahel Belt",
-      "kind": "Security",
-      "windowDays": 5,
-      "sourceNote": "Fallback",
-      "stories": [
-        {
-          "source": "System",
-          "time": "Now",
-          "title": "Instability across the Sahel belt",
-          "summary": "No recent live stories matched this important-spot query in the current pass.",
-          "tags": [
-            "Security",
-            "Query",
-            "Sparse"
-          ],
-          "url": ""
-        }
-      ],
-      "cachedAt": "2026-04-28T17:57:27.446399+00:00",
       "cacheStatus": "fresh"
     },
     "south-china-sea": {
@@ -407,13 +290,13 @@
         }
       ],
       "marketCard": {
-        "title": "US military action against Cuba by...?",
+        "title": "US military action against Cuba by December 31, 2026?",
         "url": "https://polymarket.com/event/us-strike-on-cuba-by",
         "yesProbability": "65%",
         "volume": "$3,195,276",
         "resolveDate": "2026-12-31",
         "updatedLabel": "April 28, 2026",
-        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"December 31, 2026.\" This is a market signal, not a forecast guarantee."
       },
       "cachedAt": "2026-04-28T18:19:27.778846+00:00",
       "cacheStatus": "fresh"

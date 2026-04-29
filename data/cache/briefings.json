@@ -1,44 +1,44 @@
 {
-  "generatedAt": "2026-04-28T15:46:50.968353+00:00",
+  "generatedAt": "2026-04-29T11:24:31.942372+00:00",
   "countries": {
     "Germany": {
       "name": "Germany",
-      "updated": "Updated April 27, 2026",
+      "updated": "Updated April 29, 2026",
       "tagline": "Live briefing compiled from 3 recent stories about Germany.",
       "sourceNote": "Live briefing from The News API.",
       "stories": [
         {
           "source": "The News API",
-          "time": "Apr 27",
-          "title": "Everything that changes in Germany in May 2026",
-          "summary": "From fuel tax cuts and employee bonuses to new medical screenings for babies and three public holidays, here's a look at the significant changes coming to Germa...",
+          "time": "Apr 29",
+          "title": "More debt, new taxes: What is in Germany's budget plan for 2027?",
+          "summary": "Germany is set to continue taking on huge amounts of new debt each year for the foreseeable future as it continues to ramp up spending on defence and infrastruc...",
           "tags": [
             "general"
           ],
-          "url": "https://www.thelocal.de/20260427/everything-that-changes-in-germany-in-may-2026"
+          "url": "https://www.thelocal.de/20260429/more-debt-new-taxes-what-is-in-germanys-budget-plan-for-2027"
         },
         {
           "source": "The News API",
-          "time": "Apr 27",
-          "title": "Four out of five Germans believe wealth is unfairly distributed",
-          "summary": "New figures from a nationwide survey suggest that concerns about wealth inequality are now firmly rooted in mainstream opinion in Germany.",
+          "time": "Apr 29",
+          "title": "Today in Germany: A roundup of the latest news on Wednesday",
+          "summary": "German cabinet set to approve health reforms and budget plans, bid to rescue 'Timmy' the whale passes key hurdle, German birth rate falls to lowest level since ...",
           "tags": [
             "general"
           ],
-          "url": "https://www.thelocal.de/20260427/four-out-of-five-germans-believe-wealth-is-unfairly-distributed"
+          "url": "https://www.thelocal.de/20260429/today-in-germany-a-roundup-of-the-latest-news-on-wednesday-118"
         },
         {
           "source": "The News API",
-          "time": "Apr 27",
-          "title": "Deutsche Bahn announces 12 month ticket price freeze for long-distance travel",
-          "summary": "Long‑distance rail passengers in Germany will be spared a general increase in ticket prices for the next year, after Deutsche Bahn announced an unusual one‑...",
+          "time": "Apr 28",
+          "title": "What's on in Germany: Ten unmissable events in May 2026",
+          "summary": "From street parades and fireworks to art weekends, food festivals and more bank holidays than you can shake a stick at – May in Germany is all about shorts, t...",
           "tags": [
             "general"
           ],
-          "url": "https://www.thelocal.de/20260427/deutsche-bahn-announces-12-month-ticket-price-freeze-for-long-distance-travel"
+          "url": "https://www.thelocal.de/20260428/whats-on-in-germany-ten-unmissable-events-in-may-2026"
         }
       ],
-      "cachedAt": "2026-04-27T22:25:07.304604+00:00",
+      "cachedAt": "2026-04-29T11:22:32.544228+00:00",
       "cacheStatus": "fresh"
     },
     "Romania": {
@@ -410,42 +410,43 @@
     },
     "Chad": {
       "name": "Chad",
-      "updated": "Updated April 28, 2026",
+      "updated": "Updated April 29, 2026",
       "tagline": "Live briefing compiled from 3 recent stories about Chad.",
       "sourceNote": "Live briefing from The News API.",
       "stories": [
         {
           "source": "The News API",
-          "time": "Apr 27",
-          "title": "At least 42 people killed in Chad during clashes over water resources",
-          "summary": "At least 42 people were killed in eastern Chad after a clash between two families over a water point escalated into a cycle of reprisals, the country’s deputy...",
+          "time": "Apr 29",
+          "title": "Titans president Chad Brinker steps down",
+          "summary": "Chad Brinker, who has served as the team's president since the 2024 season and has overseen the latest rebuild, announced on Tuesday that he'll be stepping down...",
           "tags": [
-            "general"
+            "sports"
           ],
-          "url": "https://japantoday.com/category/world/at-least-42-people-killed-in-eastern-chad-during-clashes-over-water-resources-authorities-say1"
+          "url": "https://www.sportsnet.ca/nfl/article/titans-president-chad-brinker-steps-down/"
         },
         {
           "source": "The News API",
-          "time": "Apr 27",
-          "title": "Tuareg rebels in control of Kidal",
-          "summary": "In today's edition, two days after a wave of coordinated attacks across the country, Mali remains on edge. Also, 42 people are killed in Chad after a clash bet...",
+          "time": "Apr 29",
+          "title": "Tennessee Titans president of football operations Chad Brinker steps down",
+          "summary": "Breaking News, Sports, Manitoba, Canada",
           "tags": [
             "general"
           ],
-          "url": "https://www.france24.com/en/tuareg-rebels-in-control-of-kidal"
+          "url": "https://www.winnipegfreepress.com/sports/football/nfl/2026/04/28/tennessee-titans-president-of-football-operations-chad-brinker-steps-down"
         },
         {
           "source": "The News API",
-          "time": "Apr 27",
-          "title": "'Chad Powers' Michael Waldron Re-Ups Overall Deal With 20th Television",
-          "summary": "'Chad Powers' co-creator and showrunner Michael Waldron has extended his overall deal with 20th Television, teases Season 2 tremiere window on Hulu.",
+          "time": "Apr 28",
+          "title": "Diamondbacks vs Brewers betting preview: Why the over 8 runs looks like the play",
+          "summary": "Diamondbacks vs. Brewers preview breaks down the pitching matchup between Merrill Kelly and Chad Patrick, with both starters allowing heavy traffic on the basep...",
           "tags": [
-            "entertainment"
+            "general",
+            "politics"
           ],
-          "url": "https://deadline.com/2026/04/michael-waldron-deal-20th-television-chad-powers-season-2-1236871358/"
+          "url": "https://www.foxnews.com/sports/diamondbacks-vs-brewers-betting-preview-8-runs-looks-like-play"
         }
       ],
-      "cachedAt": "2026-04-28T08:45:04.865495+00:00",
+      "cachedAt": "2026-04-29T11:21:33.700451+00:00",
       "cacheStatus": "fresh"
     },
     "Niger": {
@@ -888,6 +889,86 @@
         }
       ],
       "cachedAt": "2026-04-28T15:46:50.968342+00:00",
+      "cacheStatus": "fresh"
+    },
+    "Myanmar": {
+      "name": "Myanmar",
+      "updated": "Updated April 29, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about Myanmar.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Key border trade route restored",
+          "summary": "TAK: The Thai-Myanmar Friendship Bridge 2 in Tak province was reopened on Tuesday, restoring a key trade route.",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.bangkokpost.com/thailand/general/3246257/key-border-trade-route-restored"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Abducted Russian woman freed in Myanmar — embassy",
+          "summary": "The victim is currently in a deportation center of Myanmar's Interior Ministry near the city of Myawaddy",
+          "tags": [
+            "general"
+          ],
+          "url": "https://tass.com/politics/2123683"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 28",
+          "title": "Senators urge action on river pollution",
+          "summary": "Senators have called for urgent government action over worsening toxic pollution in northern rivers, warning that contamination linked to mining in Myanmar is t...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.bangkokpost.com/thailand/general/3245214/senators-urge-action-on-river-pollution"
+        }
+      ],
+      "cachedAt": "2026-04-29T11:24:13.038437+00:00",
+      "cacheStatus": "fresh"
+    },
+    "North Korea": {
+      "name": "North Korea",
+      "updated": "Updated April 29, 2026",
+      "tagline": "Live briefing compiled from 3 recent stories about North Korea.",
+      "sourceNote": "Live briefing from The News API.",
+      "stories": [
+        {
+          "source": "The News API",
+          "time": "Apr 29",
+          "title": "North Korea unveils memorial complex for soldiers killed fighting for Russia — Novaya Gazeta Europe",
+          "summary": "North Korean and Russian officials on Sunday evening attended the inauguration of the Memorial Museum of Combat Feats at Overseas Military Operations in Pyongya...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://novayagazeta.eu/articles/2026/04/27/north-korea-unveils-memorial-complex-for-soldiers-killed-fighting-for-russia-news"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 29",
+          "title": "New Zealand flags 35 ‘vessels of interest’ in latest North Korea maritime patrol",
+          "summary": "New Zealand’s military said it detected signs of an illegal ship-to-ship transfer involving North Korean goods during its monthlong patrol of waters near the ...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.nknews.org/2026/04/new-zealand-flags-35-vessels-of-interest-in-latest-north-korea-maritime-patrol/"
+        },
+        {
+          "source": "The News API",
+          "time": "Apr 29",
+          "title": "Bukhan or Joson? Seoul debates official name of North Korea",
+          "summary": "“I have never thought of or called North Korea as 'Joson' in my life. Joson for me is the Joseon Dynasty (1392-1910),” said Lee Ye-seul, 37, a Sout...",
+          "tags": [
+            "general"
+          ],
+          "url": "https://www.koreatimes.co.kr/foreignaffairs/northkorea/20260429/bukhan-or-joson-seoul-debates-official-name-of-north-korea"
+        }
+      ],
+      "cachedAt": "2026-04-29T11:24:31.942351+00:00",
       "cacheStatus": "fresh"
     }
   }

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import urllib.parse
 from datetime import datetime, timedelta, timezone
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -250,8 +251,8 @@ class AppHandler(SimpleHTTPRequestHandler):
 
 
 def main() -> int:
-    host = "127.0.0.1"
-    port = 4173
+    host = "0.0.0.0"
+    port = int(os.environ.get("PORT", 4173))
     server = ThreadingHTTPServer((host, port), AppHandler)
     print(f"Serving Anakin's News Map on http://{host}:{port}/")
     try:

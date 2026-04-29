@@ -16,18 +16,6 @@
       "source": "Fallback"
     },
     {
-      "id": "uae-opec",
-      "label": "Abu Dhabi / OPEC",
-      "lat": 24.45,
-      "lon": 54.38,
-      "kind": "energy",
-      "title": "Energy policy moves in the Gulf",
-      "summary": "No live article matched this spot in the current pass.",
-      "url": "",
-      "time": "Recent",
-      "source": "Fallback"
-    },
-    {
       "id": "taiwan-strait",
       "label": "Taiwan Strait",
       "lat": 24.0,
@@ -88,30 +76,6 @@
       "source": "Fallback"
     },
     {
-      "id": "sahel",
-      "label": "Sahel Belt",
-      "lat": 15.0,
-      "lon": -0.5,
-      "kind": "security",
-      "title": "Instability across the Sahel belt",
-      "summary": "No live article matched this spot in the current pass.",
-      "url": "",
-      "time": "Recent",
-      "source": "Fallback"
-    },
-    {
-      "id": "sudan",
-      "label": "Sudan / Khartoum",
-      "lat": 15.57,
-      "lon": 32.53,
-      "kind": "conflict",
-      "title": "War and negotiations in Sudan",
-      "summary": "No live article matched this spot in the current pass.",
-      "url": "",
-      "time": "Recent",
-      "source": "Fallback"
-    },
-    {
       "id": "kashmir",
       "label": "Kashmir",
       "lat": 34.08,
@@ -123,17 +87,5 @@
       "time": "Recent",
       "source": "Fallback"
     },
-    {
-      "id": "eastern-drc",
-      "label": "Eastern DRC",
-      "lat": -1.68,
-      "lon": 29.23,
-      "kind": "minerals",
-      "title": "Conflict and critical minerals in eastern DRC",
-      "summary": "No live article matched this spot in the current pass.",
-      "url": "",
-      "time": "Recent",
-      "source": "Fallback"
-    }
   ]
 }
