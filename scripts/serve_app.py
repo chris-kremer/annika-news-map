@@ -147,6 +147,9 @@ class AppHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urllib.parse.urlparse(self.path)
+        if parsed.path == "/health":
+            self.end_json({"status": "ok"})
+            return
         if parsed.path == "/api/briefing":
             self.handle_briefing_request(parsed)
             return
