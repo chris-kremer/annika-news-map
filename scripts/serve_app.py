@@ -81,7 +81,7 @@ def fetch_country(country_name: str) -> dict:
     env = fetch_briefings.load_env()
     api_token = env.get("THE_NEWS_API_TOKEN")
     if not api_token:
-        raise RuntimeError("Missing THE_NEWS_API_TOKEN in .env.local")
+        raise RuntimeError("Missing THE_NEWS_API_TOKEN")
 
     config = fetch_briefings.get_country_config(country_name)
     thenews_articles = fetch_briefings.fetch_thenews_articles(config, api_token, limit=5)
@@ -107,7 +107,7 @@ def fetch_spot(spot_id: str) -> dict:
     env = fetch_important_spots.load_env()
     api_token = env.get("THE_NEWS_API_TOKEN")
     if not api_token:
-        raise RuntimeError("Missing THE_NEWS_API_TOKEN in .env.local")
+        raise RuntimeError("Missing THE_NEWS_API_TOKEN")
 
     config = fetch_important_spots.get_spot_config(spot_id)
     thenews_articles = fetch_important_spots.fetch_spot_articles(config, api_token, limit=5)

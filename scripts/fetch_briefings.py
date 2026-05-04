@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
@@ -37,7 +38,7 @@ COUNTRY_OVERRIDES = {
 
 
 def load_env() -> dict[str, str]:
-    values: dict[str, str] = {}
+    values: dict[str, str] = dict(os.environ)
     if not ENV_PATH.exists():
         return values
 

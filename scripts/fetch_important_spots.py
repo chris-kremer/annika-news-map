@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import urllib.parse
@@ -130,7 +131,7 @@ SPOT_CONFIG_BY_ID = {config["id"]: config for config in SPOT_CONFIGS}
 
 
 def load_env() -> dict[str, str]:
-    values: dict[str, str] = {}
+    values: dict[str, str] = dict(os.environ)
     if not ENV_PATH.exists():
         return values
     for line in ENV_PATH.read_text().splitlines():
