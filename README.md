@@ -1,4 +1,4 @@
-# Anakin's News Map
+# Pumpkin News
 
 Map-first global news prototype.
 

@@ -269,7 +269,7 @@ def main() -> int:
         print("FAILED to bind socket:", flush=True)
         traceback.print_exc()
         return 1
-    print(f"Serving Anakin's News Map on http://{host}:{port}/", flush=True)
+    print(f"Serving Pumpkin News on http://{host}:{port}/", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
