@@ -1,5 +1,0 @@
-[providers]
-python = true
-
-[variables]
-PYTHONUNBUFFERED = "1"
