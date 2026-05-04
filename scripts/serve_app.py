@@ -50,11 +50,11 @@ def is_fresh(country_payload: dict) -> bool:
 
 
 def build_market_card(url: str, fallback_card: dict | None = None) -> dict:
+    if fallback_card:
+        return dict(fallback_card)
     try:
-        return fetch_important_spots.fetch_polymarket_card(url, fallback_card)
+        return fetch_important_spots.fetch_polymarket_card(url)
     except Exception:
-        if fallback_card:
-            return dict(fallback_card)
         return {
             "title": "Polymarket market",
             "url": url,

@@ -45,6 +45,7 @@ const storySectionLabel = document.getElementById("story-section-label");
 const storyList = document.getElementById("story-list");
 
 const sampleCountryData = window.appData.countries;
+const fallbackImportantSpots = window.appData.importantSpots || [];
 const sampleCountryByName = new Map(
   Object.values(sampleCountryData).map((country) => [country.name, country]),
 );
@@ -423,6 +424,20 @@ function renderSpotContext(spotBriefing) {
 }
 
 function renderStories(stories) {
+  if (!Array.isArray(stories) || stories.length === 0) {
+    storyList.innerHTML = `
+      <article class="story-card story-card--empty">
+        <div class="story-meta">
+          <span>System</span>
+          <span>Now</span>
+        </div>
+        <h3 class="story-title">No stories returned</h3>
+        <p class="story-copy">The API returned an empty briefing for this selection.</p>
+      </article>
+    `;
+    return;
+  }
+
   storyList.innerHTML = stories
     .map(
       (story) => `
@@ -714,6 +729,16 @@ async function refreshCountryBriefing(countryName, requestId) {
     if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
       return;
     }
+    renderStories([
+      {
+        source: "System",
+        time: "Now",
+        title: "Live briefing failed",
+        summary: error.message || "The deployed API could not refresh this country.",
+        tags: ["API", "Live fetch"],
+        url: "",
+      },
+    ]);
   }
 }
 
@@ -736,6 +761,16 @@ async function refreshSpotBriefing(spotId, requestId) {
     if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
       return;
     }
+    renderStories([
+      {
+        source: "System",
+        time: "Now",
+        title: "Key area refresh failed",
+        summary: error.message || "The deployed API could not refresh this key area.",
+        tags: ["API", "Key area"],
+        url: "",
+      },
+    ]);
   }
 }
 
@@ -1124,14 +1159,12 @@ function renderImportantSpots() {
     .attr("aria-label", (spot) => spot.label)
     .on("mouseenter", (_, spot) => {
       mapStatus.textContent = `${spot.label}: ${spot.title}`;
-      openImportantSpot(spot, { hoverPreview: true });
     })
     .on("mouseleave", () => {
       mapStatus.textContent = getDefaultMapStatus();
     })
     .on("focus", (_, spot) => {
       mapStatus.textContent = `${spot.label}: ${spot.title}`;
-      openImportantSpot(spot, { hoverPreview: true });
     })
     .on("blur", () => {
       mapStatus.textContent = getDefaultMapStatus();
@@ -1241,17 +1274,18 @@ async function loadConflictEvents() {
 }
 
 async function loadImportantSpots() {
+  importantSpots = fallbackImportantSpots;
   try {
     const response = await fetch("data/generated/important_spots.json", { cache: "no-store" });
     if (!response.ok) {
-      importantSpots = [];
       return;
     }
     const payload = await response.json();
-    importantSpots = Array.isArray(payload.spots) ? payload.spots : [];
+    const spots = Array.isArray(payload.spots) ? payload.spots : [];
+    importantSpots = spots.length ? spots : fallbackImportantSpots;
   } catch (error) {
     console.error("Important spots unavailable", error);
-    importantSpots = [];
+    importantSpots = fallbackImportantSpots;
   }
 }
 
