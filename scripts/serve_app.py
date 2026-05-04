@@ -145,6 +145,10 @@ class AppHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def log_message(self, format: str, *args: object) -> None:
+        import sys
+        print(f"[{self.address_string()}] {format % args}", flush=True, file=sys.stderr)
+
     def do_GET(self) -> None:
         parsed = urllib.parse.urlparse(self.path)
         if parsed.path == "/health":
@@ -254,14 +258,25 @@ class AppHandler(SimpleHTTPRequestHandler):
 
 
 def main() -> int:
+    import sys
+    import traceback
     host = "0.0.0.0"
     port = int(os.environ.get("PORT", 4173))
-    server = ThreadingHTTPServer((host, port), AppHandler)
-    print(f"Serving Anakin's News Map on http://{host}:{port}/")
+    print(f"Starting server on {host}:{port}", flush=True)
+    try:
+        server = ThreadingHTTPServer((host, port), AppHandler)
+    except Exception:
+        print("FAILED to bind socket:", flush=True)
+        traceback.print_exc()
+        return 1
+    print(f"Serving Anakin's News Map on http://{host}:{port}/", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("\nShutting down.")
+        print("\nShutting down.", flush=True)
+    except Exception:
+        print("serve_forever crashed:", flush=True)
+        traceback.print_exc(file=sys.stderr)
     finally:
         server.server_close()
     return 0
