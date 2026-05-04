@@ -5,8 +5,9 @@ from __future__ import annotations
 import json
 import os
 import re
-import subprocess
+import ssl
 import urllib.parse
+import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -16,6 +17,21 @@ ENV_PATH = ROOT / ".env.local"
 OUTPUT_PATH = ROOT / "data" / "generated" / "important_spots.json"
 THE_NEWS_ENDPOINT = "https://api.thenewsapi.com/v1/news/top"
 GDELT_ENDPOINT = "https://api.gdeltproject.org/api/v2/doc/doc"
+
+try:
+    import certifi
+except ImportError:
+    certifi = None
+
+SSL_CONTEXT = (
+    ssl.create_default_context(cafile=certifi.where())
+    if certifi
+    else ssl.create_default_context()
+)
+REQUEST_HEADERS = {
+    "Accept": "application/json,text/html;q=0.9,*/*;q=0.8",
+    "User-Agent": "annika-news-map/1.0",
+}
 
 SPOT_CONFIGS = [
     {
@@ -144,27 +160,33 @@ def load_env() -> dict[str, str]:
 
 
 def curl_json(url: str) -> dict:
-    result = subprocess.run(
-        ["curl", "-sfL", url],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        raise RuntimeError(result.stderr.strip() or f"curl failed for {url}")
-    return json.loads(result.stdout)
+    try:
+        request = urllib.request.Request(url, headers=REQUEST_HEADERS)
+        with urllib.request.urlopen(request, timeout=30, context=SSL_CONTEXT) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except OSError as error:
+        raise RuntimeError(f"request failed for {redact_url(url)}: {error}") from error
 
 
 def curl_text(url: str) -> str:
-    result = subprocess.run(
-        ["curl", "-sfL", url],
-        capture_output=True,
-        text=True,
-        check=False,
+    try:
+        request = urllib.request.Request(url, headers=REQUEST_HEADERS)
+        with urllib.request.urlopen(request, timeout=30, context=SSL_CONTEXT) as response:
+            return response.read().decode("utf-8")
+    except OSError as error:
+        raise RuntimeError(f"request failed for {redact_url(url)}: {error}") from error
+
+
+def redact_url(url: str) -> str:
+    parsed = urllib.parse.urlsplit(url)
+    params = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
+    redacted = [
+        (key, "redacted" if key.lower() in {"api_token", "token", "key"} else value)
+        for key, value in params
+    ]
+    return urllib.parse.urlunsplit(
+        parsed._replace(query=urllib.parse.urlencode(redacted))
     )
-    if result.returncode != 0:
-        raise RuntimeError(result.stderr.strip() or f"curl failed for {url}")
-    return result.stdout
 
 
 def format_story_date(raw_value: str) -> str:
