@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pumpkin News</title>
-    <link rel="stylesheet" href="styles.css?v=20260504b" />
+    <link rel="stylesheet" href="styles.css?v=20260504c" />
     <script src="vendor/d3.min.js"></script>
     <script src="vendor/topojson-client.min.js"></script>
   </head>
@@ -40,6 +40,17 @@
             <button
               class="layer-switch__toggle is-active"
               id="important-toggle"
+              type="button"
+              aria-pressed="true"
+            >
+              <span class="layer-switch__knob"></span>
+            </button>
+          </div>
+          <div class="layer-switch">
+            <span class="layer-switch__text">AI Picks</span>
+            <button
+              class="layer-switch__toggle is-active"
+              id="ai-picks-toggle"
               type="button"
               aria-pressed="true"
             >
@@ -104,7 +115,7 @@
       </section>
     </main>
 
-    <script src="data.js?v=20260504b"></script>
-    <script src="app.js?v=20260504b"></script>
+    <script src="data.js?v=20260504c"></script>
+    <script src="app.js?v=20260504c"></script>
   </body>
 </html>

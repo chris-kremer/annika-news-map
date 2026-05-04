@@ -28,6 +28,7 @@ hotspotPopup.addEventListener("mouseleave", scheduleHotspotHide);
 const mapStatus = document.getElementById("map-status");
 const conflictToggle = document.getElementById("conflict-toggle");
 const importantToggle = document.getElementById("important-toggle");
+const aiPicksToggle = document.getElementById("ai-picks-toggle");
 const carrierToggle = document.getElementById("carrier-toggle");
 const countrySheet = document.getElementById("country-sheet");
 const closeButton = document.getElementById("sheet-close");
@@ -59,6 +60,7 @@ let borderLayer;
 let graticuleLayer;
 let hotspotLayer;
 let importantLayer;
+let aiPicksLayer;
 let carrierLayer;
 let features = [];
 let borders;
@@ -78,6 +80,9 @@ let showConflictHotspots = false;
 let importantSpots = [];
 let importantSpotNodes;
 let showImportantSpots = true;
+let aiPicks = [];
+let aiPickNodes;
+let showAiPicks = true;
 let carrierSpots = [];
 let carrierSpotNodes;
 let showCarrierSpots = false;
@@ -106,6 +111,11 @@ function syncImportantToggle() {
   importantToggle.setAttribute("aria-pressed", String(showImportantSpots));
 }
 
+function syncAiPicksToggle() {
+  aiPicksToggle.classList.toggle("is-active", showAiPicks);
+  aiPicksToggle.setAttribute("aria-pressed", String(showAiPicks));
+}
+
 function syncCarrierToggle() {
   carrierToggle.classList.toggle("is-active", showCarrierSpots);
   carrierToggle.setAttribute("aria-pressed", String(showCarrierSpots));
@@ -114,7 +124,7 @@ function syncCarrierToggle() {
 function isInteractiveElement(target) {
   return Boolean(
     target?.closest?.(
-      ".country, .conflict-hotspot, .important-spot, .carrier-spot, .country-sheet, .layer-switches, .hotspot-popup",
+      ".country, .conflict-hotspot, .important-spot, .ai-pick, .carrier-spot, .country-sheet, .layer-switches, .hotspot-popup",
     ),
   );
 }
@@ -401,6 +411,11 @@ function showSpotFacts() {
   storySectionLabel.textContent = "Current coverage";
 }
 
+function showAiPickFacts() {
+  factStrip.hidden = true;
+  storySectionLabel.textContent = "Source trail";
+}
+
 function renderMarketCard(cardRoot, marketCard, compact = false) {
   cardRoot.replaceChildren();
   if (!marketCard) {
@@ -412,8 +427,8 @@ function renderMarketCard(cardRoot, marketCard, compact = false) {
   card.className = compact ? "market-card market-card--compact" : "market-card";
   card.innerHTML = `
     <p class="market-card__kicker">Market Signal</p>
-    <h3 class="market-card__title">${marketCard.title}</h3>
-    <p class="market-card__prediction">Current prediction: <span>${marketCard.yesProbability}</span></p>
+    <h3 class="market-card__title">${escapeHtml(marketCard.title)}</h3>
+    <p class="market-card__prediction">Current prediction: <span>${escapeHtml(marketCard.yesProbability)}</span></p>
   `;
   cardRoot.appendChild(card);
   cardRoot.classList.remove("is-hidden");
@@ -421,6 +436,37 @@ function renderMarketCard(cardRoot, marketCard, compact = false) {
 
 function renderSpotContext(spotBriefing) {
   renderMarketCard(spotContext, spotBriefing.marketCard);
+}
+
+function renderAiPickContext(pick) {
+  spotContext.replaceChildren();
+  const card = document.createElement("article");
+  card.className = "ai-context-card";
+  card.innerHTML = `
+    <p class="ai-context-card__kicker">AI-curated pick</p>
+    <p class="ai-context-card__body">${escapeHtml(pick.whyItMatters || pick.summary)}</p>
+    <div class="ai-context-card__meta">
+      <span>${escapeHtml(pick.category || "Global story")}</span>
+      <span>Importance ${Math.round((pick.importance || 0) * 100)}%</span>
+      <span>Location confidence ${Math.round((pick.confidence || 0) * 100)}%</span>
+    </div>
+  `;
+  spotContext.appendChild(card);
+  spotContext.classList.remove("is-hidden");
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function safeExternalUrl(value) {
+  const url = String(value || "").trim();
+  return /^https?:\/\//i.test(url) ? url : "";
 }
 
 function renderStories(stories) {
@@ -440,25 +486,28 @@ function renderStories(stories) {
 
   storyList.innerHTML = stories
     .map(
-      (story) => `
+      (story) => {
+        const storyUrl = safeExternalUrl(story.url);
+        return `
         <article class="story-card">
           <div class="story-meta">
-            <span>${story.source}</span>
-            <span>${story.time}</span>
+            <span>${escapeHtml(story.source)}</span>
+            <span>${escapeHtml(story.time)}</span>
           </div>
           <h3 class="story-title">
             ${
-              story.url
-                ? `<a class="story-link" href="${story.url}" target="_blank" rel="noreferrer">${story.title}</a>`
-                : story.title
+              storyUrl
+                ? `<a class="story-link" href="${escapeHtml(storyUrl)}" target="_blank" rel="noreferrer">${escapeHtml(story.title)}</a>`
+                : escapeHtml(story.title)
             }
           </h3>
-          <p class="story-copy">${story.summary}</p>
+          <p class="story-copy">${escapeHtml(story.summary)}</p>
           <div class="story-tags">
-            ${(story.tags || []).map((tag) => `<span>${tag}</span>`).join("")}
+            ${(story.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
           </div>
         </article>
-      `,
+      `;
+      },
     )
     .join("");
 }
@@ -562,6 +611,41 @@ function updateSpotSheet(spotBriefing) {
   detailConflict.replaceChildren();
   renderSpotContext(spotBriefing);
   renderStories(spotBriefing.stories || []);
+}
+
+function updateAiPickSheet(pick) {
+  showAiPickFacts();
+  detailCountry.textContent = pick.title;
+  detailRegion.textContent = pick.place || pick.country || "AI pick";
+  detailConflictLabel.classList.remove("is-hoverable");
+  detailConflictLabel.onmouseenter = null;
+  detailConflictLabel.onmouseleave = null;
+  detailConflictLabel.onfocus = null;
+  detailConflictLabel.onblur = null;
+  detailConflict.replaceChildren();
+  renderAiPickContext(pick);
+  const sources = Array.isArray(pick.sources) ? pick.sources : [];
+  renderStories(
+    sources.length
+      ? sources.map((source) => ({
+          source: "Source",
+          time: pick.generatedAtLabel || "Recent",
+          title: source.title || pick.title,
+          summary: pick.summary,
+          tags: [pick.region, pick.country].filter(Boolean),
+          url: source.url || "",
+        }))
+      : [
+          {
+            source: "AI Picks",
+            time: "Recent",
+            title: pick.title,
+            summary: pick.summary,
+            tags: [pick.category, pick.region].filter(Boolean),
+            url: "",
+          },
+        ],
+  );
 }
 
 let activePopupHotspot = null;
@@ -781,6 +865,7 @@ function refreshPaths() {
   graticuleLayer.attr("d", path(d3.geoGraticule10()));
   updateHotspotPositions();
   updateImportantSpotPositions();
+  updateAiPickPositions();
   updateCarrierPositions();
 }
 
@@ -831,6 +916,24 @@ function updateImportantSpotPositions() {
     });
 }
 
+function updateAiPickPositions() {
+  if (!aiPickNodes) {
+    return;
+  }
+
+  aiPickNodes
+    .style("display", (pick) => {
+      if (!showAiPicks) {
+        return "none";
+      }
+      return isPointVisible(pick.lon, pick.lat) ? null : "none";
+    })
+    .attr("transform", (pick) => {
+      const projected = projection([pick.lon, pick.lat]);
+      return projected ? `translate(${projected[0]}, ${projected[1]})` : "translate(-9999,-9999)";
+    });
+}
+
 function updateCarrierPositions() {
   if (!carrierSpotNodes) {
     return;
@@ -865,6 +968,15 @@ function setImportantSpotsVisible(active) {
     importantLayer.style("display", showImportantSpots ? null : "none");
   }
   updateImportantSpotPositions();
+}
+
+function setAiPicksVisible(active) {
+  showAiPicks = active;
+  syncAiPicksToggle();
+  if (aiPicksLayer) {
+    aiPicksLayer.style("display", showAiPicks ? null : "none");
+  }
+  updateAiPickPositions();
 }
 
 function setCarrierSpotsVisible(active) {
@@ -931,6 +1043,21 @@ function openImportantSpot(spot, options = {}) {
   refreshSpotBriefing(spot.id, requestId);
 }
 
+function openAiPick(pick) {
+  autoRotate = false;
+  clearConflictHover();
+  setMetricHover(null);
+  closeHotspotPopup();
+  activeSpotId = null;
+  setActiveCountry(null);
+  focusCoordinates(pick.lon, pick.lat);
+  countrySheet.classList.remove("is-hidden");
+  mapStatus.textContent = pick.title;
+  activeSheetRequestId += 1;
+  activeSheetKey = `ai:${pick.id}`;
+  updateAiPickSheet(pick);
+}
+
 function closeCountrySheet() {
   clearConflictHover();
   setMetricHover(null);
@@ -974,6 +1101,7 @@ function buildGlobe() {
   borderLayer = svg.append("path").attr("class", "country-boundary");
   hotspotLayer = svg.append("g").attr("class", "hotspot-layer");
   importantLayer = svg.append("g").attr("class", "important-layer");
+  aiPicksLayer = svg.append("g").attr("class", "ai-picks-layer");
   carrierLayer = svg.append("g").attr("class", "carrier-layer");
 }
 
@@ -1201,6 +1329,59 @@ function renderImportantSpots() {
   updateImportantSpotPositions();
 }
 
+function renderAiPicks() {
+  if (!aiPicksLayer) {
+    return;
+  }
+
+  aiPicksLayer.style("display", showAiPicks ? null : "none");
+
+  aiPickNodes = aiPicksLayer
+    .selectAll("g")
+    .data(aiPicks, (pick) => pick.id)
+    .join((enter) => {
+      const group = enter.append("g").attr("class", "ai-pick").attr("tabindex", 0);
+      group.append("circle").attr("class", "ai-pick-hit");
+      group.append("circle").attr("class", "ai-pick-ring");
+      group.append("circle").attr("class", "ai-pick-core");
+      group.append("title");
+      return group;
+    });
+
+  aiPickNodes
+    .style("pointer-events", () => (showAiPicks ? "all" : "none"))
+    .attr("aria-label", (pick) => pick.title)
+    .on("mouseenter", (_, pick) => {
+      mapStatus.textContent = `${pick.place}: ${pick.title}`;
+    })
+    .on("mouseleave", () => {
+      mapStatus.textContent = getDefaultMapStatus();
+    })
+    .on("focus", (_, pick) => {
+      mapStatus.textContent = `${pick.place}: ${pick.title}`;
+    })
+    .on("blur", () => {
+      mapStatus.textContent = getDefaultMapStatus();
+    })
+    .on("click", (event, pick) => {
+      event.stopPropagation();
+      openAiPick(pick);
+    })
+    .on("keydown", (event, pick) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openAiPick(pick);
+      }
+    });
+
+  aiPickNodes.select(".ai-pick-hit").attr("r", 20);
+  aiPickNodes.select(".ai-pick-ring").attr("r", (pick) => 8 + (pick.importance || 0.6) * 6);
+  aiPickNodes.select(".ai-pick-core").attr("r", (pick) => 3.6 + (pick.importance || 0.6) * 2.8);
+  aiPickNodes.select("title").text((pick) => `${pick.place} — ${pick.title}`);
+
+  updateAiPickPositions();
+}
+
 function renderCarrierSpots() {
   if (!carrierLayer) {
     return;
@@ -1289,6 +1470,30 @@ async function loadImportantSpots() {
   }
 }
 
+async function loadAiPicks() {
+  try {
+    const response = await fetch("data/generated/ai_picks.json", { cache: "no-store" });
+    if (!response.ok) {
+      aiPicks = [];
+      return;
+    }
+    const payload = await response.json();
+    aiPicks = Array.isArray(payload.picks)
+      ? payload.picks.filter(
+          (pick) =>
+            pick &&
+            typeof pick.lat === "number" &&
+            typeof pick.lon === "number" &&
+            pick.id &&
+            pick.title,
+        )
+      : [];
+  } catch (error) {
+    console.error("AI picks unavailable", error);
+    aiPicks = [];
+  }
+}
+
 async function loadCarrierSpots() {
   try {
     const response = await fetch("data/generated/us_carriers.json", { cache: "no-store" });
@@ -1326,11 +1531,18 @@ async function loadGlobe() {
     features = topojson.feature(world, world.objects.countries).features;
     borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
     buildCountryStore();
-    await Promise.all([loadCountryFacts(), loadConflictEvents(), loadImportantSpots(), loadCarrierSpots()]);
+    await Promise.all([
+      loadCountryFacts(),
+      loadConflictEvents(),
+      loadImportantSpots(),
+      loadAiPicks(),
+      loadCarrierSpots(),
+    ]);
 
     renderCountries();
     renderConflictHotspots();
     renderImportantSpots();
+    renderAiPicks();
     renderCarrierSpots();
     refreshPaths();
     attachInteraction();
@@ -1347,9 +1559,11 @@ bindMetricHoverHandlers(detailDemocracyLabel, "democracy");
 bindMetricHoverHandlers(detailEconomicGrowthLabel, "growth");
 conflictToggle.addEventListener("click", () => setConflictHotspotsVisible(!showConflictHotspots));
 importantToggle.addEventListener("click", () => setImportantSpotsVisible(!showImportantSpots));
+aiPicksToggle.addEventListener("click", () => setAiPicksVisible(!showAiPicks));
 carrierToggle.addEventListener("click", () => setCarrierSpotsVisible(!showCarrierSpots));
 syncConflictToggle();
 syncImportantToggle();
+syncAiPicksToggle();
 syncCarrierToggle();
 
 loadGlobe();

@@ -43,6 +43,13 @@ Map-first global news prototype.
 - `GDELT` is only used as a supplement when The News API comes back sparse.
 - Click-triggered caching is the main API-usage control now.
 
+## AI Picks
+
+- Run `python3 scripts/fetch_ai_picks.py`
+- Generated picks land in `data/generated/ai_picks.json`
+- The frontend renders these as the `AI Picks` globe layer
+- The first version uses GDELT watchlist queries and cached output; LLM ranking can be added inside the generator without changing the frontend data contract
+
 ## Country Facts
 
 - Run `python3 scripts/fetch_country_facts.py`

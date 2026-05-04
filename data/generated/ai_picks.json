@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-05-04T16:55:55.225730+00:00",
+  "provider": "gdelt-watchlist",
+  "windowHours": 48,
+  "picks": [
+    {
+      "id": "taiwan-strait-20260504",
+      "title": "專家 ： 台海封鎖 衝擊遠勝荷姆茲海峽 | 台海 | 封鎖 | 荷姆茲海峽",
+      "summary": "Recent open-web coverage around Taiwan Strait is being tracked as an AI-pick candidate.",
+      "whyItMatters": "This story is pinned to Taiwan Strait because it can affect East Asia and has cross-border relevance.",
+      "lat": 24.0,
+      "lon": 119.4,
+      "place": "Taiwan Strait",
+      "country": "Taiwan / China",
+      "region": "East Asia",
+      "category": "Security",
+      "importance": 0.9,
+      "confidence": 0.74,
+      "sources": [
+        {
+          "title": "專家 ： 台海封鎖 衝擊遠勝荷姆茲海峽 | 台海 | 封鎖 | 荷姆茲海峽",
+          "url": "http://www.epochtimes.com.tw/n501982/%E5%B0%88%E5%AE%B6-%E5%8F%B0%E6%B5%B7%E5%B0%81%E9%8E%96-%E8%A1%9D%E6%93%8A%E9%81%A0%E5%8B%9D%E8%8D%B7%E5%A7%86%E8%8C%B2%E6%B5%B7%E5%B3%BD.html"
+        }
+      ]
+    },
+    {
+      "id": "hormuz-20260504",
+      "title": "Strait of Hormuz remains on the watchlist",
+      "summary": "No fresh GDELT article matched this watchlist query, but Strait of Hormuz remains a useful monitoring point.",
+      "whyItMatters": "This story is pinned to Strait of Hormuz because it can affect Middle East and has cross-border relevance.",
+      "lat": 26.57,
+      "lon": 56.25,
+      "place": "Strait of Hormuz",
+      "country": "Oman / Iran",
+      "region": "Middle East",
+      "category": "Energy",
+      "importance": 0.88,
+      "confidence": 0.62,
+      "sources": [
+        {
+          "title": "Strait of Hormuz monitoring query",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "id": "ukraine-20260504",
+      "title": "Kyiv, Ukraine remains on the watchlist",
+      "summary": "No fresh GDELT article matched this watchlist query, but Kyiv, Ukraine remains a useful monitoring point.",
+      "whyItMatters": "This story is pinned to Kyiv, Ukraine because it can affect Europe and has cross-border relevance.",
+      "lat": 50.4501,
+      "lon": 30.5234,
+      "place": "Kyiv, Ukraine",
+      "country": "Ukraine",
+      "region": "Europe",
+      "category": "War",
+      "importance": 0.86,
+      "confidence": 0.62,
+      "sources": [
+        {
+          "title": "Kyiv, Ukraine monitoring query",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "id": "red-sea-20260504",
+      "title": "Red Sea / Bab el-Mandeb remains on the watchlist",
+      "summary": "No fresh GDELT article matched this watchlist query, but Red Sea / Bab el-Mandeb remains a useful monitoring point.",
+      "whyItMatters": "This story is pinned to Red Sea / Bab el-Mandeb because it can affect Middle East and has cross-border relevance.",
+      "lat": 13.3,
+      "lon": 43.2,
+      "place": "Red Sea / Bab el-Mandeb",
+      "country": "Yemen / Djibouti",
+      "region": "Middle East",
+      "category": "Shipping",
+      "importance": 0.84,
+      "confidence": 0.62,
+      "sources": [
+        {
+          "title": "Red Sea / Bab el-Mandeb monitoring query",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "id": "chad-20260504",
+      "title": "N'Djamena, Chad remains on the watchlist",
+      "summary": "No fresh GDELT article matched this watchlist query, but N'Djamena, Chad remains a useful monitoring point.",
+      "whyItMatters": "This story is pinned to N'Djamena, Chad because it can affect Central Africa and has cross-border relevance.",
+      "lat": 12.1348,
+      "lon": 15.0557,
+      "place": "N'Djamena, Chad",
+      "country": "Chad",
+      "region": "Central Africa",
+      "category": "Coverage Gap",
+      "importance": 0.66,
+      "confidence": 0.62,
+      "sources": [
+        {
+          "title": "N'Djamena, Chad monitoring query",
+          "url": ""
+        }
+      ]
+    }
+  ]
+}

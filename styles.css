@@ -322,6 +322,46 @@ body {
   fill: #fff0c7;
 }
 
+.ai-picks-layer {
+  pointer-events: auto;
+}
+
+.ai-pick {
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.ai-pick-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.ai-pick-ring {
+  fill: rgba(255, 142, 71, 0.14);
+  stroke: rgba(255, 184, 111, 0.82);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.ai-pick-core {
+  fill: #ff9d4d;
+  stroke: rgba(255, 244, 219, 0.92);
+  stroke-width: 1.1;
+  pointer-events: none;
+}
+
+.ai-pick:hover .ai-pick-ring,
+.ai-pick:focus .ai-pick-ring {
+  fill: rgba(255, 166, 88, 0.22);
+  stroke: rgba(255, 225, 173, 0.96);
+}
+
+.ai-pick:hover .ai-pick-core,
+.ai-pick:focus .ai-pick-core {
+  fill: #ffd19a;
+}
+
 .carrier-layer {
   pointer-events: auto;
 }
@@ -603,6 +643,42 @@ body {
 
 .market-card__prediction span {
   color: var(--text);
+}
+
+.ai-context-card {
+  border: 1px solid rgba(255, 168, 96, 0.22);
+  border-radius: 18px;
+  background: rgba(255, 133, 64, 0.075);
+  padding: 14px;
+}
+
+.ai-context-card__kicker {
+  margin: 0 0 8px;
+  color: rgba(255, 211, 170, 0.82);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ai-context-card__body {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.ai-context-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ai-context-card__meta span {
+  border: 1px solid rgba(255, 206, 157, 0.24);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: rgba(255, 224, 196, 0.8);
+  font-size: 0.76rem;
 }
 
 .market-card--compact {
