@@ -50,6 +50,11 @@ COUNTRY_OVERRIDES = {
     "India": {"locale": "in", "language": "en", "search": '"India"'},
     "Nigeria": {"locale": "ng", "language": "en", "search": '"Nigeria"'},
     "Ukraine": {"language": "uk,en", "search": '"Ukraine"'},
+    "Chad": {
+        "locale": "td",
+        "language": "fr,en",
+        "search": "Chad Ndjamena",
+    },
 }
 
 
@@ -164,12 +169,17 @@ def dedupe_articles(articles: list[dict]) -> list[dict]:
     return deduped
 
 
-def fetch_thenews_articles(config: dict[str, str], api_token: str, limit: int) -> list[dict]:
+def fetch_thenews_articles(
+    config: dict[str, str],
+    api_token: str,
+    limit: int,
+    window_days: int = 3,
+) -> list[dict]:
     params = {
         "api_token": api_token,
         "search": config["search"],
         "search_fields": "title,description,keywords",
-        "published_after": (datetime.now(timezone.utc) - timedelta(days=3)).strftime("%Y-%m-%d"),
+        "published_after": (datetime.now(timezone.utc) - timedelta(days=window_days)).strftime("%Y-%m-%d"),
         "sort": "published_at",
         "limit": str(limit),
     }
@@ -183,13 +193,13 @@ def fetch_thenews_articles(config: dict[str, str], api_token: str, limit: int) -
     return [normalize_thenews_article(article) for article in payload.get("data", [])]
 
 
-def fetch_gdelt_articles(config: dict[str, str], limit: int) -> list[dict]:
+def fetch_gdelt_articles(config: dict[str, str], limit: int, window_days: int = 3) -> list[dict]:
     params = {
         "query": config["search"],
         "mode": "ArtList",
         "format": "json",
         "maxrecords": str(limit),
-        "timespan": "3days",
+        "timespan": f"{window_days}days",
     }
     url = f"{GDELT_ENDPOINT}?{urllib.parse.urlencode(params)}"
     payload = curl_json(url)
@@ -218,10 +228,22 @@ def build_country_briefing(
     if gdelt_articles:
         providers.append("GDELT")
     if not providers:
-        providers.append("No providers")
+        providers.append("Sparse-coverage fallback")
 
     for article in merged:
         article.pop("_published_at", None)
+
+    if not merged:
+        merged = [
+            {
+                "source": "System",
+                "time": "Now",
+                "title": f"No recent live stories matched {config['display_name']}",
+                "summary": "The live providers returned no articles for this country in the current refresh window. Try again later or use a broader regional country selection.",
+                "tags": ["Sparse coverage", "Live fetch"],
+                "url": "",
+            }
+        ]
 
     return {
         "name": config["display_name"],

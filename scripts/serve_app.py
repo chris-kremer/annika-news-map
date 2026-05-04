@@ -85,10 +85,17 @@ def fetch_country(country_name: str) -> dict:
 
     config = fetch_briefings.get_country_config(country_name)
     thenews_articles = fetch_briefings.fetch_thenews_articles(config, api_token, limit=5)
+    if not thenews_articles:
+        thenews_articles = fetch_briefings.fetch_thenews_articles(
+            config,
+            api_token,
+            limit=5,
+            window_days=14,
+        )
     gdelt_articles = []
     if len(thenews_articles) < 2:
         try:
-            gdelt_articles = fetch_briefings.fetch_gdelt_articles(config, limit=3)
+            gdelt_articles = fetch_briefings.fetch_gdelt_articles(config, limit=3, window_days=14)
         except Exception:
             gdelt_articles = []
 
