@@ -286,6 +286,7 @@ def curate_with_openai(picks: list[dict], limit: int, env: dict[str, str]) -> li
             "Return the most interesting underlooked international picks, ranked by importance.",
             "Prefer fresh specific angles over generic week-long headline cycles.",
             "Do not invent facts, places, URLs, or sources. Use only the candidate data.",
+            "Return all pick titles and source titles in English. If a source headline is not English, translate the headline into natural English and keep the original URL.",
             "If a pick overlaps an ongoing conflict or key area, preserve its overlap field.",
             "Keep coordinates unchanged so markers remain correctly placed on the globe.",
         ],
@@ -403,7 +404,110 @@ def curate_with_openai(picks: list[dict], limit: int, env: dict[str, str]) -> li
 
     if not curated:
         raise RuntimeError("OpenAI response did not return usable picks")
-    return curated[:limit]
+    return translate_source_titles_with_openai(curated[:limit], env)
+
+
+def translate_source_titles_with_openai(picks: list[dict], env: dict[str, str]) -> list[dict]:
+    api_key = env.get("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        return picks
+
+    source_refs = []
+    for pick_index, pick in enumerate(picks):
+        for source_index, source in enumerate(pick.get("sources", [])):
+            title = str(source.get("title", "")).strip()
+            if title:
+                source_refs.append(
+                    {
+                        "pickIndex": pick_index,
+                        "sourceIndex": source_index,
+                        "title": title,
+                    }
+                )
+
+    if not source_refs:
+        return picks
+
+    model = env.get("OPENAI_AI_PICKS_MODEL", DEFAULT_OPENAI_MODEL).strip() or DEFAULT_OPENAI_MODEL
+    body = {
+        "model": model,
+        "instructions": (
+            "Return valid JSON only. For each supplied news headline, return a natural English headline. "
+            "If it is already English, return it unchanged. Do not add facts or commentary."
+        ),
+        "input": json.dumps({"headlines": source_refs}, ensure_ascii=False),
+        "max_output_tokens": 3000,
+        "reasoning": {"effort": "minimal"},
+        "text": {
+            "format": {
+                "type": "json_schema",
+                "name": "headline_translations",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "headlines": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": False,
+                                "properties": {
+                                    "pickIndex": {"type": "integer"},
+                                    "sourceIndex": {"type": "integer"},
+                                    "title": {"type": "string"},
+                                },
+                                "required": ["pickIndex", "sourceIndex", "title"],
+                            },
+                        }
+                    },
+                    "required": ["headlines"],
+                },
+            }
+        },
+    }
+    request = urllib.request.Request(
+        OPENAI_RESPONSES_ENDPOINT,
+        data=json.dumps(body).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(request, timeout=60, context=SSL_CONTEXT) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        model_payload = extract_json_object(openai_text_from_response(payload))
+    except Exception as error:
+        print(f"warning: source-title translation failed: {error}", file=sys.stderr)
+        return picks
+
+    translated = model_payload.get("headlines", [])
+    if not isinstance(translated, list):
+        return picks
+
+    updated = [dict(pick) for pick in picks]
+    for pick in updated:
+        pick["sources"] = [dict(source) for source in pick.get("sources", [])]
+
+    for item in translated:
+        if not isinstance(item, dict):
+            continue
+        try:
+            pick_index = int(item.get("pickIndex"))
+            source_index = int(item.get("sourceIndex"))
+        except (TypeError, ValueError):
+            continue
+        title = str(item.get("title", "")).strip()
+        if not title:
+            continue
+        if 0 <= pick_index < len(updated) and 0 <= source_index < len(updated[pick_index].get("sources", [])):
+            updated[pick_index]["sources"][source_index]["title"] = title
+
+    return updated
 
 
 def parse_args() -> argparse.Namespace:

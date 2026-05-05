@@ -591,6 +591,13 @@ function safeExternalUrl(value) {
   return /^https?:\/\//i.test(url) ? url : "";
 }
 
+function normalizeStoryText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function renderStories(stories) {
   if (!Array.isArray(stories) || stories.length === 0) {
     storyList.innerHTML = `
@@ -606,10 +613,16 @@ function renderStories(stories) {
     return;
   }
 
+  const seenSummaries = new Set();
   storyList.innerHTML = stories
     .map(
       (story) => {
         const storyUrl = safeExternalUrl(story.url);
+        const normalizedSummary = normalizeStoryText(story.summary);
+        const shouldShowSummary = normalizedSummary && !seenSummaries.has(normalizedSummary);
+        if (normalizedSummary) {
+          seenSummaries.add(normalizedSummary);
+        }
         return `
         <article class="story-card">
           <div class="story-meta">
@@ -622,7 +635,7 @@ function renderStories(stories) {
                 : escapeHtml(story.title)
             }
           </h3>
-          <p class="story-copy">${escapeHtml(story.summary)}</p>
+          ${shouldShowSummary ? `<p class="story-copy">${escapeHtml(story.summary)}</p>` : ""}
           <div class="story-tags">
             ${(story.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
           </div>
