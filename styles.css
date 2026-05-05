@@ -191,9 +191,9 @@ body {
   place-items: center;
   width: 40px;
   height: 40px;
-  border: 1px solid rgba(143, 205, 224, 0.28);
+  border: 1px solid rgba(77, 210, 194, 0.35);
   border-radius: 12px;
-  background: rgba(18, 52, 82, 0.78);
+  background: rgba(77, 210, 194, 0.22);
   color: var(--text);
   font: inherit;
   font-size: 1.15rem;
@@ -208,8 +208,8 @@ body {
 
 .zoom-control:hover:not(:disabled),
 .zoom-control:focus-visible {
-  border-color: rgba(143, 205, 224, 0.72);
-  background: rgba(28, 75, 112, 0.9);
+  border-color: rgba(77, 210, 194, 0.55);
+  background: rgba(77, 210, 194, 0.3);
   outline: none;
 }
 
