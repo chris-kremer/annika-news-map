@@ -862,6 +862,25 @@ function syncConnectorViewport() {
   return stageRect;
 }
 
+function getProjectedStagePoint(lon, lat) {
+  const svgEl = document.getElementById("world-map");
+  const stageRect = atlasStage.getBoundingClientRect();
+  const projected = projection([lon, lat]);
+  if (!projected) {
+    return null;
+  }
+
+  const svgPoint = svgEl.createSVGPoint();
+  svgPoint.x = projected[0];
+  svgPoint.y = projected[1];
+  const screenPoint = svgPoint.matrixTransform(svgEl.getScreenCTM());
+  return {
+    x: screenPoint.x - stageRect.left,
+    y: screenPoint.y - stageRect.top,
+    stageRect,
+  };
+}
+
 function drawConnector(dotX, dotY, popupEl, flipped) {
   clearConnector();
   const rect = popupEl.getBoundingClientRect();
@@ -905,25 +924,18 @@ function closeHotspotPopup() {
 function refreshConnector() {
   if (!activePopupHotspot || hotspotPopup.classList.contains("is-hidden")) return;
 
-  const svgEl = document.getElementById("world-map");
-  const svgRect = svgEl.getBoundingClientRect();
-  const stageRect = atlasStage.getBoundingClientRect();
-  const projected = projection([activePopupHotspot.lon, activePopupHotspot.lat]);
+  const markerPoint = getProjectedStagePoint(activePopupHotspot.lon, activePopupHotspot.lat);
 
   // Hide popup if hotspot rotates behind the globe
-  if (!projected || !isPointVisible(activePopupHotspot.lon, activePopupHotspot.lat)) {
+  if (!markerPoint || !isPointVisible(activePopupHotspot.lon, activePopupHotspot.lat)) {
     hotspotPopup.classList.add("is-hidden");
     clearConnector();
     return;
   }
 
   hotspotPopup.classList.remove("is-hidden");
-  const scaleX = svgRect.width / 1440;
-  const scaleY = svgRect.height / 900;
-  const screenX = svgRect.left - stageRect.left + projected[0] * scaleX;
-  const screenY = svgRect.top - stageRect.top + projected[1] * scaleY;
   const flipLeft = hotspotPopup.classList.contains("is-flipped");
-  drawConnector(screenX, screenY, hotspotPopup, flipLeft);
+  drawConnector(markerPoint.x, markerPoint.y, hotspotPopup, flipLeft);
 }
 
 function showHoverPopup(label, sub, body, lon, lat) {
@@ -934,27 +946,19 @@ function showHoverPopup(label, sub, body, lon, lat) {
   popupMarket.replaceChildren();
   popupLink.classList.add("is-hidden");
 
-  const svgEl = document.getElementById("world-map");
-  const svgRect = svgEl.getBoundingClientRect();
-  const stageRect = atlasStage.getBoundingClientRect();
-  const projected = projection([lon, lat]);
-  if (!projected) return;
-
-  const scaleX = svgRect.width / 1440;
-  const scaleY = svgRect.height / 900;
-  const screenX = svgRect.left - stageRect.left + projected[0] * scaleX;
-  const screenY = svgRect.top - stageRect.top + projected[1] * scaleY;
+  const markerPoint = getProjectedStagePoint(lon, lat);
+  if (!markerPoint) return;
 
   const popupW = hotspotPopup.offsetWidth || 230;
   const offset = 18;
-  const flipLeft = screenX > stageRect.width - popupW - 48;
+  const flipLeft = markerPoint.x > markerPoint.stageRect.width - popupW - 48;
   hotspotPopup.classList.toggle("is-flipped", flipLeft);
-  hotspotPopup.style.left = `${flipLeft ? screenX - popupW - offset : screenX + offset}px`;
-  hotspotPopup.style.top = `${screenY - 28}px`;
+  hotspotPopup.style.left = `${flipLeft ? markerPoint.x - popupW - offset : markerPoint.x + offset}px`;
+  hotspotPopup.style.top = `${markerPoint.y - 28}px`;
   hotspotPopup.classList.remove("is-hidden");
   activePopupHotspot = { lon, lat };
   activePopupMarker = null;
-  requestAnimationFrame(() => drawConnector(screenX, screenY, hotspotPopup, flipLeft));
+  requestAnimationFrame(() => drawConnector(markerPoint.x, markerPoint.y, hotspotPopup, flipLeft));
 }
 
 function openConflictHotspot(hotspot, clickEvent, isClick = false) {
@@ -974,29 +978,18 @@ function openConflictHotspot(hotspot, clickEvent, isClick = false) {
     popupLink.classList.add("is-hidden");
   }
 
-  // Position popup near the hotspot using SVG projected coordinates
-  const svgEl = document.getElementById("world-map");
-  const svgRect = svgEl.getBoundingClientRect();
-  const stageRect = atlasStage.getBoundingClientRect();
-
-  const projected = projection([hotspot.lon, hotspot.lat]);
-  if (!projected) return;
-
-  const scaleX = svgRect.width / 1440;
-  const scaleY = svgRect.height / 900;
-
-  const screenX = svgRect.left - stageRect.left + projected[0] * scaleX;
-  const screenY = svgRect.top - stageRect.top + projected[1] * scaleY;
+  const markerPoint = getProjectedStagePoint(hotspot.lon, hotspot.lat);
+  if (!markerPoint) return;
 
   const popupW = hotspotPopup.offsetWidth || 270;
   const offset = 18;
-  const flipThreshold = stageRect.width - popupW - 48;
+  const flipThreshold = markerPoint.stageRect.width - popupW - 48;
 
-  const flipLeft = screenX > flipThreshold;
+  const flipLeft = markerPoint.x > flipThreshold;
   hotspotPopup.classList.toggle("is-flipped", flipLeft);
 
-  const left = flipLeft ? screenX - popupW - offset : screenX + offset;
-  const top = screenY - 28;
+  const left = flipLeft ? markerPoint.x - popupW - offset : markerPoint.x + offset;
+  const top = markerPoint.y - 28;
 
   hotspotPopup.style.left = `${left}px`;
   hotspotPopup.style.top = `${top}px`;
@@ -1005,7 +998,7 @@ function openConflictHotspot(hotspot, clickEvent, isClick = false) {
   activePopupMarker = { type: "conflict", data: hotspot };
 
   // Draw connector after popup is placed
-  requestAnimationFrame(() => drawConnector(screenX, screenY, hotspotPopup, flipLeft));
+  requestAnimationFrame(() => drawConnector(markerPoint.x, markerPoint.y, hotspotPopup, flipLeft));
 }
 
 function setSpotLoadingState(spot) {
