@@ -645,6 +645,21 @@ body {
   color: var(--text);
 }
 
+.market-card__link {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 12px;
+  color: #9fd0ff;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.market-card__link:hover,
+.market-card__link:focus-visible {
+  color: #d6ecff;
+  text-decoration: underline;
+}
+
 .ai-context-card {
   border: 1px solid rgba(255, 168, 96, 0.22);
   border-radius: 18px;
@@ -658,6 +673,13 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+.ai-context-card__angle {
+  margin: 0 0 8px;
+  color: #ffe1c7;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .ai-context-card__body {

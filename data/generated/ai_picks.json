@@ -1,105 +1,131 @@
 {
-  "generatedAt": "2026-05-04T16:55:55.225730+00:00",
-  "provider": "gdelt-watchlist",
-  "windowHours": 48,
+  "generatedAt": "2026-05-05T08:11:58.126418+00:00",
+  "provider": "underlooked-story-desk",
+  "windowHours": 240,
+  "selectionPrinciple": "International stories with cross-border stakes that are easy to miss, avoiding obvious week-long headline cycles unless there is a fresh, specific angle.",
   "picks": [
     {
-      "id": "taiwan-strait-20260504",
-      "title": "專家 ： 台海封鎖 衝擊遠勝荷姆茲海峽 | 台海 | 封鎖 | 荷姆茲海峽",
-      "summary": "Recent open-web coverage around Taiwan Strait is being tracked as an AI-pick candidate.",
-      "whyItMatters": "This story is pinned to Taiwan Strait because it can affect East Asia and has cross-border relevance.",
-      "lat": 24.0,
-      "lon": 119.4,
-      "place": "Taiwan Strait",
-      "country": "Taiwan / China",
-      "region": "East Asia",
-      "category": "Security",
+      "id": "mali-coordinated-attacks-20260505",
+      "title": "Mali's late-April attacks look bigger than a routine insurgent flare-up",
+      "summary": "Coordinated attacks around Bamako and several regional cities put pressure on Mali's junta and its Russian-backed security model.",
+      "whyItMatters": "This is the kind of Sahel story that can move fast without leading global homepages: a capital-security shock, junta legitimacy, rebel-jihadist coordination, and spillover risk for Niger and Burkina Faso.",
+      "angle": "Fresh capital-security shock after coordinated nationwide attacks.",
+      "freshness": "New escalation",
+      "lat": 12.6392,
+      "lon": -8.0029,
+      "place": "Bamako, Mali",
+      "country": "Mali",
+      "region": "West Africa",
+      "category": "Underlooked conflict",
       "importance": 0.9,
-      "confidence": 0.74,
+      "confidence": 0.66,
+      "overlap": [
+        {
+          "type": "ongoing-conflict",
+          "label": "Sahel instability"
+        }
+      ],
       "sources": [
         {
-          "title": "專家 ： 台海封鎖 衝擊遠勝荷姆茲海峽 | 台海 | 封鎖 | 荷姆茲海峽",
-          "url": "http://www.epochtimes.com.tw/n501982/%E5%B0%88%E5%AE%B6-%E5%8F%B0%E6%B5%B7%E5%B0%81%E9%8E%96-%E8%A1%9D%E6%93%8A%E9%81%A0%E5%8B%9D%E8%8D%B7%E5%A7%86%E8%8C%B2%E6%B5%B7%E5%B3%BD.html"
+          "title": "Gunmen stage simultaneous attacks across Mali, army says",
+          "url": "https://www.aljazeera.com/news/2026/4/25/mali-army-says-armed-groups-launch-nationwide-attacks-gunfire-near-airport"
         }
       ]
     },
     {
-      "id": "hormuz-20260504",
-      "title": "Strait of Hormuz remains on the watchlist",
-      "summary": "No fresh GDELT article matched this watchlist query, but Strait of Hormuz remains a useful monitoring point.",
-      "whyItMatters": "This story is pinned to Strait of Hormuz because it can affect Middle East and has cross-border relevance.",
-      "lat": 26.57,
-      "lon": 56.25,
-      "place": "Strait of Hormuz",
-      "country": "Oman / Iran",
-      "region": "Middle East",
-      "category": "Energy",
-      "importance": 0.88,
-      "confidence": 0.62,
-      "sources": [
-        {
-          "title": "Strait of Hormuz monitoring query",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "id": "ukraine-20260504",
-      "title": "Kyiv, Ukraine remains on the watchlist",
-      "summary": "No fresh GDELT article matched this watchlist query, but Kyiv, Ukraine remains a useful monitoring point.",
-      "whyItMatters": "This story is pinned to Kyiv, Ukraine because it can affect Europe and has cross-border relevance.",
-      "lat": 50.4501,
-      "lon": 30.5234,
-      "place": "Kyiv, Ukraine",
-      "country": "Ukraine",
-      "region": "Europe",
-      "category": "War",
-      "importance": 0.86,
-      "confidence": 0.62,
-      "sources": [
-        {
-          "title": "Kyiv, Ukraine monitoring query",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "id": "red-sea-20260504",
-      "title": "Red Sea / Bab el-Mandeb remains on the watchlist",
-      "summary": "No fresh GDELT article matched this watchlist query, but Red Sea / Bab el-Mandeb remains a useful monitoring point.",
-      "whyItMatters": "This story is pinned to Red Sea / Bab el-Mandeb because it can affect Middle East and has cross-border relevance.",
-      "lat": 13.3,
-      "lon": 43.2,
-      "place": "Red Sea / Bab el-Mandeb",
-      "country": "Yemen / Djibouti",
-      "region": "Middle East",
-      "category": "Shipping",
+      "id": "ecuador-curfew-gangs-20260505",
+      "title": "Ecuador extends curfews as gang violence becomes a governance problem",
+      "summary": "A fresh curfew across nine provinces shows Ecuador's security emergency is no longer just a crime story; it is shaping daily economic life and state capacity.",
+      "whyItMatters": "Ecuador rarely stays in the international top slot, but the combination of ports, cocaine routes, emergency rule, and economic disruption makes this a strategic Latin America watch item.",
+      "angle": "Gang pressure is forcing emergency governance across major provinces.",
+      "freshness": "Fresh policy move",
+      "lat": -2.19,
+      "lon": -79.889,
+      "place": "Guayaquil / Quito, Ecuador",
+      "country": "Ecuador",
+      "region": "South America",
+      "category": "Organized crime",
       "importance": 0.84,
-      "confidence": 0.62,
+      "confidence": 0.66,
+      "overlap": [],
       "sources": [
         {
-          "title": "Red Sea / Bab el-Mandeb monitoring query",
-          "url": ""
+          "title": "Noboa decreta 15 días de toque de queda en nueve provincias",
+          "url": "https://elpais.com/america/2026-05-02/noboa-decreta-15-dias-de-toque-de-queda-en-nueve-provincias-y-reaviva-el-choque-con-los-sectores-productivos.html"
         }
       ]
     },
     {
-      "id": "chad-20260504",
-      "title": "N'Djamena, Chad remains on the watchlist",
-      "summary": "No fresh GDELT article matched this watchlist query, but N'Djamena, Chad remains a useful monitoring point.",
-      "whyItMatters": "This story is pinned to N'Djamena, Chad because it can affect Central Africa and has cross-border relevance.",
+      "id": "haiti-gang-territory-20260505",
+      "title": "Haiti's gang map is shifting, but armed groups still dominate the capital",
+      "summary": "Local police leadership says gangs control less of metropolitan Port-au-Prince than before, yet the reported 72% figure still points to a capital where armed groups shape movement, services, and politics.",
+      "whyItMatters": "The interesting part is not simply that Haiti is violent; it is whether small territorial reversals change the balance before the international security mission winds down.",
+      "angle": "A granular update on territorial control, not another generic Haiti-is-in-crisis card.",
+      "freshness": "Recent local update",
+      "lat": 18.5944,
+      "lon": -72.3074,
+      "place": "Port-au-Prince, Haiti",
+      "country": "Haiti",
+      "region": "Caribbean",
+      "category": "State capacity",
+      "importance": 0.8,
+      "confidence": 0.66,
+      "overlap": [],
+      "sources": [
+        {
+          "title": "PNH Chief Says Gangs Control 72% of Metropolitan Area",
+          "url": "https://lenouvelliste.com/en/article/266079/les-gangs-controlent-72-de-la-zone-metropolitaine-selon-le-directeur-general-de-la-pnh"
+        }
+      ]
+    },
+    {
+      "id": "southern-africa-drought-20260505",
+      "title": "Southern Africa's drought is turning into a power, food, and budget story",
+      "summary": "Drought pressure across parts of Southern Africa keeps showing up as hydropower shortages, food insecurity, and fiscal strain rather than one dramatic breaking-news event.",
+      "whyItMatters": "Slow disasters are easy to miss. This one matters because electricity, crops, debt, and migration pressure can reinforce each other across borders.",
+      "angle": "Slow-moving drought effects that compound across energy and food systems.",
+      "freshness": "Slow-burn risk",
+      "lat": -15.3875,
+      "lon": 28.3228,
+      "place": "Lusaka, Zambia",
+      "country": "Zambia / Southern Africa",
+      "region": "Southern Africa",
+      "category": "Climate stress",
+      "importance": 0.73,
+      "confidence": 0.66,
+      "overlap": [],
+      "sources": [
+        {
+          "title": "Southern Africa drought monitoring query",
+          "url": "https://reliefweb.int/disasters?advanced-search=%28D48535%29_%28F10%29"
+        }
+      ]
+    },
+    {
+      "id": "chad-sudan-spillover-20260505",
+      "title": "Chad is the overlooked pressure valve for Sudan's war",
+      "summary": "The Chad-Sudan border is carrying refugee flows, cross-border security risk, and political strain that rarely gets separated from the broader Sudan war headline.",
+      "whyItMatters": "If Sudan is already on the conflict layer, Chad is the adjacent-system story: where displacement, aid access, and Sahel politics turn a war into a regional stress test.",
+      "angle": "The neighboring-country effects of a major conflict.",
+      "freshness": "Conflict spillover",
       "lat": 12.1348,
       "lon": 15.0557,
-      "place": "N'Djamena, Chad",
+      "place": "Adre / N'Djamena, Chad",
       "country": "Chad",
       "region": "Central Africa",
-      "category": "Coverage Gap",
-      "importance": 0.66,
-      "confidence": 0.62,
+      "category": "Conflict spillover",
+      "importance": 0.71,
+      "confidence": 0.66,
+      "overlap": [
+        {
+          "type": "ongoing-conflict",
+          "label": "Sudan war"
+        }
+      ],
       "sources": [
         {
-          "title": "N'Djamena, Chad monitoring query",
-          "url": ""
+          "title": "Chad-Sudan border monitoring query",
+          "url": "https://reliefweb.int/country/tcd"
         }
       ]
     }

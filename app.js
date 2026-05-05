@@ -423,12 +423,18 @@ function renderMarketCard(cardRoot, marketCard, compact = false) {
     return;
   }
 
+  const marketUrl = safeExternalUrl(marketCard.url);
   const card = document.createElement("article");
   card.className = compact ? "market-card market-card--compact" : "market-card";
   card.innerHTML = `
     <p class="market-card__kicker">Market Signal</p>
     <h3 class="market-card__title">${escapeHtml(marketCard.title)}</h3>
     <p class="market-card__prediction">Current prediction: <span>${escapeHtml(marketCard.yesProbability)}</span></p>
+    ${
+      marketUrl
+        ? `<a class="market-card__link" href="${marketUrl}" target="_blank" rel="noreferrer">Open Polymarket</a>`
+        : ""
+    }
   `;
   cardRoot.appendChild(card);
   cardRoot.classList.remove("is-hidden");
@@ -438,17 +444,30 @@ function renderSpotContext(spotBriefing) {
   renderMarketCard(spotContext, spotBriefing.marketCard);
 }
 
+function formatOverlapLabel(overlap) {
+  const type = String(overlap?.type || "").replace(/-/g, " ");
+  const label = overlap?.label || "Related coverage";
+  return type ? `Also in ${type}: ${label}` : `Also covered: ${label}`;
+}
+
 function renderAiPickContext(pick) {
   spotContext.replaceChildren();
   const card = document.createElement("article");
+  const overlaps = Array.isArray(pick.overlap) ? pick.overlap : [];
+  const metaItems = [
+    pick.freshness,
+    pick.category || "Global story",
+    `Importance ${Math.round((pick.importance || 0) * 100)}%`,
+    `Location confidence ${Math.round((pick.confidence || 0) * 100)}%`,
+    ...overlaps.map(formatOverlapLabel),
+  ].filter(Boolean);
   card.className = "ai-context-card";
   card.innerHTML = `
-    <p class="ai-context-card__kicker">AI-curated pick</p>
+    <p class="ai-context-card__kicker">Underlooked AI pick</p>
+    ${pick.angle ? `<p class="ai-context-card__angle">${escapeHtml(pick.angle)}</p>` : ""}
     <p class="ai-context-card__body">${escapeHtml(pick.whyItMatters || pick.summary)}</p>
     <div class="ai-context-card__meta">
-      <span>${escapeHtml(pick.category || "Global story")}</span>
-      <span>Importance ${Math.round((pick.importance || 0) * 100)}%</span>
-      <span>Location confidence ${Math.round((pick.confidence || 0) * 100)}%</span>
+      ${metaItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
     </div>
   `;
   spotContext.appendChild(card);
@@ -625,6 +644,9 @@ function updateAiPickSheet(pick) {
   detailConflict.replaceChildren();
   renderAiPickContext(pick);
   const sources = Array.isArray(pick.sources) ? pick.sources : [];
+  const overlapTags = Array.isArray(pick.overlap)
+    ? pick.overlap.map((item) => item.label || item.type).filter(Boolean)
+    : [];
   renderStories(
     sources.length
       ? sources.map((source) => ({
@@ -632,7 +654,7 @@ function updateAiPickSheet(pick) {
           time: pick.generatedAtLabel || "Recent",
           title: source.title || pick.title,
           summary: pick.summary,
-          tags: [pick.region, pick.country].filter(Boolean),
+          tags: [pick.freshness, pick.region, pick.country, ...overlapTags].filter(Boolean),
           url: source.url || "",
         }))
       : [
@@ -641,7 +663,7 @@ function updateAiPickSheet(pick) {
             time: "Recent",
             title: pick.title,
             summary: pick.summary,
-            tags: [pick.category, pick.region].filter(Boolean),
+            tags: [pick.freshness, pick.category, pick.region, ...overlapTags].filter(Boolean),
             url: "",
           },
         ],
@@ -1043,16 +1065,24 @@ function openImportantSpot(spot, options = {}) {
   refreshSpotBriefing(spot.id, requestId);
 }
 
-function openAiPick(pick) {
-  autoRotate = false;
+function openAiPick(pick, options = {}) {
+  const { hoverPreview = false } = options;
+  if (!hoverPreview) {
+    autoRotate = false;
+  }
   clearConflictHover();
   setMetricHover(null);
   closeHotspotPopup();
   activeSpotId = null;
   setActiveCountry(null);
-  focusCoordinates(pick.lon, pick.lat);
+  if (!hoverPreview) {
+    focusCoordinates(pick.lon, pick.lat);
+  }
   countrySheet.classList.remove("is-hidden");
   mapStatus.textContent = pick.title;
+  if (activeSheetKey === `ai:${pick.id}` && hoverPreview) {
+    return;
+  }
   activeSheetRequestId += 1;
   activeSheetKey = `ai:${pick.id}`;
   updateAiPickSheet(pick);
@@ -1353,12 +1383,14 @@ function renderAiPicks() {
     .attr("aria-label", (pick) => pick.title)
     .on("mouseenter", (_, pick) => {
       mapStatus.textContent = `${pick.place}: ${pick.title}`;
+      openAiPick(pick, { hoverPreview: true });
     })
     .on("mouseleave", () => {
       mapStatus.textContent = getDefaultMapStatus();
     })
     .on("focus", (_, pick) => {
       mapStatus.textContent = `${pick.place}: ${pick.title}`;
+      openAiPick(pick, { hoverPreview: true });
     })
     .on("blur", () => {
       mapStatus.textContent = getDefaultMapStatus();
