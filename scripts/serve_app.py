@@ -10,13 +10,16 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 import fetch_briefings
+import fetch_ai_picks
 import fetch_important_spots
 
 
 ROOT = Path(__file__).resolve().parents[1]
 CACHE_PATH = ROOT / "data" / "cache" / "briefings.json"
 SPOT_CACHE_PATH = ROOT / "data" / "cache" / "important_spots.json"
+AI_PICKS_CACHE_PATH = ROOT / "data" / "cache" / "ai_picks.json"
 CACHE_TTL = timedelta(hours=24)
+AI_PICKS_CACHE_TTL = timedelta(hours=6)
 
 
 def load_cache(path: Path) -> dict:
@@ -47,6 +50,13 @@ def is_fresh(country_payload: dict) -> bool:
     if not cached_at:
         return False
     return datetime.now(timezone.utc) - cached_at < CACHE_TTL
+
+
+def is_ai_picks_fresh(payload: dict) -> bool:
+    generated_at = parse_cached_at(payload.get("generatedAt"))
+    if not generated_at:
+        return False
+    return datetime.now(timezone.utc) - generated_at < AI_PICKS_CACHE_TTL
 
 
 def build_market_card(url: str, fallback_card: dict | None = None) -> dict:
@@ -139,6 +149,15 @@ def fetch_spot(spot_id: str) -> dict:
     return briefing
 
 
+def fetch_ai_picks_payload() -> dict:
+    args = fetch_ai_picks.parse_args()
+    args.limit = 5
+    args.per_query = 2
+    args.window_hours = 240
+    args.delay_seconds = 1.0
+    return fetch_ai_picks.build_payload(args)
+
+
 class AppHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(ROOT), **kwargs)
@@ -166,6 +185,9 @@ class AppHandler(SimpleHTTPRequestHandler):
             return
         if parsed.path == "/api/important-spot":
             self.handle_spot_request(parsed)
+            return
+        if parsed.path == "/api/ai-picks":
+            self.handle_ai_picks_request(parsed)
             return
         super().do_GET()
 
@@ -262,6 +284,30 @@ class AppHandler(SimpleHTTPRequestHandler):
         cache["generatedAt"] = datetime.now(timezone.utc).isoformat()
         save_cache(SPOT_CACHE_PATH, cache)
         self.end_json({"spot": spot_id, "briefing": briefing, "fromCache": False})
+
+    def handle_ai_picks_request(self, parsed) -> None:
+        params = urllib.parse.parse_qs(parsed.query)
+        force_refresh = params.get("refresh", ["0"])[0] == "1"
+        cached = load_cache(AI_PICKS_CACHE_PATH)
+
+        if cached.get("picks") and is_ai_picks_fresh(cached) and not force_refresh:
+            self.end_json({**cached, "fromCache": True})
+            return
+
+        try:
+            payload = fetch_ai_picks_payload()
+        except Exception as error:
+            if cached.get("picks"):
+                fallback = dict(cached)
+                fallback["fromCache"] = True
+                fallback["warning"] = str(error)
+                self.end_json(fallback)
+                return
+            self.end_json({"error": str(error)}, status=502)
+            return
+
+        save_cache(AI_PICKS_CACHE_PATH, payload)
+        self.end_json({**payload, "fromCache": False})
 
 
 def main() -> int:

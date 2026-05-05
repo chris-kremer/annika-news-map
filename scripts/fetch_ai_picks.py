@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import ssl
 import sys
 import time
 import urllib.parse
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -14,8 +17,23 @@ import fetch_briefings
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ENV_PATH = ROOT / ".env.local"
 OUTPUT_PATH = ROOT / "data" / "generated" / "ai_picks.json"
 GDELT_ENDPOINT = "https://api.gdeltproject.org/api/v2/doc/doc"
+OPENAI_RESPONSES_ENDPOINT = "https://api.openai.com/v1/responses"
+DEFAULT_OPENAI_MODEL = "gpt-5-nano"
+SELECTION_PRINCIPLE = "International stories with cross-border stakes that are easy to miss, avoiding obvious week-long headline cycles unless there is a fresh, specific angle."
+
+try:
+    import certifi
+except ImportError:
+    certifi = None
+
+SSL_CONTEXT = (
+    ssl.create_default_context(cafile=certifi.where())
+    if certifi
+    else ssl.create_default_context()
+)
 
 UNDERLOOKED_STORY_DESK = [
     {
@@ -149,6 +167,19 @@ def fetch_gdelt(query: str, limit: int, window_hours: int) -> list[dict]:
     return payload.get("articles", [])
 
 
+def load_env() -> dict[str, str]:
+    values = dict(os.environ)
+    if not ENV_PATH.exists():
+        return values
+    for line in ENV_PATH.read_text().splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        values[key.strip()] = value.strip()
+    return values
+
+
 def source_from_article(article: dict) -> dict:
     domain = article.get("domain") or "GDELT"
     title = " ".join(str(article.get("title") or "").split()) or f"Recent coverage from {domain}"
@@ -182,36 +213,246 @@ def build_pick(config: dict, articles: list[dict]) -> dict:
     }
 
 
+def openai_text_from_response(payload: dict) -> str:
+    if payload.get("output_text"):
+        return str(payload["output_text"])
+    chunks: list[str] = []
+    for item in payload.get("output", []):
+        for content in item.get("content", []):
+            if content.get("type") in {"output_text", "text"} and content.get("text"):
+                chunks.append(str(content["text"]))
+    return "\n".join(chunks).strip()
+
+
+def extract_json_object(text: str) -> dict:
+    stripped = text.strip()
+    if stripped.startswith("```"):
+        stripped = stripped.strip("`")
+        if stripped.startswith("json"):
+            stripped = stripped[4:].strip()
+    try:
+        return json.loads(stripped)
+    except json.JSONDecodeError:
+        start = stripped.find("{")
+        end = stripped.rfind("}")
+        if start >= 0 and end > start:
+            return json.loads(stripped[start : end + 1])
+        raise
+
+
+def clean_model_pick(raw_pick: dict, fallback_by_id: dict[str, dict]) -> dict | None:
+    raw_id = str(raw_pick.get("id", "")).strip()
+    fallback = fallback_by_id.get(raw_id)
+    if not fallback:
+        return None
+
+    cleaned = dict(fallback)
+    for key in ["title", "summary", "whyItMatters", "angle", "freshness", "category"]:
+        value = str(raw_pick.get(key, "")).strip()
+        if value:
+            cleaned[key] = value
+
+    for key in ["importance", "confidence"]:
+        try:
+            value = float(raw_pick.get(key))
+        except (TypeError, ValueError):
+            continue
+        cleaned[key] = max(0.0, min(1.0, value))
+
+    sources = raw_pick.get("sources")
+    if isinstance(sources, list) and sources:
+        cleaned_sources = []
+        for source in sources[:3]:
+            if not isinstance(source, dict):
+                continue
+            title = str(source.get("title", "")).strip()
+            url = str(source.get("url", "")).strip()
+            if title or url:
+                cleaned_sources.append({"title": title or cleaned["title"], "url": url})
+        if cleaned_sources:
+            cleaned["sources"] = cleaned_sources
+    return cleaned
+
+
+def curate_with_openai(picks: list[dict], limit: int, env: dict[str, str]) -> list[dict]:
+    api_key = env.get("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        return picks
+
+    model = env.get("OPENAI_AI_PICKS_MODEL", DEFAULT_OPENAI_MODEL).strip() or DEFAULT_OPENAI_MODEL
+    prompt_payload = {
+        "selectionPrinciple": SELECTION_PRINCIPLE,
+        "requirements": [
+            "Return the most interesting underlooked international picks, ranked by importance.",
+            "Prefer fresh specific angles over generic week-long headline cycles.",
+            "Do not invent facts, places, URLs, or sources. Use only the candidate data.",
+            "If a pick overlaps an ongoing conflict or key area, preserve its overlap field.",
+            "Keep coordinates unchanged so markers remain correctly placed on the globe.",
+        ],
+        "outputShape": {
+            "picks": [
+                {
+                    "id": "candidate id",
+                    "title": "specific, concise title",
+                    "summary": "one sentence",
+                    "whyItMatters": "one sentence on cross-border stakes",
+                    "angle": "fresh editorial angle",
+                    "freshness": "short label",
+                    "category": "short category",
+                    "importance": "0.0-1.0",
+                    "confidence": "0.0-1.0",
+                    "sources": [{"title": "source title", "url": "source URL"}],
+                }
+            ]
+        },
+        "candidates": picks,
+        "limit": limit,
+    }
+    body = {
+        "model": model,
+        "instructions": "You are the Pumpkin News assignment editor. Return valid JSON only.",
+        "input": json.dumps(prompt_payload, ensure_ascii=False),
+        "max_output_tokens": 6000,
+        "reasoning": {"effort": "minimal"},
+        "text": {
+            "format": {
+                "type": "json_schema",
+                "name": "ai_picks",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "picks": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": False,
+                                "properties": {
+                                    "id": {"type": "string"},
+                                    "title": {"type": "string"},
+                                    "summary": {"type": "string"},
+                                    "whyItMatters": {"type": "string"},
+                                    "angle": {"type": "string"},
+                                    "freshness": {"type": "string"},
+                                    "category": {"type": "string"},
+                                    "importance": {"type": "number"},
+                                    "confidence": {"type": "number"},
+                                    "sources": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "additionalProperties": False,
+                                            "properties": {
+                                                "title": {"type": "string"},
+                                                "url": {"type": "string"},
+                                            },
+                                            "required": ["title", "url"],
+                                        },
+                                    },
+                                },
+                                "required": [
+                                    "id",
+                                    "title",
+                                    "summary",
+                                    "whyItMatters",
+                                    "angle",
+                                    "freshness",
+                                    "category",
+                                    "importance",
+                                    "confidence",
+                                    "sources",
+                                ],
+                            },
+                        }
+                    },
+                    "required": ["picks"],
+                },
+            }
+        },
+    }
+    request = urllib.request.Request(
+        OPENAI_RESPONSES_ENDPOINT,
+        data=json.dumps(body).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(request, timeout=60, context=SSL_CONTEXT) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+
+    model_payload = extract_json_object(openai_text_from_response(payload))
+    raw_picks = model_payload.get("picks", [])
+    if not isinstance(raw_picks, list):
+        raise RuntimeError("OpenAI response did not include a picks array")
+
+    fallback_by_id = {pick["id"]: pick for pick in picks}
+    curated = []
+    seen = set()
+    for raw_pick in raw_picks:
+        if not isinstance(raw_pick, dict):
+            continue
+        cleaned = clean_model_pick(raw_pick, fallback_by_id)
+        if not cleaned or cleaned["id"] in seen:
+            continue
+        seen.add(cleaned["id"])
+        curated.append(cleaned)
+
+    if not curated:
+        raise RuntimeError("OpenAI response did not return usable picks")
+    return curated[:limit]
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate cached underlooked AI Picks for the globe.")
     parser.add_argument("--limit", type=int, default=8, help="Maximum picks to write.")
     parser.add_argument("--per-query", type=int, default=3, help="Articles to inspect per watchlist query.")
     parser.add_argument("--window-hours", type=int, default=48, help="GDELT lookback window.")
     parser.add_argument("--delay-seconds", type=float, default=6.0, help="Delay between GDELT queries.")
+    parser.add_argument("--skip-openai", action="store_true", help="Use seeded/GDELT picks without OpenAI curation.")
+    parser.add_argument("--skip-gdelt", action="store_true", help="Use seeded candidates without GDELT enrichment.")
     return parser.parse_args()
 
 
-def main() -> int:
-    args = parse_args()
+def build_payload(args: argparse.Namespace | None = None) -> dict:
+    if args is None:
+        args = parse_args()
+    env = load_env()
     picks = []
     for index, config in enumerate(UNDERLOOKED_STORY_DESK):
-        if index:
+        if index and not args.skip_gdelt:
             time.sleep(args.delay_seconds)
-        try:
-            articles = fetch_gdelt(config["query"], args.per_query, args.window_hours)
-        except Exception as error:
-            print(f"warning: {config['id']} query failed: {error}", file=sys.stderr)
-            articles = []
+        articles = []
+        if not args.skip_gdelt:
+            try:
+                articles = fetch_gdelt(config["query"], args.per_query, args.window_hours)
+            except Exception as error:
+                print(f"warning: {config['id']} query failed: {error}", file=sys.stderr)
         picks.append(build_pick(config, articles))
 
     picks.sort(key=lambda pick: pick["importance"], reverse=True)
-    payload = {
+    provider = "underlooked-story-desk"
+    if not args.skip_openai:
+        try:
+            picks = curate_with_openai(picks, args.limit, env)
+            provider = f"openai:{env.get('OPENAI_AI_PICKS_MODEL', DEFAULT_OPENAI_MODEL)}"
+        except Exception as error:
+            print(f"warning: OpenAI curation failed: {error}", file=sys.stderr)
+
+    return {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "provider": "underlooked-story-desk",
+        "provider": provider,
         "windowHours": args.window_hours,
-        "selectionPrinciple": "International stories with cross-border stakes that are easy to miss, avoiding obvious week-long headline cycles unless there is a fresh, specific angle.",
+        "selectionPrinciple": SELECTION_PRINCIPLE,
         "picks": picks[: args.limit],
     }
+
+
+def main() -> int:
+    payload = build_payload()
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
     print(f"Wrote {len(payload['picks'])} AI picks to {OUTPUT_PATH}")

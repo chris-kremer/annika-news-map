@@ -1555,6 +1555,29 @@ async function loadAiPicks() {
     console.error("AI picks unavailable", error);
     aiPicks = [];
   }
+
+  refreshLiveAiPicks();
+}
+
+async function refreshLiveAiPicks() {
+  try {
+    const response = await fetch("/api/ai-picks", { cache: "no-store" });
+    if (!response.ok) {
+      return;
+    }
+    const payload = await response.json();
+    const livePicks = Array.isArray(payload.picks) ? payload.picks : [];
+    if (livePicks.length) {
+      const generatedAtLabel = payload.generatedAt ? `Generated ${formatGeneratedAt(payload.generatedAt)}` : "AI curated";
+      aiPicks = livePicks.map((pick) => ({
+        ...pick,
+        generatedAtLabel,
+      }));
+      renderAiPicks();
+    }
+  } catch (error) {
+    console.error("Live AI picks unavailable", error);
+  }
 }
 
 async function loadCarrierSpots() {
