@@ -1,18 +1,47 @@
 {
-  "generatedAt": "2026-04-28T00:00:00Z",
+  "generatedAt": "2026-05-04T12:53:00Z",
   "source": "USNI Fleet and Marine Tracker",
-  "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026",
-  "asOf": "2026-04-27",
+  "sourceUrl": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026",
+  "asOf": "2026-05-04",
   "carriers": [
     {
       "id": "ford-red-sea",
       "name": "USS Gerald R. Ford",
       "hull": "CVN-78",
-      "lat": 19.8,
-      "lon": 38.7,
-      "area": "Red Sea",
-      "status": "Operating in the Red Sea",
-      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+      "lat": 34.7,
+      "lon": 28.4,
+      "area": "Eastern Mediterranean Sea",
+      "status": "Operating in the Eastern Mediterranean Sea",
+      "sourceUrl": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026",
+      "briefing": {
+        "label": "USS Gerald R. Ford",
+        "kind": "CVN-78 · Eastern Mediterranean Sea",
+        "stories": [
+          {
+            "source": "USNI + GPT-5 nano",
+            "time": "2026-05-04",
+            "title": "USS Gerald R. Ford (CVN-78) — Eastern Mediterranean",
+            "summary": "The Ford Carrier Strike Group remains in the Eastern Mediterranean, providing airpower, command capacity, and deterrence proximate to the Middle East without entering the Red Sea. Its presence, complemented by nearby destroyers, reinforces U.S. naval posture in a tense theater and supports regional security objectives.",
+            "tags": [
+              "CVN-78",
+              "Eastern Mediterranean Sea",
+              "Carrier"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Ford and escort ships continue operating in the Eastern Mediterranean per USNI May 4 tracker.",
+            "tags": [
+              "Naval posture",
+              "Map note"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          }
+        ]
+      }
     },
     {
       "id": "lincoln-arabian-sea",
@@ -21,8 +50,37 @@
       "lat": 17.1,
       "lon": 64.8,
       "area": "Arabian Sea",
-      "status": "Operating in the Arabian Sea",
-      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+      "status": "Operating in the Arabian Sea in support of Operation Epic Fury",
+      "sourceUrl": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026",
+      "briefing": {
+        "label": "USS Abraham Lincoln",
+        "kind": "CVN-72 · Arabian Sea",
+        "stories": [
+          {
+            "source": "USNI + GPT-5 nano",
+            "time": "2026-05-04",
+            "title": "USS Abraham Lincoln (CVN-72) — Arabian Sea",
+            "summary": "The Abraham Lincoln is operating in the Arabian Sea in support of Operation Epic Fury, contributing sustained strike capacity and maritime security in the Gulf region as regional tensions around Iran and shipping persist. The carrier’s posture strengthens U.S. 5th Fleet capabilities and regional deterrence.",
+            "tags": [
+              "CVN-72",
+              "Arabian Sea",
+              "Carrier"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Lincoln remains in the Arabian Sea supporting 5th Fleet maritime security operations.",
+            "tags": [
+              "Naval posture",
+              "Map note"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          }
+        ]
+      }
     },
     {
       "id": "bush-arabian-sea",
@@ -31,8 +89,37 @@
       "lat": 14.0,
       "lon": 66.2,
       "area": "Arabian Sea",
-      "status": "Operating in the Arabian Sea AOR",
-      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+      "status": "Operating in the Arabian Sea after joining the U.S. 5th Fleet buildup",
+      "sourceUrl": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026",
+      "briefing": {
+        "label": "USS George H.W. Bush",
+        "kind": "CVN-77 · Arabian Sea",
+        "stories": [
+          {
+            "source": "USNI + GPT-5 nano",
+            "time": "2026-05-04",
+            "title": "USS George H.W. Bush (CVN-77) — Arabian Sea",
+            "summary": "George H.W. Bush is operating in the Arabian Sea as part of the 5th Fleet buildup, introducing additional flight deck capacity, escorts, and command facilities to the Gulf region where oil routes and Iran pressure matter. The carrier adds to U.S. deterrence and regional presence.",
+            "tags": [
+              "CVN-77",
+              "Arabian Sea",
+              "Carrier"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Bush joins the Arabian Sea buildup, reinforcing carrier presence near the Gulf.",
+            "tags": [
+              "Naval posture",
+              "Map note"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          }
+        ]
+      }
     },
     {
       "id": "george-washington-yokosuka",
@@ -41,8 +128,37 @@
       "lat": 35.283,
       "lon": 139.667,
       "area": "Yokosuka, Japan",
-      "status": "In port in Yokosuka",
-      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+      "status": "In port in Yokosuka, Japan",
+      "sourceUrl": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026",
+      "briefing": {
+        "label": "USS George Washington",
+        "kind": "CVN-73 · Yokosuka, Japan",
+        "stories": [
+          {
+            "source": "USNI + GPT-5 nano",
+            "time": "2026-05-04",
+            "title": "USS George Washington (CVN-73) — Yokosuka, Japan",
+            "summary": "The George Washington remains forward-deployed in Yokosuka, Japan. Even in port, the carrier anchors U.S. naval presence in the Western Pacific, with significance for deterrence and readiness near Taiwan, the Korean Peninsula, and the East China Sea.",
+            "tags": [
+              "CVN-73",
+              "Yokosuka, Japan",
+              "Carrier"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "George Washington remains in port at Yokosuka, maintaining Western Pacific presence.",
+            "tags": [
+              "Naval posture",
+              "Map note"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          }
+        ]
+      }
     },
     {
       "id": "theodore-roosevelt-east-pac",
@@ -52,17 +168,75 @@
       "lon": -126.0,
       "area": "Eastern Pacific",
       "status": "Operating in the Eastern Pacific",
-      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+      "sourceUrl": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026",
+      "briefing": {
+        "label": "USS Theodore Roosevelt",
+        "kind": "CVN-71 · Eastern Pacific",
+        "stories": [
+          {
+            "source": "USNI + GPT-5 nano",
+            "time": "2026-05-04",
+            "title": "USS Theodore Roosevelt (CVN-71) — Eastern Pacific",
+            "summary": "Theodore Roosevelt is operating in the Eastern Pacific, signaling readiness and presence closer to the U.S. West Coast and Pacific approaches rather than active operations in the Middle East. The carrier contributes to regional surveillance and rapid response options.",
+            "tags": [
+              "CVN-71",
+              "Eastern Pacific",
+              "Carrier"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Roosevelt continues operations in the Eastern Pacific.",
+            "tags": [
+              "Naval posture",
+              "Map note"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          }
+        ]
+      }
     },
     {
       "id": "nimitz-magellan",
       "name": "USS Nimitz",
       "hull": "CVN-68",
-      "lat": -53.2,
-      "lon": -71.2,
-      "area": "Strait of Magellan / South Atlantic transit",
-      "status": "Spotted transiting the Strait of Magellan",
-      "sourceUrl": "https://news.usni.org/2026/04/27/usni-news-fleet-and-marine-tracker-april-27-2026"
+      "lat": -45.0,
+      "lon": -58.0,
+      "area": "South Atlantic off Argentina",
+      "status": "Operating off Argentina during Southern Seas 2026 while transiting toward Virginia",
+      "sourceUrl": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026",
+      "briefing": {
+        "label": "USS Nimitz",
+        "kind": "CVN-68 · South Atlantic off Argentina",
+        "stories": [
+          {
+            "source": "USNI + GPT-5 nano",
+            "time": "2026-05-04",
+            "title": "USS Nimitz (CVN-68) — South Atlantic off Argentina",
+            "summary": "Nimitz is operating off Argentina during Southern Seas 2026, transiting toward Virginia as part of an end-of-service voyage rather than a typical combat deployment. The transit emphasizes diplomacy, training, and the transition of a legacy carrier.",
+            "tags": [
+              "CVN-68",
+              "South Atlantic off Argentina",
+              "Carrier"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Nimitz is transiting toward Virginia after Southern Seas 2026 operations off Argentina.",
+            "tags": [
+              "Naval posture",
+              "Map note"
+            ],
+            "url": "https://news.usni.org/2026/05/04/usni-news-fleet-and-marine-tracker-may-4-2026"
+          }
+        ]
+      }
     }
   ]
 }

@@ -632,6 +632,32 @@ function updateSpotSheet(spotBriefing) {
   renderStories(spotBriefing.stories || []);
 }
 
+function updateMarkerBriefingSheet(marker, fallbackKind = "Map marker") {
+  const briefing = marker.briefing || {};
+  showSpotFacts();
+  detailCountry.textContent = briefing.label || marker.label || marker.name;
+  detailRegion.textContent = briefing.kind || marker.conflict || marker.area || fallbackKind;
+  detailConflictLabel.classList.remove("is-hoverable");
+  detailConflictLabel.onmouseenter = null;
+  detailConflictLabel.onmouseleave = null;
+  detailConflictLabel.onfocus = null;
+  detailConflictLabel.onblur = null;
+  detailConflict.replaceChildren();
+  renderMarketCard(spotContext, briefing.marketCard || marker.marketCard);
+  renderStories(
+    briefing.stories || [
+      {
+        source: marker.source || "Map layer",
+        time: marker.time || "Current context",
+        title: marker.label || marker.name,
+        summary: marker.status || marker.conflict || "No marker briefing is available yet.",
+        tags: [marker.kind, fallbackKind].filter(Boolean),
+        url: marker.sourceUrl || "",
+      },
+    ],
+  );
+}
+
 function buildSpotPreviewBriefing(spot) {
   if (spot.briefing) {
     return {
@@ -1094,6 +1120,35 @@ function openImportantSpot(spot, options = {}) {
   }
 }
 
+function openConflictMarker(hotspot, event, options = {}) {
+  const { hoverPreview = false } = options;
+  openConflictHotspot(hotspot, event, !hoverPreview);
+  activeSpotId = null;
+  setActiveCountry(null);
+  countrySheet.classList.remove("is-hidden");
+  activeSheetRequestId += 1;
+  activeSheetKey = `conflict:${hotspot.id}`;
+  updateMarkerBriefingSheet(hotspot, "Live conflict");
+}
+
+function openCarrierSpot(spot, options = {}) {
+  const { hoverPreview = false } = options;
+  if (!hoverPreview) {
+    autoRotate = false;
+    focusCoordinates(spot.lon, spot.lat);
+  }
+  clearConflictHover();
+  setMetricHover(null);
+  closeHotspotPopup();
+  activeSpotId = null;
+  setActiveCountry(null);
+  countrySheet.classList.remove("is-hidden");
+  mapStatus.textContent = `${spot.name}: ${spot.area}`;
+  activeSheetRequestId += 1;
+  activeSheetKey = `carrier:${spot.id}`;
+  updateMarkerBriefingSheet(spot, "US carrier");
+}
+
 function openAiPick(pick, options = {}) {
   const { hoverPreview = false } = options;
   if (!hoverPreview) {
@@ -1276,7 +1331,7 @@ function renderConflictHotspots() {
     .on("mouseenter", (event, hotspot) => {
       cancelHotspotHide();
       mapStatus.textContent = hotspot.label;
-      openConflictHotspot(hotspot, event, false);
+      openConflictMarker(hotspot, event, { hoverPreview: true });
     })
     .on("mouseleave", (_, hotspot) => {
       scheduleHotspotHide();
@@ -1285,7 +1340,7 @@ function renderConflictHotspots() {
     .on("focus", (event, hotspot) => {
       cancelHotspotHide();
       mapStatus.textContent = hotspot.label;
-      openConflictHotspot(hotspot, event, false);
+      openConflictMarker(hotspot, event, { hoverPreview: true });
     })
     .on("blur", () => {
       scheduleHotspotHide();
@@ -1293,12 +1348,12 @@ function renderConflictHotspots() {
     })
     .on("click", (event, hotspot) => {
       event.stopPropagation();
-      openConflictHotspot(hotspot, event, true);
+      openConflictMarker(hotspot, event, { hoverPreview: false });
     })
     .on("keydown", (event, hotspot) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        openConflictHotspot(hotspot, event);
+        openConflictMarker(hotspot, event, { hoverPreview: false });
       }
     });
 
@@ -1469,28 +1524,26 @@ function renderCarrierSpots() {
     .attr("aria-label", (spot) => spot.name)
     .on("mouseenter", (_, spot) => {
       mapStatus.textContent = `${spot.name}: ${spot.area}`;
+      openCarrierSpot(spot, { hoverPreview: true });
     })
     .on("mouseleave", () => {
       mapStatus.textContent = getDefaultMapStatus();
     })
     .on("focus", (_, spot) => {
       mapStatus.textContent = `${spot.name}: ${spot.area}`;
+      openCarrierSpot(spot, { hoverPreview: true });
     })
     .on("blur", () => {
       mapStatus.textContent = getDefaultMapStatus();
     })
     .on("click", (event, spot) => {
       event.stopPropagation();
-      if (spot.sourceUrl) {
-        window.open(spot.sourceUrl, "_blank", "noreferrer");
-      }
+      openCarrierSpot(spot, { hoverPreview: false });
     })
     .on("keydown", (event, spot) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        if (spot.sourceUrl) {
-          window.open(spot.sourceUrl, "_blank", "noreferrer");
-        }
+        openCarrierSpot(spot, { hoverPreview: false });
       }
     });
 

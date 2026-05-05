@@ -35,6 +35,44 @@
         "resolveDate": "2026-12-31",
         "updatedLabel": "April 28, 2026",
         "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "label": "Eastern Ukraine frontline",
+        "kind": "Russo-Ukrainian war",
+        "marketCard": {
+          "title": "Russia x Ukraine ceasefire by end of 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+          "yesProbability": "26%",
+          "volume": "$14,502,614",
+          "resolveDate": "2026-12-31",
+          "updatedLabel": "April 28, 2026",
+          "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+        },
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Eastern Ukraine frontline",
+            "summary": "The eastern front around Donetsk and the broader Donbas remains highly attritional since the start of the full-scale war in 2022. Both sides use drone strikes, artillery, and manpower in attempts to translate localized gains into operational momentum. Observers watch for shifts in tempo, fortifications, and the ability to sustain pressure without a decisive breakthrough. The risk remains that stalemate persists as both sides accrue casualties and material losses.",
+            "tags": [
+              "frontline",
+              "Russo-Ukrainian war",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "The live angle centers on whether ongoing pressure can convert localized advances into an operational shift.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+          }
+        ]
       }
     },
     {
@@ -69,6 +107,44 @@
         "resolveDate": "2026-12-31",
         "updatedLabel": "April 28, 2026",
         "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "label": "Southern Ukraine fighting",
+        "kind": "Russo-Ukrainian war",
+        "marketCard": {
+          "title": "Russia x Ukraine ceasefire by end of 2026?",
+          "url": "https://polymarket.com/event/russia-x-ukraine-ceasefire-before-2027",
+          "yesProbability": "26%",
+          "volume": "$14,502,614",
+          "resolveDate": "2026-12-31",
+          "updatedLabel": "April 28, 2026",
+          "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+        },
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Southern Ukraine fighting",
+            "summary": "Southern Ukraine continues as a strategic, static front toward the land corridor to Crimea. The focus is on whether strikes, fortifications, and logistics pressure around Zaporizhzhia and the lower Dnipro can alter the balance, even without sweeping maneuvers. The region remains vital for supply lines and regional military posture, with civilian impacts shaping the public narrative.",
+            "tags": [
+              "frontline",
+              "Russo-Ukrainian war",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Recent assessments consider whether logistical pressure changes balance around Zaporizhzhia.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+          }
+        ]
       }
     },
     {
@@ -84,7 +160,37 @@
         "Palestine",
         "Iran"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict",
+      "briefing": {
+        "label": "Gaza fighting",
+        "kind": "Iran–Israel conflicts",
+        "marketCard": null,
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Gaza fighting",
+            "summary": "Gaza stands as the densest urban-war marker in the region, with civilian movement, aid access, hostage diplomacy, and ceasefire negotiations shaping headlines. While linked to broader Iran-Israel dynamics, the local story hinges on operational shifts from raids to a potential durable political arrangement. Civilians face escalating humanitarian challenges amid ongoing security operations.",
+            "tags": [
+              "urban-war",
+              "Iran–Israel conflicts",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Diplomacy continues over hostage and ceasefire terms in the Gaza context.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict"
+          }
+        ]
+      }
     },
     {
       "id": "south-lebanon",
@@ -118,6 +224,44 @@
         "resolveDate": "2026-06-30",
         "updatedLabel": "Apr 28, 2026",
         "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "label": "South Lebanon strikes",
+        "kind": "Iran–Israel conflicts",
+        "marketCard": {
+          "title": "Will Hamas agree to disarm by...?",
+          "url": "https://polymarket.com/event/will-hamaz-disarm-by-december-31",
+          "yesProbability": "17%",
+          "volume": "$1,661,246",
+          "resolveDate": "2026-06-30",
+          "updatedLabel": "Apr 28, 2026",
+          "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+        },
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "South Lebanon strikes",
+            "summary": "South Lebanon serves as a pressure gauge for a wider Israel-Hezbollah confrontation. The daily pattern is a cycle of strikes, evacuations, rocket exchanges, and deterrence signaling rather than a conventional invasion. The risk of escalation grows if misreadings occur, potentially widening regional tensions and impacting civilian areas.",
+            "tags": [
+              "cross-border",
+              "Iran–Israel conflicts",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "The front remains a cycle of strikes and deterrence signaling with potential for wider escalation.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_proxy_conflict"
+          }
+        ]
       }
     },
     {
@@ -134,7 +278,37 @@
         "United Arab Emirates",
         "Israel"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)",
+      "briefing": {
+        "label": "Red Sea / Yemen attacks",
+        "kind": "Yemeni civil war",
+        "marketCard": null,
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Red Sea / Yemen attacks",
+            "summary": "The Red Sea/Yemen marker tracks Houthi missile and drone activity affecting shipping and military responses around Bab el-Mandeb. The central question is whether attacks and associated insurance costs deter vessels from Suez despite fluctuating headline attention. Security operators monitor shipping routes and countermeasures in the broader Yemen conflict.",
+            "tags": [
+              "missile-strike",
+              "Yemeni civil war",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Houthi attacks and shipping security remain the focal point for maritime risk in the region.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Yemeni_civil_war_(2014%E2%80%93present)"
+          }
+        ]
+      }
     },
     {
       "id": "khartoum",
@@ -170,6 +344,44 @@
         "resolveDate": "2026-06-30",
         "updatedLabel": "Apr 28, 2026",
         "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "label": "Khartoum fighting",
+        "kind": "Sudanese civil wars",
+        "marketCard": {
+          "title": "Sudan civil war ceasefire by...?",
+          "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+          "yesProbability": "5%",
+          "volume": "$61,515",
+          "resolveDate": "2026-06-30",
+          "updatedLabel": "Apr 28, 2026",
+          "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+        },
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Khartoum fighting",
+            "summary": "Khartoum has become a fragmented urban battlefield amid Sudan’s army-RSF conflict and a governance crisis. The current signal is whether control shifts in the capital translate into improved aid access or simply relocate fighting and displacement. The humanitarian situation is increasingly precarious as clashes fragment cities and threaten essential services.",
+            "tags": [
+              "urban-war",
+              "Sudanese civil wars",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Control dynamics in Khartoum will influence aid access and displacement patterns.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War"
+          }
+        ]
       }
     },
     {
@@ -204,6 +416,44 @@
         "resolveDate": "2026-06-30",
         "updatedLabel": "Apr 28, 2026",
         "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "label": "Darfur fighting",
+        "kind": "Sudanese civil wars",
+        "marketCard": {
+          "title": "Sudan civil war ceasefire by...?",
+          "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
+          "yesProbability": "5%",
+          "volume": "$61,515",
+          "resolveDate": "2026-06-30",
+          "updatedLabel": "Apr 28, 2026",
+          "note": "Prediction-market pricing from Polymarket. Current leading branch is \"June 30, 2026.\" This is a market signal, not a forecast guarantee."
+        },
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Darfur fighting",
+            "summary": "Darfur presents the most worrying Sudanese spillover, with local violence and displacement intersecting with cross-border routes into Chad. The live angle centers on whether pressure around El Fasher and surrounding corridors worsens the humanitarian emergency and regional stability. Cross-border dynamics remain a critical factor for security and aid delivery.",
+            "tags": [
+              "frontline",
+              "Sudanese civil wars",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Worsening humanitarian conditions around El Fasher are a key concern.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Sudanese_Civil_War"
+          }
+        ]
       }
     },
     {
@@ -221,7 +471,37 @@
         "Benin",
         "Togo"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)",
+      "briefing": {
+        "label": "Sahel insurgency belt",
+        "kind": "Islamist insurgencies in the Maghreb",
+        "marketCard": null,
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Sahel insurgency belt",
+            "summary": "The Sahel tri-border zone remains an insurgency belt across Mali, Burkina Faso, and Niger, with cross-border militant mobility amplified by external influence. Recent coordinated attacks highlight that junta legitimacy, external support, and regional security are closely intertwined, affecting civilian safety and governance legitimacy in multiple states.",
+            "tags": [
+              "insurgency",
+              "Islamist insurgencies in the Maghreb",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Coordinated attacks in Mali underscore the region’s multifaceted security challenges.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Insurgency_in_the_Maghreb_(2002%E2%80%93present)"
+          }
+        ]
+      }
     },
     {
       "id": "lake-chad",
@@ -237,7 +517,37 @@
         "Cameroon",
         "Chad"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria",
+      "briefing": {
+        "label": "Lake Chad / Boko Haram activity",
+        "kind": "Civil conflicts in Nigeria",
+        "marketCard": null,
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Lake Chad / Boko Haram activity",
+            "summary": "Lake Chad continues as a regional insurgency system affecting Nigeria, Niger, Cameroon, and Chad through raids, displacement, and fragile border communities. The battle lines are fluid, with ongoing concerns about civilian protection and the ability of governments to secure multi-country border areas against Boko Haram and IS-linked groups.",
+            "tags": [
+              "insurgency",
+              "Civil conflicts in Nigeria",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Cross-border insurgent activity continues to challenge regional stability.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Communal_conflicts_in_Nigeria"
+          }
+        ]
+      }
     },
     {
       "id": "cameroon-far-north",
@@ -253,7 +563,37 @@
         "Niger",
         "Chad"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)",
+      "briefing": {
+        "label": "Far North Cameroon violence",
+        "kind": "Cameroonian conflicts",
+        "marketCard": null,
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Far North Cameroon violence",
+            "summary": "Far North Cameroon is tied to the Lake Chad insurgency ecosystem, though events are often smaller than headlines from Nigeria. The strategic issue centers on border insecurity and civilian vulnerability in a region with limited state reach, requiring sustained humanitarian and security attention.",
+            "tags": [
+              "insurgency",
+              "Cameroonian conflicts",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Border-region insecurity persists with civilian vulnerability in focus.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Cameroonian_Civil_War_(disambiguation)"
+          }
+        ]
+      }
     },
     {
       "id": "myanmar-sagaing",
@@ -270,7 +610,37 @@
         "Thailand",
         "China"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Myanmar_civil_war"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Myanmar_civil_war",
+      "briefing": {
+        "label": "Sagaing / Myanmar fighting",
+        "kind": "Myanmar civil war",
+        "marketCard": null,
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Sagaing / Myanmar fighting",
+            "summary": "Sagaing remains a core resistance-war zone in Myanmar’s post-coup conflict, with anti-junta forces seeking to hold territory and disrupt logistics while civilians face airstrikes, displacement, and governance fragmentation. The front line’s resilience or breakdown will influence broader national dynamics and humanitarian needs.",
+            "tags": [
+              "frontline",
+              "Myanmar civil war",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Myanmar_civil_war"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Anti-junta forces aim to hold territory to disrupt military logistics.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Myanmar_civil_war"
+          }
+        ]
+      }
     },
     {
       "id": "drc-kivu",
@@ -286,7 +656,37 @@
         "Uganda",
         "Burundi"
       ],
-      "sourceUrl": "https://en.wikipedia.org/wiki/Kivu_conflict"
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kivu_conflict",
+      "briefing": {
+        "label": "Eastern DRC / Kivu clashes",
+        "kind": "Kivu conflict",
+        "marketCard": null,
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Eastern DRC / Kivu clashes",
+            "summary": "Eastern DRC and Kivu areas remain shaped by M23 activity, Congolese forces, and regional involvement, with continued civilian displacement and contested control of roads and mining sites. The diplomatic ceasefire language versus on-the-ground realities remains a key dynamic, as armed groups retain leverage in strategic corridors.",
+            "tags": [
+              "insurgency",
+              "Kivu conflict",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Kivu_conflict"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Ceasefire rhetoric competes with persistent armed control of routes.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Kivu_conflict"
+          }
+        ]
+      }
     },
     {
       "id": "kashmir-line",
@@ -320,6 +720,44 @@
         "resolveDate": "2026-12-31",
         "updatedLabel": "Apr 15, 2026",
         "note": "Prediction-market pricing from Polymarket. Current leading branch is \"December 31, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "label": "Kashmir militarized zone",
+        "kind": "Kashmir conflict",
+        "marketCard": {
+          "title": "India strike on Pakistan by...?",
+          "url": "https://polymarket.com/event/india-strike-on-pakistan-by",
+          "yesProbability": "27%",
+          "volume": "$938,647",
+          "resolveDate": "2026-12-31",
+          "updatedLabel": "Apr 15, 2026",
+          "note": "Prediction-market pricing from Polymarket. Current leading branch is \"December 31, 2026.\" This is a market signal, not a forecast guarantee."
+        },
+        "stories": [
+          {
+            "source": "GPT-5 nano",
+            "time": "Current context",
+            "title": "Kashmir militarized zone",
+            "summary": "Kashmir remains a militarized India-Pakistan border zone where local attacks, arrests, and cross-border fire can trigger crisis diplomacy between nuclear-armed states. The live signal is whether any incident alters troop postures, air restrictions, or border measures, with civilians remaining at risk in the affected districts.",
+            "tags": [
+              "border-conflict",
+              "Kashmir conflict",
+              "Live conflict"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Kashmir_conflict"
+          },
+          {
+            "source": "Recent development",
+            "time": "Now",
+            "title": "What to watch",
+            "summary": "Any incident could shift troop posture and border restrictions.",
+            "tags": [
+              "Signal",
+              "Map note"
+            ],
+            "url": "https://en.wikipedia.org/wiki/Kashmir_conflict"
+          }
+        ]
       }
     }
   ]
