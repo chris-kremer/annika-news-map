@@ -55,6 +55,12 @@ const sampleCountryByName = new Map(
   Object.values(sampleCountryData).map((country) => [country.name, country]),
 );
 const countryNameAliases = new Map([["United States of America", "United States"]]);
+const aiPickCountryAliases = new Map([
+  ["Chad and Sudan", "Chad"],
+  ["Chad/Sudan", "Chad"],
+  ["Zambia / Southern Africa", "Zambia"],
+  ["Democratic Republic of the Congo", "Dem. Rep. Congo"],
+]);
 
 let projection;
 let path;
@@ -89,6 +95,7 @@ let aiPickNodes;
 let showAiPicks = true;
 let aiPicksLoadingMore = false;
 let aiPicksHasMore = true;
+let aiPicksRefreshing = false;
 let carrierSpots = [];
 let carrierSpotNodes;
 let showCarrierSpots = false;
@@ -100,6 +107,11 @@ let globeZoom = 1;
 
 function getCanonicalCountryName(countryName) {
   return countryNameAliases.get(countryName) || countryName;
+}
+
+function normalizeAiPickCountryName(countryName) {
+  const value = String(countryName || "").trim();
+  return aiPickCountryAliases.get(value) || value.split("/")[0].trim();
 }
 
 function getDefaultMapStatus() {
@@ -624,6 +636,19 @@ function getMarketTitle(marketCard) {
   return title;
 }
 
+function formatGeneratedAt(value) {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return "recently";
+  }
+  return parsed.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
 function normalizeStoryText(value) {
   return String(value || "")
     .toLowerCase()
@@ -682,16 +707,20 @@ function renderStories(stories) {
 function setMoreStoriesVisible(visible) {
   if (!moreStoriesButton) return;
   moreStoriesButton.classList.toggle("is-hidden", !visible);
-  moreStoriesButton.disabled = aiPicksLoadingMore || !aiPicksHasMore;
+  moreStoriesButton.disabled = aiPicksLoadingMore || (!aiPicksHasMore && !aiPicksRefreshing);
   moreStoriesButton.textContent = aiPicksLoadingMore
     ? "Loading..."
+    : aiPicksRefreshing && !aiPicksHasMore
+      ? "Refreshing..."
     : aiPicksHasMore
       ? "More stories"
       : "No more stories";
   if (moreStoriesHudButton) {
-    moreStoriesHudButton.disabled = aiPicksLoadingMore || !aiPicksHasMore;
+    moreStoriesHudButton.disabled = aiPicksLoadingMore || (!aiPicksHasMore && !aiPicksRefreshing);
     moreStoriesHudButton.textContent = aiPicksLoadingMore
       ? "Loading..."
+      : aiPicksRefreshing && !aiPicksHasMore
+        ? "Refreshing..."
       : aiPicksHasMore
         ? "More Top Stories"
         : "No more stories";
@@ -715,6 +744,45 @@ function buildCountryStore() {
       countryStore.set(country.name, country);
     }
   }
+}
+
+function getCountryCentroidByName(countryName) {
+  const normalized = normalizeAiPickCountryName(countryName);
+  const feature = features.find((item) => {
+    const featureName = item.properties.name;
+    return featureName === normalized || getCanonicalCountryName(featureName) === normalized;
+  });
+  return feature ? d3.geoCentroid(feature) : null;
+}
+
+function normalizeAiPick(pick, generatedAtLabel = pick.generatedAtLabel) {
+  const centroid = getCountryCentroidByName(pick.country);
+  const hasUsableCoordinates =
+    typeof pick.lat === "number" &&
+    typeof pick.lon === "number" &&
+    Number.isFinite(pick.lat) &&
+    Number.isFinite(pick.lon) &&
+    !(Math.abs(pick.lat) < 0.001 && Math.abs(pick.lon) < 0.001);
+  const [centroidLon, centroidLat] = centroid || [];
+  return {
+    ...pick,
+    lon: centroid ? centroidLon : pick.lon,
+    lat: centroid ? centroidLat : pick.lat,
+    generatedAtLabel,
+    isMappable: Boolean(centroid || hasUsableCoordinates),
+  };
+}
+
+function filterRenderableAiPicks(picks) {
+  return picks.filter(
+    (pick) =>
+      pick &&
+      pick.isMappable &&
+      typeof pick.lat === "number" &&
+      typeof pick.lon === "number" &&
+      pick.id &&
+      pick.title,
+  );
 }
 
 function mergeCountryFacts(payload) {
@@ -1285,6 +1353,9 @@ function setConflictHotspotsVisible(active) {
   syncConflictToggle();
   if (hotspotLayer) {
     hotspotLayer.style("display", showConflictHotspots ? null : "none");
+    if (showConflictHotspots) {
+      hotspotLayer.raise();
+    }
   }
   updateHotspotPositions();
 }
@@ -1648,12 +1719,16 @@ function renderConflictHotspots() {
   }
 
   hotspotLayer.style("display", showConflictHotspots ? null : "none");
+  if (showConflictHotspots) {
+    hotspotLayer.raise();
+  }
 
   hotspotNodes = hotspotLayer
     .selectAll("g")
     .data(conflictHotspots, (hotspot) => hotspot.id)
     .join((enter) => {
       const group = enter.append("g").attr("class", "conflict-hotspot").attr("tabindex", 0);
+      group.append("circle").attr("class", "conflict-hit");
       group.append("circle").attr("class", "hotspot-halo hotspot-halo--1");
       group.append("circle").attr("class", "hotspot-halo hotspot-halo--2");
       group.append("circle").attr("class", "hotspot-core");
@@ -1699,6 +1774,10 @@ function renderConflictHotspots() {
         openConflictMarker(hotspot, event, { hoverPreview: false });
       }
     });
+
+  hotspotNodes
+    .select(".conflict-hit")
+    .attr("r", (hotspot) => Math.max(18, hotspot.weight * 2.2));
 
   hotspotNodes
     .select(".hotspot-halo--1")
@@ -1948,14 +2027,7 @@ async function loadAiPicks() {
     }
     const payload = await response.json();
     aiPicks = Array.isArray(payload.picks)
-      ? payload.picks.filter(
-          (pick) =>
-            pick &&
-            typeof pick.lat === "number" &&
-            typeof pick.lon === "number" &&
-            pick.id &&
-            pick.title,
-        )
+      ? filterRenderableAiPicks(payload.picks.map((pick) => normalizeAiPick(pick)))
       : [];
   } catch (error) {
     console.error("AI picks unavailable", error);
@@ -1975,12 +2047,13 @@ async function refreshLiveAiPicks() {
     const livePicks = Array.isArray(payload.picks) ? payload.picks : [];
     if (livePicks.length) {
       const generatedAtLabel = payload.generatedAt ? `Updated ${formatGeneratedAt(payload.generatedAt)}` : "Top stories";
-      aiPicks = livePicks.map((pick) => ({
-        ...pick,
-        generatedAtLabel,
-      }));
-      aiPicksHasMore = livePicks.length >= 5;
+      aiPicks = filterRenderableAiPicks(livePicks.map((pick) => normalizeAiPick(pick, generatedAtLabel)));
+      aiPicksRefreshing = Boolean(payload.refreshing);
+      aiPicksHasMore = typeof payload.totalAvailable === "number"
+        ? aiPicks.length < payload.totalAvailable || aiPicksRefreshing
+        : livePicks.length >= 5;
       renderAiPicks();
+      setMoreStoriesVisible(!countrySheet.classList.contains("is-hidden") && activeSheetKey.startsWith("ai:"));
     }
   } catch (error) {
     console.error("Live AI picks unavailable", error);
@@ -1995,41 +2068,49 @@ function getAiPickDedupeKey(pick) {
 }
 
 async function loadMoreAiPicks() {
-  if (aiPicksLoadingMore || !aiPicksHasMore) return;
+  if (aiPicksLoadingMore || (!aiPicksHasMore && !aiPicksRefreshing)) return;
   aiPicksLoadingMore = true;
   setMoreStoriesVisible(true);
   try {
-    const offset = aiPicks.length;
-    const response = await fetch(`/api/ai-picks?offset=${offset}&limit=5`, { cache: "no-store" });
+    const response = await fetch("/api/ai-picks?offset=0&limit=20", { cache: "no-store" });
     if (!response.ok) {
       throw new Error(`AI picks request failed: ${response.status}`);
     }
     const payload = await response.json();
     const generatedAtLabel = payload.generatedAt ? `Updated ${formatGeneratedAt(payload.generatedAt)}` : "Top stories";
-    const existing = new Set(aiPicks.map(getAiPickDedupeKey).filter(Boolean));
+    aiPicksRefreshing = Boolean(payload.refreshing);
     const incoming = Array.isArray(payload.picks) ? payload.picks : [];
-    const additions = incoming
-      .filter((pick) => pick && typeof pick.lat === "number" && typeof pick.lon === "number" && pick.id && pick.title)
-      .filter((pick) => {
+    const nextPicks = [];
+    const seen = new Set();
+    filterRenderableAiPicks(incoming.map((pick) => normalizeAiPick(pick, generatedAtLabel)))
+      .forEach((pick) => {
         const key = getAiPickDedupeKey(pick);
-        if (!key || existing.has(key)) return false;
-        existing.add(key);
-        return true;
-      })
-      .map((pick) => ({ ...pick, generatedAtLabel }));
+        if (!key || seen.has(key)) return;
+        seen.add(key);
+        nextPicks.push(pick);
+      });
 
-    if (additions.length) {
-      aiPicks = [...aiPicks, ...additions];
+    const previousCount = aiPicks.length;
+    if (nextPicks.length) {
+      aiPicks = nextPicks;
+    }
+
+    if (aiPicks.length) {
       renderAiPicks();
       countrySheet.classList.remove("is-hidden");
       setGlobeShift(true);
       activeSheetKey = "ai:overview";
       updateAiPicksOverviewSheet();
-      mapStatus && (mapStatus.textContent = `Loaded ${additions.length} more top ${additions.length === 1 ? "story" : "stories"}`);
+      const addedCount = Math.max(0, aiPicks.length - previousCount);
+      mapStatus && (mapStatus.textContent = addedCount
+        ? `Loaded ${addedCount} more top ${addedCount === 1 ? "story" : "stories"}`
+        : `Showing ${aiPicks.length} cached top ${aiPicks.length === 1 ? "story" : "stories"}`);
     }
-    aiPicksHasMore = incoming.length >= 5 && additions.length > 0;
-    if (!additions.length) {
-      mapStatus && (mapStatus.textContent = "No additional top stories returned");
+    aiPicksHasMore = typeof payload.totalAvailable === "number"
+      ? aiPicks.length < payload.totalAvailable || aiPicksRefreshing
+      : false;
+    if (!nextPicks.length) {
+      mapStatus && (mapStatus.textContent = aiPicksRefreshing ? "Top stories cache is still refreshing" : "No additional top stories returned");
     }
   } catch (error) {
     console.error("More AI picks unavailable", error);

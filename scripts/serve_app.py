@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import json
 import os
+import sys
+import threading
+import time
 import urllib.parse
 from datetime import datetime, timedelta, timezone
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -18,10 +21,16 @@ ROOT = Path(__file__).resolve().parents[1]
 CACHE_PATH = ROOT / "data" / "cache" / "briefings.json"
 SPOT_CACHE_PATH = ROOT / "data" / "cache" / "important_spots.json"
 AI_PICKS_CACHE_PATH = ROOT / "data" / "cache" / "ai_picks.json"
+AI_PICKS_STATIC_PATH = ROOT / "data" / "generated" / "ai_picks.json"
 POLYMARKET_CACHE_PATH = ROOT / "data" / "cache" / "polymarket_prices.json"
 CACHE_TTL = timedelta(hours=24)
 AI_PICKS_CACHE_TTL = timedelta(hours=6)
 POLYMARKET_CACHE_TTL = timedelta(minutes=30)
+AI_PICKS_TARGET_COUNT = 25
+AI_PICKS_PAGE_LIMIT = 5
+AI_PICKS_BACKGROUND_ENABLED = os.environ.get("AI_PICKS_BACKGROUND_REFRESH", "0") == "1"
+ai_picks_refresh_lock = threading.Lock()
+ai_picks_refresh_thread: threading.Thread | None = None
 
 
 def load_cache(path: Path) -> dict:
@@ -162,10 +171,67 @@ def fetch_ai_picks_payload(limit: int = 10) -> dict:
     args = fetch_ai_picks.parse_args()
     args.limit = limit
     args.per_query = 2
-    args.discovery_per_query = 8
+    args.discovery_per_query = 6
+    args.secondary_per_query = 10
+    args.rss_per_feed = 12
     args.window_hours = 240
-    args.delay_seconds = 1.0
+    args.delay_seconds = 3.0
     return fetch_ai_picks.build_payload(args)
+
+
+def best_available_ai_picks_cache() -> dict:
+    cached = load_cache(AI_PICKS_CACHE_PATH)
+    static = load_cache(AI_PICKS_STATIC_PATH)
+    if len(static.get("picks", [])) > len(cached.get("picks", [])):
+        return static
+    return cached
+
+
+def refresh_ai_picks_cache(limit: int = AI_PICKS_TARGET_COUNT) -> dict:
+    with ai_picks_refresh_lock:
+        previous = best_available_ai_picks_cache()
+        payload = fetch_ai_picks_payload(limit)
+        if len(payload.get("picks", [])) < len(previous.get("picks", [])):
+            print(
+                f"warning: keeping existing AI picks cache with {len(previous.get('picks', []))} picks; refresh only produced {len(payload.get('picks', []))}",
+                flush=True,
+                file=sys.stderr,
+            )
+            save_cache(AI_PICKS_CACHE_PATH, previous)
+            return previous
+        save_cache(AI_PICKS_CACHE_PATH, payload)
+        return payload
+
+
+def run_ai_picks_refresh(reason: str) -> None:
+    try:
+        print(f"Refreshing AI picks cache ({reason})", flush=True, file=sys.stderr)
+        payload = refresh_ai_picks_cache()
+        print(f"AI picks cache now has {len(payload.get('picks', []))} picks", flush=True, file=sys.stderr)
+    except Exception as error:
+        print(f"warning: AI picks background refresh failed: {error}", flush=True, file=sys.stderr)
+
+
+def start_ai_picks_refresh(reason: str, force: bool = False) -> bool:
+    global ai_picks_refresh_thread
+    if not AI_PICKS_BACKGROUND_ENABLED and not force:
+        return False
+    if ai_picks_refresh_thread and ai_picks_refresh_thread.is_alive():
+        return False
+    cached = best_available_ai_picks_cache()
+    if not force and cached.get("picks") and len(cached.get("picks", [])) >= AI_PICKS_TARGET_COUNT and is_ai_picks_fresh(cached):
+        return False
+    ai_picks_refresh_thread = threading.Thread(target=run_ai_picks_refresh, args=(reason,), daemon=True)
+    ai_picks_refresh_thread.start()
+    return True
+
+
+def ai_picks_scheduler() -> None:
+    while True:
+        cached = best_available_ai_picks_cache()
+        if not cached.get("picks") or len(cached.get("picks", [])) < AI_PICKS_TARGET_COUNT or not is_ai_picks_fresh(cached):
+            start_ai_picks_refresh("scheduled")
+        time.sleep(AI_PICKS_CACHE_TTL.total_seconds())
 
 
 class AppHandler(SimpleHTTPRequestHandler):
@@ -340,39 +406,42 @@ class AppHandler(SimpleHTTPRequestHandler):
         except ValueError:
             self.end_json({"error": "Invalid offset or limit"}, status=400)
             return
-        required_count = min(25, offset + limit)
-        cached = load_cache(AI_PICKS_CACHE_PATH)
+        cached = best_available_ai_picks_cache()
+        refreshing = False
 
-        if (
-            cached.get("picks")
-            and len(cached.get("picks", [])) >= required_count
-            and is_ai_picks_fresh(cached)
-            and not force_refresh
-        ):
+        if force_refresh or not cached.get("picks") or not is_ai_picks_fresh(cached) or len(cached.get("picks", [])) < AI_PICKS_TARGET_COUNT:
+            refreshing = start_ai_picks_refresh("api-request", force=force_refresh)
+
+        if cached.get("picks"):
             sliced = dict(cached)
             sliced["picks"] = cached.get("picks", [])[offset : offset + limit]
-            self.end_json({**sliced, "fromCache": True, "offset": offset, "limit": limit})
+            self.end_json(
+                {
+                    **sliced,
+                    "fromCache": True,
+                    "refreshing": refreshing or bool(ai_picks_refresh_thread and ai_picks_refresh_thread.is_alive()),
+                    "offset": offset,
+                    "limit": limit,
+                    "totalAvailable": len(cached.get("picks", [])),
+                }
+            )
             return
 
-        try:
-            payload = fetch_ai_picks_payload(required_count)
-        except Exception as error:
-            if cached.get("picks"):
-                fallback = dict(cached)
-                fallback["picks"] = cached.get("picks", [])[offset : offset + limit]
-                fallback["fromCache"] = True
-                fallback["warning"] = str(error)
-                fallback["offset"] = offset
-                fallback["limit"] = limit
-                self.end_json(fallback)
-                return
-            self.end_json({"error": str(error)}, status=502)
-            return
-
-        save_cache(AI_PICKS_CACHE_PATH, payload)
-        sliced = dict(payload)
-        sliced["picks"] = payload.get("picks", [])[offset : offset + limit]
-        self.end_json({**sliced, "fromCache": False, "offset": offset, "limit": limit})
+        self.end_json(
+            {
+                "generatedAt": None,
+                "provider": "warming-cache",
+                "windowHours": 240,
+                "selectionPrinciple": fetch_ai_picks.SELECTION_PRINCIPLE,
+                "picks": [],
+                "fromCache": True,
+                "refreshing": True,
+                "offset": offset,
+                "limit": limit,
+                "totalAvailable": 0,
+            },
+            status=202,
+        )
 
 
 def main() -> int:
@@ -388,6 +457,9 @@ def main() -> int:
         traceback.print_exc()
         return 1
     print(f"Serving Pumpkin News on http://{host}:{port}/", flush=True)
+    if AI_PICKS_BACKGROUND_ENABLED:
+        start_ai_picks_refresh("startup")
+        threading.Thread(target=ai_picks_scheduler, daemon=True).start()
     try:
         server.serve_forever()
     except KeyboardInterrupt:
