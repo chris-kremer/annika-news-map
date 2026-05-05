@@ -2025,8 +2025,12 @@ async function loadMoreAiPicks() {
       setGlobeShift(true);
       activeSheetKey = "ai:overview";
       updateAiPicksOverviewSheet();
+      mapStatus && (mapStatus.textContent = `Loaded ${additions.length} more top ${additions.length === 1 ? "story" : "stories"}`);
     }
     aiPicksHasMore = incoming.length >= 5 && additions.length > 0;
+    if (!additions.length) {
+      mapStatus && (mapStatus.textContent = "No additional top stories returned");
+    }
   } catch (error) {
     console.error("More AI picks unavailable", error);
   } finally {
