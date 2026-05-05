@@ -18,8 +18,10 @@ ROOT = Path(__file__).resolve().parents[1]
 CACHE_PATH = ROOT / "data" / "cache" / "briefings.json"
 SPOT_CACHE_PATH = ROOT / "data" / "cache" / "important_spots.json"
 AI_PICKS_CACHE_PATH = ROOT / "data" / "cache" / "ai_picks.json"
+POLYMARKET_CACHE_PATH = ROOT / "data" / "cache" / "polymarket_prices.json"
 CACHE_TTL = timedelta(hours=24)
 AI_PICKS_CACHE_TTL = timedelta(hours=6)
+POLYMARKET_CACHE_TTL = timedelta(minutes=30)
 
 
 def load_cache(path: Path) -> dict:
@@ -59,12 +61,19 @@ def is_ai_picks_fresh(payload: dict) -> bool:
     return datetime.now(timezone.utc) - generated_at < AI_PICKS_CACHE_TTL
 
 
+def is_polymarket_fresh(entry: dict) -> bool:
+    cached_at = parse_cached_at(entry.get("cachedAt"))
+    if not cached_at:
+        return False
+    return datetime.now(timezone.utc) - cached_at < POLYMARKET_CACHE_TTL
+
+
 def build_market_card(url: str, fallback_card: dict | None = None) -> dict:
-    if fallback_card:
-        return dict(fallback_card)
     try:
-        return fetch_important_spots.fetch_polymarket_card(url)
+        return fetch_important_spots.fetch_polymarket_card(url, fallback_card)
     except Exception:
+        if fallback_card:
+            return dict(fallback_card)
         return {
             "title": "Polymarket market",
             "url": url,
@@ -79,7 +88,7 @@ def build_market_card(url: str, fallback_card: dict | None = None) -> dict:
 def ensure_spot_market_card(spot_id: str, briefing: dict) -> dict:
     config = fetch_important_spots.get_spot_config(spot_id)
     market_url = config.get("marketUrl")
-    if not market_url or briefing.get("marketCard"):
+    if not market_url:
         return briefing
 
     enriched = dict(briefing)
@@ -189,7 +198,43 @@ class AppHandler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/ai-picks":
             self.handle_ai_picks_request(parsed)
             return
+        if parsed.path == "/api/polymarket-price":
+            self.handle_polymarket_price_request(parsed)
+            return
         super().do_GET()
+
+    def handle_polymarket_price_request(self, parsed) -> None:
+        params = urllib.parse.parse_qs(parsed.query)
+        url = params.get("url", [""])[0].strip()
+        if not url or "polymarket.com" not in url:
+            self.end_json({"error": "Missing or invalid url"}, status=400)
+            return
+
+        cache = load_cache(POLYMARKET_CACHE_PATH)
+        prices = cache.setdefault("prices", {})
+        cached = prices.get(url)
+        if cached and is_polymarket_fresh(cached):
+            self.end_json({**cached, "fromCache": True})
+            return
+
+        try:
+            card = fetch_important_spots.fetch_polymarket_card(url)
+            entry = {
+                "yesProbability": card.get("yesProbability", "Unavailable"),
+                "volume": card.get("volume", "Unavailable"),
+                "title": card.get("title", ""),
+                "resolveDate": card.get("resolveDate", ""),
+                "cachedAt": datetime.now(timezone.utc).isoformat(),
+            }
+            prices[url] = entry
+            cache["generatedAt"] = datetime.now(timezone.utc).isoformat()
+            save_cache(POLYMARKET_CACHE_PATH, cache)
+            self.end_json({**entry, "fromCache": False})
+        except Exception as error:
+            if cached:
+                self.end_json({**cached, "fromCache": True, "warning": str(error)})
+                return
+            self.end_json({"error": str(error)}, status=502)
 
     def handle_briefing_request(self, parsed) -> None:
         params = urllib.parse.parse_qs(parsed.query)

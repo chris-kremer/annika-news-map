@@ -17,6 +17,7 @@ ENV_PATH = ROOT / ".env.local"
 OUTPUT_PATH = ROOT / "data" / "generated" / "important_spots.json"
 THE_NEWS_ENDPOINT = "https://api.thenewsapi.com/v1/news/top"
 GDELT_ENDPOINT = "https://api.gdeltproject.org/api/v2/doc/doc"
+POLYMARKET_GAMMA_ENDPOINT = "https://gamma-api.polymarket.com/markets/slug"
 
 try:
     import certifi
@@ -368,43 +369,81 @@ def fetch_gdelt_articles(config: dict, limit: int) -> list[dict]:
     return [normalize_gdelt_article(article) for article in payload.get("articles", [])]
 
 
-def fetch_polymarket_card(url: str, fallback_card: dict | None = None) -> dict:
+def parse_json_array_field(value) -> list:
+    if isinstance(value, list):
+        return value
+    if isinstance(value, str):
+        try:
+            decoded = json.loads(value)
+            return decoded if isinstance(decoded, list) else []
+        except json.JSONDecodeError:
+            return []
+    return []
+
+
+def format_probability(value) -> str:
     try:
-        html = curl_text(url)
+        probability = float(value)
+    except (TypeError, ValueError):
+        return "Unavailable"
+
+    if probability <= 1:
+        probability *= 100
+    if probability < 10:
+        return f"{probability:.1f}%"
+    return f"{probability:.0f}%"
+
+
+def format_usd(value) -> str:
+    try:
+        amount = float(value)
+    except (TypeError, ValueError):
+        return "Unavailable"
+
+    if amount >= 1_000_000:
+        return f"${amount / 1_000_000:.1f}m"
+    if amount >= 1_000:
+        return f"${amount / 1_000:.0f}k"
+    return f"${amount:,.0f}"
+
+
+def polymarket_slug_from_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    parts = [part for part in parsed.path.split("/") if part]
+    if not parts:
+        raise ValueError(f"Could not determine Polymarket slug from {url}")
+    if parts[0] == "event" and len(parts) > 1:
+        return parts[1]
+    return parts[-1]
+
+
+def fetch_polymarket_card(url: str, fallback_card: dict | None = None) -> dict:
+    slug = polymarket_slug_from_url(url)
+    api_url = f"{POLYMARKET_GAMMA_ENDPOINT}/{urllib.parse.quote(slug)}"
+
+    try:
+        market = curl_json(api_url)
+        outcomes = parse_json_array_field(market.get("outcomes"))
+        prices = parse_json_array_field(market.get("outcomePrices"))
     except Exception:
         if fallback_card:
             return dict(fallback_card)
         raise
 
-    title_match = re.search(r'<meta property="og:title" content="([^"]+)"', html)
-    volume_match = re.search(r"\$([\d,]+) has traded on", html)
-    prob_match = re.search(r"current crowd-sourced probability is (\d+(?:\.\d+)?)% for \\\\\"Yes", html)
-    if not prob_match:
-        prob_match = re.search(r"current probability for .*? is (\d+(?:\.\d+)?)% for \\\\\"Yes", html)
-    if not prob_match:
-        prob_match = re.search(r"price of (\d+(?:\.\d+)?)¢ for .*? means traders collectively believe there is a (\d+(?:\.\d+)?)% chance", html)
-    end_match = re.search(r'"endDate":"([^"]+)"', html)
-    updated_match = re.search(r"as of ([A-Za-z]+ \d{1,2}, \d{4})", html)
-
-    probability = None
-    if prob_match:
-        if len(prob_match.groups()) >= 2:
-            probability = prob_match.group(2)
-        else:
-            probability = prob_match.group(1)
-
-    resolve_date = None
-    if end_match:
-        resolve_date = end_match.group(1)[:10]
+    yes_price = None
+    for outcome, price in zip(outcomes, prices):
+        if str(outcome).strip().lower() == "yes":
+            yes_price = price
+            break
 
     return {
-        "title": title_match.group(1) if title_match else "Polymarket market",
+        "title": market.get("question") or market.get("title") or "Polymarket market",
         "url": url,
-        "yesProbability": f"{probability}%" if probability else "Unavailable",
-        "volume": f"${volume_match.group(1)}" if volume_match else "Unavailable",
-        "resolveDate": resolve_date or "Unavailable",
-        "updatedLabel": updated_match.group(1) if updated_match else "Today",
-        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee.",
+        "yesProbability": format_probability(yes_price),
+        "volume": format_usd(market.get("volumeNum", market.get("volume"))),
+        "resolveDate": (market.get("endDateIso") or market.get("endDate") or "Unavailable")[:10],
+        "updatedLabel": (market.get("updatedAt") or "Live")[:10],
+        "note": "Live prediction-market pricing from Polymarket Gamma. This is a market signal, not a forecast guarantee.",
     }
 
 

@@ -69,11 +69,11 @@ def is_polymarket_fresh(entry: dict) -> bool:
 
 
 def build_market_card(url: str, fallback_card: dict | None = None) -> dict:
-    if fallback_card:
-        return dict(fallback_card)
     try:
-        return fetch_important_spots.fetch_polymarket_card(url)
+        return fetch_important_spots.fetch_polymarket_card(url, fallback_card)
     except Exception:
+        if fallback_card:
+            return dict(fallback_card)
         return {
             "title": "Polymarket market",
             "url": url,
@@ -88,7 +88,7 @@ def build_market_card(url: str, fallback_card: dict | None = None) -> dict:
 def ensure_spot_market_card(spot_id: str, briefing: dict) -> dict:
     config = fetch_important_spots.get_spot_config(spot_id)
     market_url = config.get("marketUrl")
-    if not market_url or briefing.get("marketCard"):
+    if not market_url:
         return briefing
 
     enriched = dict(briefing)

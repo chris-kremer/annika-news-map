@@ -98,9 +98,9 @@ body {
 
 .layer-switches {
   position: fixed;
-  right: 28px;
+  right: auto;
   bottom: 28px;
-  left: auto;
+  left: 28px;
   top: auto;
   z-index: 4;
   display: grid;
@@ -167,6 +167,59 @@ body {
 .layer-switch__toggle.is-active .layer-switch__knob {
   transform: translateX(20px);
   background: #d9f8f2;
+}
+
+.zoom-controls {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 4;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--panel-line);
+  border-radius: 18px;
+  background: rgba(4, 10, 16, 0.76);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.zoom-control {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(143, 205, 224, 0.28);
+  border-radius: 12px;
+  background: rgba(18, 52, 82, 0.78);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease,
+    opacity 160ms ease;
+}
+
+.zoom-control:hover:not(:disabled),
+.zoom-control:focus-visible {
+  border-color: rgba(143, 205, 224, 0.72);
+  background: rgba(28, 75, 112, 0.9);
+  outline: none;
+}
+
+.zoom-control:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.zoom-control:disabled {
+  cursor: default;
+  opacity: 0.42;
 }
 
 .globe-sphere {
@@ -882,9 +935,15 @@ body {
 
 @media (max-width: 900px) {
   .layer-switches {
-    right: 14px;
+    right: auto;
+    left: 14px;
     bottom: 14px;
     padding: 12px;
+  }
+
+  .zoom-controls {
+    right: 14px;
+    bottom: 14px;
   }
 
   .layer-switch {

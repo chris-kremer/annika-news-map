@@ -30,6 +30,8 @@ const conflictToggle = document.getElementById("conflict-toggle");
 const importantToggle = document.getElementById("important-toggle");
 const aiPicksToggle = document.getElementById("ai-picks-toggle");
 const carrierToggle = document.getElementById("carrier-toggle");
+const zoomOutButton = document.getElementById("zoom-out");
+const zoomInButton = document.getElementById("zoom-in");
 const countrySheet = document.getElementById("country-sheet");
 const closeButton = document.getElementById("sheet-close");
 const detailCountry = document.getElementById("detail-country");
@@ -86,6 +88,11 @@ let showAiPicks = true;
 let carrierSpots = [];
 let carrierSpotNodes;
 let showCarrierSpots = false;
+const BASE_GLOBE_SCALE_RATIO = 0.36;
+const MIN_GLOBE_ZOOM = 0.72;
+const MAX_GLOBE_ZOOM = 1.55;
+const GLOBE_ZOOM_STEP = 0.12;
+let globeZoom = 1;
 
 function getCanonicalCountryName(countryName) {
   return countryNameAliases.get(countryName) || countryName;
@@ -124,7 +131,7 @@ function syncCarrierToggle() {
 function isInteractiveElement(target) {
   return Boolean(
     target?.closest?.(
-      ".country, .conflict-hotspot, .important-spot, .ai-pick, .carrier-spot, .country-sheet, .layer-switches, .hotspot-popup",
+      ".country, .conflict-hotspot, .important-spot, .ai-pick, .carrier-spot, .country-sheet, .layer-switches, .zoom-controls, .hotspot-popup",
     ),
   );
 }
@@ -1394,6 +1401,38 @@ function setGlobeShift(sheetOpen) {
   globeTargetX = sheetOpen ? GLOBE_CENTER_X - SHEET_WIDTH_SVG / 2 : GLOBE_CENTER_X;
 }
 
+function getBaseGlobeScale() {
+  return Math.min(1440, 900) * BASE_GLOBE_SCALE_RATIO;
+}
+
+function syncZoomControls() {
+  if (!zoomOutButton || !zoomInButton) {
+    return;
+  }
+  zoomOutButton.disabled = globeZoom <= MIN_GLOBE_ZOOM + 0.001;
+  zoomInButton.disabled = globeZoom >= MAX_GLOBE_ZOOM - 0.001;
+}
+
+function applyGlobeZoom() {
+  if (!projection) {
+    syncZoomControls();
+    return;
+  }
+  projection.scale(getBaseGlobeScale() * globeZoom);
+  refreshPaths();
+  syncZoomControls();
+}
+
+function setGlobeZoom(nextZoom) {
+  const clampedZoom = Math.max(MIN_GLOBE_ZOOM, Math.min(MAX_GLOBE_ZOOM, nextZoom));
+  if (Math.abs(clampedZoom - globeZoom) < 0.001) {
+    syncZoomControls();
+    return;
+  }
+  globeZoom = clampedZoom;
+  applyGlobeZoom();
+}
+
 function stepGlobeShift() {
   if (Math.abs(globeCurrentX - globeTargetX) < 0.5) {
     globeCurrentX = globeTargetX;
@@ -1414,12 +1453,13 @@ function resizeProjection() {
   projection = d3
     .geoOrthographic()
     .translate([globeCurrentX, height / 2])
-    .scale(Math.min(width, height) * 0.36)
+    .scale(getBaseGlobeScale() * globeZoom)
     .clipAngle(90)
     .precision(0.5)
     .rotate([-12, -18, 0]);
 
   path = d3.geoPath(projection);
+  syncZoomControls();
 }
 
 function attachInteraction() {
@@ -1907,9 +1947,12 @@ conflictToggle.addEventListener("click", () => setConflictHotspotsVisible(!showC
 importantToggle.addEventListener("click", () => setImportantSpotsVisible(!showImportantSpots));
 aiPicksToggle.addEventListener("click", () => setAiPicksVisible(!showAiPicks));
 carrierToggle.addEventListener("click", () => setCarrierSpotsVisible(!showCarrierSpots));
+zoomOutButton.addEventListener("click", () => setGlobeZoom(globeZoom - GLOBE_ZOOM_STEP));
+zoomInButton.addEventListener("click", () => setGlobeZoom(globeZoom + GLOBE_ZOOM_STEP));
 syncConflictToggle();
 syncImportantToggle();
 syncAiPicksToggle();
 syncCarrierToggle();
+syncZoomControls();
 
 loadGlobe();
