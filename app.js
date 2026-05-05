@@ -853,10 +853,19 @@ function clearConnector() {
   while (connectorLayer.firstChild) connectorLayer.removeChild(connectorLayer.firstChild);
 }
 
+function syncConnectorViewport() {
+  const stageRect = atlasStage.getBoundingClientRect();
+  connectorLayer.setAttribute("width", stageRect.width);
+  connectorLayer.setAttribute("height", stageRect.height);
+  connectorLayer.setAttribute("viewBox", `0 0 ${stageRect.width} ${stageRect.height}`);
+  connectorLayer.setAttribute("preserveAspectRatio", "none");
+  return stageRect;
+}
+
 function drawConnector(dotX, dotY, popupEl, flipped) {
   clearConnector();
   const rect = popupEl.getBoundingClientRect();
-  const stageRect = atlasStage.getBoundingClientRect();
+  const stageRect = syncConnectorViewport();
   // Popup position relative to stage
   const px = rect.left - stageRect.left;
   const py = rect.top - stageRect.top;
