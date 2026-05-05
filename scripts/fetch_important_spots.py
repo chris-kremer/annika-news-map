@@ -44,6 +44,17 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en",
         "fallbackTitle": "Shipping and energy risk around Hormuz",
+        "fallbackSummary": "Hormuz remains the energy chokepoint to watch when Gulf tensions touch shipping, insurance, or oil flows.",
+        "fallbackStories": [
+            {
+                "source": "MarketScreener",
+                "time": "Apr 28",
+                "title": "Only five ships pass through Strait of Hormuz in 24 hours",
+                "summary": "A sparse-traffic datapoint keeps Hormuz on the key-area layer because small changes in tanker movement can become an oil-price and insurance story quickly.",
+                "tags": ["Chokepoint", "Shipping", "Energy"],
+                "url": "https://www.marketscreener.com/news/only-five-ships-pass-through-strait-of-hormuz-in-24-hours-ce7f59dfdb8ff320",
+            }
+        ],
         "marketUrl": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
         "marketFallback": {
             "title": "Strait of Hormuz traffic returns to normal by end of June?",
@@ -65,6 +76,17 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en,zh",
         "fallbackTitle": "Military signaling around Taiwan",
+        "fallbackSummary": "The useful Taiwan Strait signal is not one headline; it is the tempo of drills, patrols, blockade talk, and outside naval responses.",
+        "fallbackStories": [
+            {
+                "source": "Focus Taiwan",
+                "time": "Recent",
+                "title": "Taiwan Strait remains a military signaling zone",
+                "summary": "Keep watching the gap between routine pressure and anything that changes the operational pattern: larger drills, quarantine language, blockade logistics, or unusual US/Japan responses.",
+                "tags": ["Military", "Deterrence", "Cross-strait"],
+                "url": "https://focustaiwan.tw/cross-strait",
+            }
+        ],
         "marketUrl": "https://polymarket.com/event/will-china-invade-taiwan-by-december-31-2027",
         "marketFallback": {
             "title": "Will China invade Taiwan by December 31, 2027?",
@@ -86,6 +108,17 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en,zh",
         "fallbackTitle": "Maritime pressure in the South China Sea",
+        "fallbackSummary": "This layer tracks coast-guard and maritime-militia friction where small collisions or water-cannon incidents can become diplomatic crises.",
+        "fallbackStories": [
+            {
+                "source": "AMTI",
+                "time": "Recent",
+                "title": "South China Sea pressure centers on coast-guard encounters and shoal access",
+                "summary": "The highest-signal updates are usually not declarations; they are repeated encounters near Scarborough Shoal, Second Thomas Shoal, or Spratly features.",
+                "tags": ["Maritime", "China", "Philippines"],
+                "url": "https://amti.csis.org/",
+            }
+        ],
     },
     {
         "id": "red-sea",
@@ -97,6 +130,17 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en,ar",
         "fallbackTitle": "Shipping risk in the Red Sea corridor",
+        "fallbackSummary": "Red Sea risk is about whether attacks, insurance costs, and rerouting remain abnormal enough to keep freight away from Suez.",
+        "fallbackStories": [
+            {
+                "source": "Reuters",
+                "time": "Recent",
+                "title": "Red Sea shipping remains sensitive to Houthi attack risk",
+                "summary": "The key-area question is whether carriers treat the route as normal again or keep paying the time and fuel penalty to avoid Bab el-Mandeb.",
+                "tags": ["Shipping", "Houthis", "Insurance"],
+                "url": "https://www.reuters.com/world/middle-east/",
+            }
+        ],
     },
     {
         "id": "suez",
@@ -108,6 +152,17 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en,ar",
         "fallbackTitle": "Canal transit and rerouting pressure",
+        "fallbackSummary": "Suez is the downstream indicator for Red Sea risk: if ships keep rerouting, canal revenue, delivery times, and freight pricing show the pressure.",
+        "fallbackStories": [
+            {
+                "source": "Suez Canal Authority",
+                "time": "Recent",
+                "title": "Suez transit is the practical readout for Red Sea disruption",
+                "summary": "Watch canal traffic and revenue rather than rhetoric; sustained diversions around the Cape are the clearest signal that the shipping corridor is not back to normal.",
+                "tags": ["Chokepoint", "Trade", "Revenue"],
+                "url": "https://www.suezcanal.gov.eg/",
+            }
+        ],
     },
     {
         "id": "cuba",
@@ -119,6 +174,17 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en,es",
         "fallbackTitle": "US-Cuba tension and internal pressure",
+        "fallbackSummary": "Cuba is tracked for the overlap between domestic strain, power outages, sanctions politics, migration, and US security rhetoric.",
+        "fallbackStories": [
+            {
+                "source": "AP",
+                "time": "Recent",
+                "title": "Cuba pressure story combines outages, sanctions, migration, and US politics",
+                "summary": "The key-area value is context: a Cuba headline can be economic, humanitarian, migration-related, or military-rhetorical, but those pieces reinforce each other.",
+                "tags": ["Flashpoint", "Sanctions", "Migration"],
+                "url": "https://apnews.com/hub/cuba",
+            }
+        ],
         "marketUrl": "https://polymarket.com/event/us-strike-on-cuba-by",
         "marketFallback": {
             "title": "US military action against Cuba by December 31, 2026?",
@@ -140,6 +206,17 @@ SPOT_CONFIGS = [
         "locale": "",
         "language": "en,hi,ur",
         "fallbackTitle": "India-Pakistan tension around Kashmir",
+        "fallbackSummary": "Kashmir is a key-area seed because local militancy or border clashes can quickly become a nuclear-neighbor crisis-management story.",
+        "fallbackStories": [
+            {
+                "source": "Al Jazeera",
+                "time": "Recent",
+                "title": "Kashmir remains the India-Pakistan flashpoint to watch for escalation",
+                "summary": "The signal to watch is not only attacks or arrests, but whether either side shifts troop posture, air restrictions, or diplomatic language after an incident.",
+                "tags": ["Border", "India", "Pakistan"],
+                "url": "https://www.aljazeera.com/where/kashmir/",
+            }
+        ],
     },
 ]
 
@@ -337,12 +414,13 @@ def build_spot_briefing(config: dict, thenews_articles: list[dict], gdelt_articl
         article.pop("_published_at", None)
 
     if not deduped:
-        deduped = [
+        deduped = [dict(story) for story in config.get("fallbackStories", [])] or [
             {
                 "source": "System",
                 "time": "Now",
                 "title": config["fallbackTitle"],
-                "summary": "No recent live stories matched this important-spot query in the current pass.",
+                "summary": config.get("fallbackSummary")
+                or "No recent live stories matched this important-spot query in the current pass.",
                 "tags": [format_kind(config["kind"]), "Query", "Sparse"],
                 "url": "",
             }
@@ -367,8 +445,9 @@ def build_spot_briefing(config: dict, thenews_articles: list[dict], gdelt_articl
 
 
 def normalize_spot(config: dict, article: dict | None) -> dict:
+    market_card = config.get("marketFallback")
     if article:
-        return {
+        spot = {
             "id": config["id"],
             "label": config["label"],
             "lat": config["lat"],
@@ -379,19 +458,41 @@ def normalize_spot(config: dict, article: dict | None) -> dict:
             "url": article.get("url") or "",
             "time": article.get("time") or "Recent",
             "source": article.get("source") or "The News API",
+            "stories": [article],
         }
-    return {
+    else:
+        spot = {
+            "id": config["id"],
+            "label": config["label"],
+            "lat": config["lat"],
+            "lon": config["lon"],
+            "kind": config["kind"],
+            "title": config["fallbackTitle"],
+            "summary": config.get("fallbackSummary") or "No live article matched this spot in the current pass.",
+            "url": "",
+            "time": "Recent",
+            "source": "Editorial seed",
+            "stories": [dict(story) for story in config.get("fallbackStories", [])],
+        }
+
+    if market_card:
+        spot["marketCard"] = dict(market_card)
+    return spot
+
+
+def normalize_spot_briefing(config: dict) -> dict:
+    briefing = {
         "id": config["id"],
+        "name": config["label"],
         "label": config["label"],
-        "lat": config["lat"],
-        "lon": config["lon"],
-        "kind": config["kind"],
-        "title": config["fallbackTitle"],
-        "summary": "No live article matched this spot in the current pass.",
-        "url": "",
-        "time": "Recent",
-        "source": "Fallback",
+        "kind": format_kind(config["kind"]),
+        "windowDays": 5,
+        "sourceNote": "Editorial seed",
+        "stories": [dict(story) for story in config.get("fallbackStories", [])],
     }
+    if config.get("marketFallback"):
+        briefing["marketCard"] = dict(config["marketFallback"])
+    return briefing
 
 
 def build_payload() -> dict:
@@ -412,7 +513,9 @@ def build_payload() -> dict:
                 article = gdelt_articles[0] if gdelt_articles else None
             except Exception:
                 article = None
-        spots.append(normalize_spot(config, article))
+        spot = normalize_spot(config, article)
+        spot["briefing"] = normalize_spot_briefing(config)
+        spots.append(spot)
 
     return {
         "generatedAt": datetime.now(timezone.utc).isoformat(),

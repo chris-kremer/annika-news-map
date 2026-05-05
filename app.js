@@ -632,6 +632,42 @@ function updateSpotSheet(spotBriefing) {
   renderStories(spotBriefing.stories || []);
 }
 
+function buildSpotPreviewBriefing(spot) {
+  if (spot.briefing) {
+    return {
+      ...spot.briefing,
+      id: spot.id,
+      name: spot.briefing.name || spot.label,
+      label: spot.briefing.label || spot.label,
+      kind: spot.briefing.kind || spot.kind?.replace("-", " ") || "Key area",
+      marketCard: spot.briefing.marketCard || spot.marketCard,
+    };
+  }
+
+  const stories = Array.isArray(spot.stories) && spot.stories.length
+    ? spot.stories
+    : [
+        {
+          source: spot.source || "Editorial seed",
+          time: spot.time || "Recent",
+          title: spot.title,
+          summary: spot.summary,
+          tags: [spot.kind, "Key area"].filter(Boolean),
+          url: spot.url || "",
+        },
+      ];
+
+  return {
+    id: spot.id,
+    name: spot.label,
+    label: spot.label,
+    kind: spot.kind?.replace("-", " ") || "Key area",
+    sourceNote: spot.source || "Editorial seed",
+    stories,
+    marketCard: spot.marketCard,
+  };
+}
+
 function updateAiPickSheet(pick) {
   showAiPickFacts();
   detailCountry.textContent = pick.title;
@@ -867,16 +903,7 @@ async function refreshSpotBriefing(spotId, requestId) {
     if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
       return;
     }
-    renderStories([
-      {
-        source: "System",
-        time: "Now",
-        title: "Key area refresh failed",
-        summary: error.message || "The deployed API could not refresh this key area.",
-        tags: ["API", "Key area"],
-        url: "",
-      },
-    ]);
+    mapStatus.textContent = "Showing cached key area context";
   }
 }
 
@@ -1061,8 +1088,10 @@ function openImportantSpot(spot, options = {}) {
   activeSheetRequestId += 1;
   activeSheetKey = `spot:${spot.id}`;
   const requestId = activeSheetRequestId;
-  setSpotLoadingState(spot);
-  refreshSpotBriefing(spot.id, requestId);
+  updateSpotSheet(buildSpotPreviewBriefing(spot));
+  if (!hoverPreview) {
+    refreshSpotBriefing(spot.id, requestId);
+  }
 }
 
 function openAiPick(pick, options = {}) {
@@ -1317,12 +1346,14 @@ function renderImportantSpots() {
     .attr("aria-label", (spot) => spot.label)
     .on("mouseenter", (_, spot) => {
       mapStatus.textContent = `${spot.label}: ${spot.title}`;
+      openImportantSpot(spot, { hoverPreview: true });
     })
     .on("mouseleave", () => {
       mapStatus.textContent = getDefaultMapStatus();
     })
     .on("focus", (_, spot) => {
       mapStatus.textContent = `${spot.label}: ${spot.title}`;
+      openImportantSpot(spot, { hoverPreview: true });
     })
     .on("blur", () => {
       mapStatus.textContent = getDefaultMapStatus();

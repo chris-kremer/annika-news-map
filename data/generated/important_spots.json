@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-28T15:30:16.147976+00:00",
+  "generatedAt": "2026-05-05T08:35:36.846308+00:00",
   "provider": "the-news-api",
   "windowDays": 5,
   "spots": [
@@ -10,10 +10,64 @@
       "lon": 56.25,
       "kind": "chokepoint",
       "title": "Shipping and energy risk around Hormuz",
-      "summary": "No live article matched this spot in the current pass.",
+      "summary": "Hormuz remains the energy chokepoint to watch when Gulf tensions touch shipping, insurance, or oil flows.",
       "url": "",
       "time": "Recent",
-      "source": "Fallback"
+      "source": "Editorial seed",
+      "stories": [
+        {
+          "source": "MarketScreener",
+          "time": "Apr 28",
+          "title": "Only five ships pass through Strait of Hormuz in 24 hours",
+          "summary": "A sparse-traffic datapoint keeps Hormuz on the key-area layer because small changes in tanker movement can become an oil-price and insurance story quickly.",
+          "tags": [
+            "Chokepoint",
+            "Shipping",
+            "Energy"
+          ],
+          "url": "https://www.marketscreener.com/news/only-five-ships-pass-through-strait-of-hormuz-in-24-hours-ce7f59dfdb8ff320"
+        }
+      ],
+      "marketCard": {
+        "title": "Strait of Hormuz traffic returns to normal by end of June?",
+        "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+        "yesProbability": "60%",
+        "volume": "$816,715",
+        "resolveDate": "2026-06-30",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "id": "hormuz",
+        "name": "Strait of Hormuz",
+        "label": "Strait of Hormuz",
+        "kind": "Chokepoint",
+        "windowDays": 5,
+        "sourceNote": "Editorial seed",
+        "stories": [
+          {
+            "source": "MarketScreener",
+            "time": "Apr 28",
+            "title": "Only five ships pass through Strait of Hormuz in 24 hours",
+            "summary": "A sparse-traffic datapoint keeps Hormuz on the key-area layer because small changes in tanker movement can become an oil-price and insurance story quickly.",
+            "tags": [
+              "Chokepoint",
+              "Shipping",
+              "Energy"
+            ],
+            "url": "https://www.marketscreener.com/news/only-five-ships-pass-through-strait-of-hormuz-in-24-hours-ce7f59dfdb8ff320"
+          }
+        ],
+        "marketCard": {
+          "title": "Strait of Hormuz traffic returns to normal by end of June?",
+          "url": "https://polymarket.com/event/strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
+          "yesProbability": "60%",
+          "volume": "$816,715",
+          "resolveDate": "2026-06-30",
+          "updatedLabel": "Apr 28, 2026",
+          "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+        }
+      }
     },
     {
       "id": "taiwan-strait",
@@ -22,10 +76,64 @@
       "lon": 119.4,
       "kind": "military",
       "title": "Military signaling around Taiwan",
-      "summary": "No live article matched this spot in the current pass.",
+      "summary": "The useful Taiwan Strait signal is not one headline; it is the tempo of drills, patrols, blockade talk, and outside naval responses.",
       "url": "",
       "time": "Recent",
-      "source": "Fallback"
+      "source": "Editorial seed",
+      "stories": [
+        {
+          "source": "Focus Taiwan",
+          "time": "Recent",
+          "title": "Taiwan Strait remains a military signaling zone",
+          "summary": "Keep watching the gap between routine pressure and anything that changes the operational pattern: larger drills, quarantine language, blockade logistics, or unusual US/Japan responses.",
+          "tags": [
+            "Military",
+            "Deterrence",
+            "Cross-strait"
+          ],
+          "url": "https://focustaiwan.tw/cross-strait"
+        }
+      ],
+      "marketCard": {
+        "title": "Will China invade Taiwan by December 31, 2027?",
+        "url": "https://polymarket.com/event/will-china-invade-taiwan-by-december-31-2027",
+        "yesProbability": "18%",
+        "volume": "$364,909",
+        "resolveDate": "2027-12-31",
+        "updatedLabel": "Apr 28, 2026",
+        "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "id": "taiwan-strait",
+        "name": "Taiwan Strait",
+        "label": "Taiwan Strait",
+        "kind": "Military",
+        "windowDays": 5,
+        "sourceNote": "Editorial seed",
+        "stories": [
+          {
+            "source": "Focus Taiwan",
+            "time": "Recent",
+            "title": "Taiwan Strait remains a military signaling zone",
+            "summary": "Keep watching the gap between routine pressure and anything that changes the operational pattern: larger drills, quarantine language, blockade logistics, or unusual US/Japan responses.",
+            "tags": [
+              "Military",
+              "Deterrence",
+              "Cross-strait"
+            ],
+            "url": "https://focustaiwan.tw/cross-strait"
+          }
+        ],
+        "marketCard": {
+          "title": "Will China invade Taiwan by December 31, 2027?",
+          "url": "https://polymarket.com/event/will-china-invade-taiwan-by-december-31-2027",
+          "yesProbability": "18%",
+          "volume": "$364,909",
+          "resolveDate": "2027-12-31",
+          "updatedLabel": "Apr 28, 2026",
+          "note": "Prediction-market pricing from Polymarket. This is a market signal, not a forecast guarantee."
+        }
+      }
     },
     {
       "id": "south-china-sea",
@@ -34,10 +142,46 @@
       "lon": 114.5,
       "kind": "maritime",
       "title": "Maritime pressure in the South China Sea",
-      "summary": "No live article matched this spot in the current pass.",
+      "summary": "This layer tracks coast-guard and maritime-militia friction where small collisions or water-cannon incidents can become diplomatic crises.",
       "url": "",
       "time": "Recent",
-      "source": "Fallback"
+      "source": "Editorial seed",
+      "stories": [
+        {
+          "source": "AMTI",
+          "time": "Recent",
+          "title": "South China Sea pressure centers on coast-guard encounters and shoal access",
+          "summary": "The highest-signal updates are usually not declarations; they are repeated encounters near Scarborough Shoal, Second Thomas Shoal, or Spratly features.",
+          "tags": [
+            "Maritime",
+            "China",
+            "Philippines"
+          ],
+          "url": "https://amti.csis.org/"
+        }
+      ],
+      "briefing": {
+        "id": "south-china-sea",
+        "name": "South China Sea",
+        "label": "South China Sea",
+        "kind": "Maritime",
+        "windowDays": 5,
+        "sourceNote": "Editorial seed",
+        "stories": [
+          {
+            "source": "AMTI",
+            "time": "Recent",
+            "title": "South China Sea pressure centers on coast-guard encounters and shoal access",
+            "summary": "The highest-signal updates are usually not declarations; they are repeated encounters near Scarborough Shoal, Second Thomas Shoal, or Spratly features.",
+            "tags": [
+              "Maritime",
+              "China",
+              "Philippines"
+            ],
+            "url": "https://amti.csis.org/"
+          }
+        ]
+      }
     },
     {
       "id": "red-sea",
@@ -46,10 +190,46 @@
       "lon": 43.2,
       "kind": "shipping",
       "title": "Shipping risk in the Red Sea corridor",
-      "summary": "No live article matched this spot in the current pass.",
+      "summary": "Red Sea risk is about whether attacks, insurance costs, and rerouting remain abnormal enough to keep freight away from Suez.",
       "url": "",
       "time": "Recent",
-      "source": "Fallback"
+      "source": "Editorial seed",
+      "stories": [
+        {
+          "source": "Reuters",
+          "time": "Recent",
+          "title": "Red Sea shipping remains sensitive to Houthi attack risk",
+          "summary": "The key-area question is whether carriers treat the route as normal again or keep paying the time and fuel penalty to avoid Bab el-Mandeb.",
+          "tags": [
+            "Shipping",
+            "Houthis",
+            "Insurance"
+          ],
+          "url": "https://www.reuters.com/world/middle-east/"
+        }
+      ],
+      "briefing": {
+        "id": "red-sea",
+        "name": "Red Sea / Bab el-Mandeb",
+        "label": "Red Sea / Bab el-Mandeb",
+        "kind": "Shipping",
+        "windowDays": 5,
+        "sourceNote": "Editorial seed",
+        "stories": [
+          {
+            "source": "Reuters",
+            "time": "Recent",
+            "title": "Red Sea shipping remains sensitive to Houthi attack risk",
+            "summary": "The key-area question is whether carriers treat the route as normal again or keep paying the time and fuel penalty to avoid Bab el-Mandeb.",
+            "tags": [
+              "Shipping",
+              "Houthis",
+              "Insurance"
+            ],
+            "url": "https://www.reuters.com/world/middle-east/"
+          }
+        ]
+      }
     },
     {
       "id": "suez",
@@ -58,10 +238,46 @@
       "lon": 32.35,
       "kind": "chokepoint",
       "title": "Canal transit and rerouting pressure",
-      "summary": "No live article matched this spot in the current pass.",
+      "summary": "Suez is the downstream indicator for Red Sea risk: if ships keep rerouting, canal revenue, delivery times, and freight pricing show the pressure.",
       "url": "",
       "time": "Recent",
-      "source": "Fallback"
+      "source": "Editorial seed",
+      "stories": [
+        {
+          "source": "Suez Canal Authority",
+          "time": "Recent",
+          "title": "Suez transit is the practical readout for Red Sea disruption",
+          "summary": "Watch canal traffic and revenue rather than rhetoric; sustained diversions around the Cape are the clearest signal that the shipping corridor is not back to normal.",
+          "tags": [
+            "Chokepoint",
+            "Trade",
+            "Revenue"
+          ],
+          "url": "https://www.suezcanal.gov.eg/"
+        }
+      ],
+      "briefing": {
+        "id": "suez",
+        "name": "Suez Canal",
+        "label": "Suez Canal",
+        "kind": "Chokepoint",
+        "windowDays": 5,
+        "sourceNote": "Editorial seed",
+        "stories": [
+          {
+            "source": "Suez Canal Authority",
+            "time": "Recent",
+            "title": "Suez transit is the practical readout for Red Sea disruption",
+            "summary": "Watch canal traffic and revenue rather than rhetoric; sustained diversions around the Cape are the clearest signal that the shipping corridor is not back to normal.",
+            "tags": [
+              "Chokepoint",
+              "Trade",
+              "Revenue"
+            ],
+            "url": "https://www.suezcanal.gov.eg/"
+          }
+        ]
+      }
     },
     {
       "id": "cuba",
@@ -70,10 +286,64 @@
       "lon": -82.35,
       "kind": "flashpoint",
       "title": "US-Cuba tension and internal pressure",
-      "summary": "No live article matched this spot in the current pass.",
+      "summary": "Cuba is tracked for the overlap between domestic strain, power outages, sanctions politics, migration, and US security rhetoric.",
       "url": "",
       "time": "Recent",
-      "source": "Fallback"
+      "source": "Editorial seed",
+      "stories": [
+        {
+          "source": "AP",
+          "time": "Recent",
+          "title": "Cuba pressure story combines outages, sanctions, migration, and US politics",
+          "summary": "The key-area value is context: a Cuba headline can be economic, humanitarian, migration-related, or military-rhetorical, but those pieces reinforce each other.",
+          "tags": [
+            "Flashpoint",
+            "Sanctions",
+            "Migration"
+          ],
+          "url": "https://apnews.com/hub/cuba"
+        }
+      ],
+      "marketCard": {
+        "title": "US military action against Cuba by December 31, 2026?",
+        "url": "https://polymarket.com/event/us-strike-on-cuba-by",
+        "yesProbability": "40%",
+        "volume": "$3,100,806",
+        "resolveDate": "2026-12-31",
+        "updatedLabel": "Apr 15, 2026",
+        "note": "Prediction-market pricing from Polymarket. Current leading branch is \"December 31, 2026.\" This is a market signal, not a forecast guarantee."
+      },
+      "briefing": {
+        "id": "cuba",
+        "name": "Cuba",
+        "label": "Cuba",
+        "kind": "Flashpoint",
+        "windowDays": 5,
+        "sourceNote": "Editorial seed",
+        "stories": [
+          {
+            "source": "AP",
+            "time": "Recent",
+            "title": "Cuba pressure story combines outages, sanctions, migration, and US politics",
+            "summary": "The key-area value is context: a Cuba headline can be economic, humanitarian, migration-related, or military-rhetorical, but those pieces reinforce each other.",
+            "tags": [
+              "Flashpoint",
+              "Sanctions",
+              "Migration"
+            ],
+            "url": "https://apnews.com/hub/cuba"
+          }
+        ],
+        "marketCard": {
+          "title": "US military action against Cuba by December 31, 2026?",
+          "url": "https://polymarket.com/event/us-strike-on-cuba-by",
+          "yesProbability": "40%",
+          "volume": "$3,100,806",
+          "resolveDate": "2026-12-31",
+          "updatedLabel": "Apr 15, 2026",
+          "note": "Prediction-market pricing from Polymarket. Current leading branch is \"December 31, 2026.\" This is a market signal, not a forecast guarantee."
+        }
+      }
     },
     {
       "id": "kashmir",
@@ -82,10 +352,46 @@
       "lon": 74.79,
       "kind": "border",
       "title": "India-Pakistan tension around Kashmir",
-      "summary": "No live article matched this spot in the current pass.",
+      "summary": "Kashmir is a key-area seed because local militancy or border clashes can quickly become a nuclear-neighbor crisis-management story.",
       "url": "",
       "time": "Recent",
-      "source": "Fallback"
+      "source": "Editorial seed",
+      "stories": [
+        {
+          "source": "Al Jazeera",
+          "time": "Recent",
+          "title": "Kashmir remains the India-Pakistan flashpoint to watch for escalation",
+          "summary": "The signal to watch is not only attacks or arrests, but whether either side shifts troop posture, air restrictions, or diplomatic language after an incident.",
+          "tags": [
+            "Border",
+            "India",
+            "Pakistan"
+          ],
+          "url": "https://www.aljazeera.com/where/kashmir/"
+        }
+      ],
+      "briefing": {
+        "id": "kashmir",
+        "name": "Kashmir",
+        "label": "Kashmir",
+        "kind": "Border",
+        "windowDays": 5,
+        "sourceNote": "Editorial seed",
+        "stories": [
+          {
+            "source": "Al Jazeera",
+            "time": "Recent",
+            "title": "Kashmir remains the India-Pakistan flashpoint to watch for escalation",
+            "summary": "The signal to watch is not only attacks or arrests, but whether either side shifts troop posture, air restrictions, or diplomatic language after an incident.",
+            "tags": [
+              "Border",
+              "India",
+              "Pakistan"
+            ],
+            "url": "https://www.aljazeera.com/where/kashmir/"
+          }
+        ]
+      }
     }
   ]
 }
