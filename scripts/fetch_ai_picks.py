@@ -24,6 +24,44 @@ OPENAI_RESPONSES_ENDPOINT = "https://api.openai.com/v1/responses"
 DEFAULT_OPENAI_MODEL = "gpt-5-nano"
 SELECTION_PRINCIPLE = "International stories with cross-border stakes that are easy to miss, avoiding obvious week-long headline cycles unless there is a fresh, specific angle."
 
+DISCOVERY_QUERIES = [
+    {
+        "id": "coups-military-power",
+        "query": '(coup OR junta OR mutiny OR "military takeover" OR "state of emergency")',
+        "category": "Power shift",
+    },
+    {
+        "id": "gangs-state-capacity",
+        "query": '(gangs OR cartel OR "organized crime" OR curfew OR "state of emergency")',
+        "category": "State capacity",
+    },
+    {
+        "id": "border-flashpoints",
+        "query": '("border clashes" OR "cross-border" OR incursion OR blockade OR "missile strike" OR "naval drills")',
+        "category": "Border flashpoint",
+    },
+    {
+        "id": "sanctions-trade-pressure",
+        "query": '(sanctions OR "export controls" OR tariff OR embargo OR "trade route" OR shipping)',
+        "category": "Economic pressure",
+    },
+    {
+        "id": "displacement-aid-access",
+        "query": '(refugees OR displacement OR "aid access" OR famine OR "food security" OR drought)',
+        "category": "Human security",
+    },
+    {
+        "id": "elections-instability",
+        "query": '(election OR protests OR "constitutional crisis" OR "coalition collapse" OR "emergency rule")',
+        "category": "Political instability",
+    },
+    {
+        "id": "energy-food-shocks",
+        "query": '(blackout OR energy OR hydropower OR "fuel shortage" OR grain OR "food prices")',
+        "category": "System stress",
+    },
+]
+
 try:
     import certifi
 except ImportError:
@@ -189,6 +227,24 @@ def source_from_article(article: dict) -> dict:
     }
 
 
+def discovery_candidate(query_config: dict, article: dict, index: int) -> dict:
+    domain = article.get("domain") or "GDELT"
+    title = " ".join(str(article.get("title") or "").split())
+    if not title:
+        return {}
+    return {
+        "id": f"candidate-{query_config['id']}-{index}",
+        "title": title,
+        "url": article.get("url") or "",
+        "domain": domain,
+        "sourceCountry": article.get("sourcecountry") or "",
+        "language": article.get("language") or "",
+        "seenDate": article.get("seendate") or "",
+        "queryCategory": query_config["category"],
+        "matchedQuery": query_config["query"],
+    }
+
+
 def build_pick(config: dict, articles: list[dict]) -> dict:
     sources = [source_from_article(article) for article in articles[:2]]
     if not sources:
@@ -272,6 +328,225 @@ def clean_model_pick(raw_pick: dict, fallback_by_id: dict[str, dict]) -> dict | 
         if cleaned_sources:
             cleaned["sources"] = cleaned_sources
     return cleaned
+
+
+def clean_discovery_pick(raw_pick: dict, candidate_by_id: dict[str, dict]) -> dict | None:
+    raw_id = str(raw_pick.get("id", "")).strip()
+    candidate = candidate_by_id.get(raw_id)
+    if not candidate:
+        return None
+
+    try:
+        lat = float(raw_pick.get("lat"))
+        lon = float(raw_pick.get("lon"))
+    except (TypeError, ValueError):
+        return None
+    if not (-90 <= lat <= 90 and -180 <= lon <= 180):
+        return None
+
+    title = str(raw_pick.get("title") or candidate["title"]).strip()
+    place = str(raw_pick.get("place", "")).strip()
+    country = str(raw_pick.get("country", "")).strip()
+    summary = str(raw_pick.get("summary", "")).strip()
+    why_it_matters = str(raw_pick.get("whyItMatters", "")).strip()
+    if not (title and place and country and summary and why_it_matters):
+        return None
+
+    try:
+        importance = float(raw_pick.get("importance", 0.6))
+    except (TypeError, ValueError):
+        importance = 0.6
+    try:
+        confidence = float(raw_pick.get("confidence", 0.55))
+    except (TypeError, ValueError):
+        confidence = 0.55
+
+    source_title = str(raw_pick.get("sourceTitle") or candidate["title"]).strip()
+    return {
+        "id": f"{raw_id}-{datetime.now(timezone.utc).strftime('%Y%m%d')}",
+        "title": title,
+        "summary": summary,
+        "whyItMatters": why_it_matters,
+        "angle": str(raw_pick.get("angle") or candidate["queryCategory"]).strip(),
+        "freshness": str(raw_pick.get("freshness") or "Fresh development").strip(),
+        "lat": lat,
+        "lon": lon,
+        "place": place,
+        "country": country,
+        "region": str(raw_pick.get("region") or "").strip(),
+        "category": str(raw_pick.get("category") or candidate["queryCategory"]).strip(),
+        "importance": max(0.0, min(1.0, importance)),
+        "confidence": max(0.0, min(1.0, confidence)),
+        "overlap": [],
+        "sources": [{"title": source_title or title, "url": candidate.get("url", "")}],
+    }
+
+
+def discover_candidates(args: argparse.Namespace) -> list[dict]:
+    candidates = []
+    seen_urls = set()
+    seen_titles = set()
+    for query_index, query_config in enumerate(DISCOVERY_QUERIES):
+        if query_index:
+            time.sleep(args.delay_seconds)
+        try:
+            articles = fetch_gdelt(query_config["query"], args.discovery_per_query, args.window_hours)
+        except Exception as error:
+            print(f"warning: discovery query {query_config['id']} failed: {error}", file=sys.stderr)
+            continue
+        for article in articles:
+            candidate = discovery_candidate(query_config, article, len(candidates))
+            if not candidate:
+                continue
+            url_key = candidate["url"].strip().lower()
+            title_key = candidate["title"].strip().lower()
+            if (url_key and url_key in seen_urls) or title_key in seen_titles:
+                continue
+            if url_key:
+                seen_urls.add(url_key)
+            seen_titles.add(title_key)
+            candidates.append(candidate)
+    return candidates
+
+
+def curate_discovery_with_openai(candidates: list[dict], limit: int, env: dict[str, str]) -> list[dict]:
+    api_key = env.get("OPENAI_API_KEY", "").strip()
+    if not api_key or not candidates:
+        return []
+
+    model = env.get("OPENAI_AI_PICKS_MODEL", DEFAULT_OPENAI_MODEL).strip() or DEFAULT_OPENAI_MODEL
+    prompt_payload = {
+        "selectionPrinciple": SELECTION_PRINCIPLE,
+        "task": "Select underlooked global developments from broad news-search candidates.",
+        "requirements": [
+            "Pick developments of the same type as coups, gang pressure on governance, border flashpoints, sanctions shocks, displacement, aid access, energy/food stress, election instability, or other cross-border state-capacity risks.",
+            "The geography can be anywhere. Do not favor the seeded fallback countries.",
+            "Prefer fresh, specific developments over generic ongoing crisis summaries.",
+            "Use only supplied candidate articles as sources. Do not invent source URLs.",
+            "You may infer the best map place and approximate coordinates only when the article title clearly identifies a place or country.",
+            "Skip any candidate whose place cannot be reasonably identified from the supplied data.",
+            "Return all titles and source titles in English.",
+        ],
+        "outputShape": {
+            "picks": [
+                {
+                    "id": "candidate id",
+                    "title": "specific concise title",
+                    "summary": "one sentence",
+                    "whyItMatters": "one sentence on cross-border stakes",
+                    "angle": "fresh editorial angle",
+                    "freshness": "short label",
+                    "category": "short category",
+                    "place": "city/region, country",
+                    "country": "country",
+                    "region": "world region",
+                    "lat": "number",
+                    "lon": "number",
+                    "importance": "0.0-1.0",
+                    "confidence": "0.0-1.0",
+                    "sourceTitle": "English source headline",
+                }
+            ]
+        },
+        "candidates": candidates,
+        "limit": limit,
+    }
+    body = {
+        "model": model,
+        "instructions": "You are the Pumpkin News assignment editor. Return valid JSON only.",
+        "input": json.dumps(prompt_payload, ensure_ascii=False),
+        "max_output_tokens": 9000,
+        "reasoning": {"effort": "minimal"},
+        "text": {
+            "format": {
+                "type": "json_schema",
+                "name": "discovered_ai_picks",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "picks": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": False,
+                                "properties": {
+                                    "id": {"type": "string"},
+                                    "title": {"type": "string"},
+                                    "summary": {"type": "string"},
+                                    "whyItMatters": {"type": "string"},
+                                    "angle": {"type": "string"},
+                                    "freshness": {"type": "string"},
+                                    "category": {"type": "string"},
+                                    "place": {"type": "string"},
+                                    "country": {"type": "string"},
+                                    "region": {"type": "string"},
+                                    "lat": {"type": "number"},
+                                    "lon": {"type": "number"},
+                                    "importance": {"type": "number"},
+                                    "confidence": {"type": "number"},
+                                    "sourceTitle": {"type": "string"},
+                                },
+                                "required": [
+                                    "id",
+                                    "title",
+                                    "summary",
+                                    "whyItMatters",
+                                    "angle",
+                                    "freshness",
+                                    "category",
+                                    "place",
+                                    "country",
+                                    "region",
+                                    "lat",
+                                    "lon",
+                                    "importance",
+                                    "confidence",
+                                    "sourceTitle",
+                                ],
+                            },
+                        }
+                    },
+                    "required": ["picks"],
+                },
+            }
+        },
+    }
+    request = urllib.request.Request(
+        OPENAI_RESPONSES_ENDPOINT,
+        data=json.dumps(body).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(request, timeout=60, context=SSL_CONTEXT) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+
+    model_payload = extract_json_object(openai_text_from_response(payload))
+    raw_picks = model_payload.get("picks", [])
+    if not isinstance(raw_picks, list):
+        raise RuntimeError("OpenAI response did not include a picks array")
+
+    candidate_by_id = {candidate["id"]: candidate for candidate in candidates}
+    curated = []
+    seen_sources = set()
+    for raw_pick in raw_picks:
+        if not isinstance(raw_pick, dict):
+            continue
+        cleaned = clean_discovery_pick(raw_pick, candidate_by_id)
+        if not cleaned:
+            continue
+        source_url = cleaned["sources"][0].get("url", "").strip().lower()
+        if source_url and source_url in seen_sources:
+            continue
+        if source_url:
+            seen_sources.add(source_url)
+        curated.append(cleaned)
+    return curated
 
 
 def curate_with_openai(picks: list[dict], limit: int, env: dict[str, str]) -> list[dict]:
@@ -514,10 +789,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate cached underlooked AI Picks for the globe.")
     parser.add_argument("--limit", type=int, default=8, help="Maximum picks to write.")
     parser.add_argument("--per-query", type=int, default=3, help="Articles to inspect per watchlist query.")
+    parser.add_argument("--discovery-per-query", type=int, default=8, help="Articles to inspect per broad discovery query.")
     parser.add_argument("--window-hours", type=int, default=48, help="GDELT lookback window.")
     parser.add_argument("--delay-seconds", type=float, default=6.0, help="Delay between GDELT queries.")
     parser.add_argument("--skip-openai", action="store_true", help="Use seeded/GDELT picks without OpenAI curation.")
     parser.add_argument("--skip-gdelt", action="store_true", help="Use seeded candidates without GDELT enrichment.")
+    parser.add_argument("--skip-discovery", action="store_true", help="Use only seeded watchlist candidates.")
     return parser.parse_args()
 
 
@@ -525,6 +802,24 @@ def build_payload(args: argparse.Namespace | None = None) -> dict:
     if args is None:
         args = parse_args()
     env = load_env()
+    provider = "underlooked-story-desk"
+
+    if not args.skip_discovery and not args.skip_openai and not args.skip_gdelt:
+        candidates = discover_candidates(args)
+        try:
+            discovered = curate_discovery_with_openai(candidates, args.limit, env)
+        except Exception as error:
+            print(f"warning: OpenAI discovery curation failed: {error}", file=sys.stderr)
+            discovered = []
+        if discovered:
+            return {
+                "generatedAt": datetime.now(timezone.utc).isoformat(),
+                "provider": f"openai-discovery:{env.get('OPENAI_AI_PICKS_MODEL', DEFAULT_OPENAI_MODEL)}",
+                "windowHours": args.window_hours,
+                "selectionPrinciple": SELECTION_PRINCIPLE,
+                "picks": translate_source_titles_with_openai(discovered[: args.limit], env),
+            }
+
     picks = []
     for index, config in enumerate(UNDERLOOKED_STORY_DESK):
         if index and not args.skip_gdelt:
@@ -538,7 +833,6 @@ def build_payload(args: argparse.Namespace | None = None) -> dict:
         picks.append(build_pick(config, articles))
 
     picks.sort(key=lambda pick: pick["importance"], reverse=True)
-    provider = "underlooked-story-desk"
     if not args.skip_openai:
         try:
             picks = curate_with_openai(picks, args.limit, env)

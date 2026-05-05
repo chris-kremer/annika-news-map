@@ -24,12 +24,23 @@
 
         <div class="layer-switches" aria-label="Map layers">
           <div class="layer-switch">
-            <span class="layer-switch__text">Live conflicts</span>
+            <span class="layer-switch__text">Top Stories</span>
             <button
               class="layer-switch__toggle is-active"
-              id="conflict-toggle"
+              id="ai-picks-toggle"
               type="button"
               aria-pressed="true"
+            >
+              <span class="layer-switch__knob"></span>
+            </button>
+          </div>
+          <div class="layer-switch">
+            <span class="layer-switch__text">Live conflicts</span>
+            <button
+              class="layer-switch__toggle"
+              id="conflict-toggle"
+              type="button"
+              aria-pressed="false"
             >
               <span class="layer-switch__knob"></span>
             </button>
@@ -37,21 +48,10 @@
           <div class="layer-switch">
             <span class="layer-switch__text">Key Areas</span>
             <button
-              class="layer-switch__toggle is-active"
+              class="layer-switch__toggle"
               id="important-toggle"
               type="button"
-              aria-pressed="true"
-            >
-              <span class="layer-switch__knob"></span>
-            </button>
-          </div>
-          <div class="layer-switch">
-            <span class="layer-switch__text">Top Stories</span>
-            <button
-              class="layer-switch__toggle is-active"
-              id="ai-picks-toggle"
-              type="button"
-              aria-pressed="true"
+              aria-pressed="false"
             >
               <span class="layer-switch__knob"></span>
             </button>
@@ -70,6 +70,7 @@
         </div>
 
         <div class="zoom-controls" aria-label="Globe zoom controls">
+          <button class="more-top-stories" id="more-stories-hud" type="button">More Top Stories</button>
           <button class="zoom-control" id="zoom-out" type="button" aria-label="Zoom out">
             -
           </button>
@@ -115,6 +116,7 @@
               <div class="spot-context is-hidden" id="spot-context"></div>
               <p class="section-label" id="story-section-label">Recent stories</p>
               <div class="story-list" id="story-list"></div>
+              <button class="more-stories-button is-hidden" id="more-stories" type="button">More stories</button>
             </section>
           </div>
         </aside>

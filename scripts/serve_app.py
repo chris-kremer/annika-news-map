@@ -158,10 +158,11 @@ def fetch_spot(spot_id: str) -> dict:
     return briefing
 
 
-def fetch_ai_picks_payload() -> dict:
+def fetch_ai_picks_payload(limit: int = 10) -> dict:
     args = fetch_ai_picks.parse_args()
-    args.limit = 5
+    args.limit = limit
     args.per_query = 2
+    args.discovery_per_query = 8
     args.window_hours = 240
     args.delay_seconds = 1.0
     return fetch_ai_picks.build_payload(args)
@@ -333,26 +334,45 @@ class AppHandler(SimpleHTTPRequestHandler):
     def handle_ai_picks_request(self, parsed) -> None:
         params = urllib.parse.parse_qs(parsed.query)
         force_refresh = params.get("refresh", ["0"])[0] == "1"
+        try:
+            offset = max(0, int(params.get("offset", ["0"])[0]))
+            limit = max(1, min(20, int(params.get("limit", ["5"])[0])))
+        except ValueError:
+            self.end_json({"error": "Invalid offset or limit"}, status=400)
+            return
+        required_count = min(25, offset + limit)
         cached = load_cache(AI_PICKS_CACHE_PATH)
 
-        if cached.get("picks") and is_ai_picks_fresh(cached) and not force_refresh:
-            self.end_json({**cached, "fromCache": True})
+        if (
+            cached.get("picks")
+            and len(cached.get("picks", [])) >= required_count
+            and is_ai_picks_fresh(cached)
+            and not force_refresh
+        ):
+            sliced = dict(cached)
+            sliced["picks"] = cached.get("picks", [])[offset : offset + limit]
+            self.end_json({**sliced, "fromCache": True, "offset": offset, "limit": limit})
             return
 
         try:
-            payload = fetch_ai_picks_payload()
+            payload = fetch_ai_picks_payload(required_count)
         except Exception as error:
             if cached.get("picks"):
                 fallback = dict(cached)
+                fallback["picks"] = cached.get("picks", [])[offset : offset + limit]
                 fallback["fromCache"] = True
                 fallback["warning"] = str(error)
+                fallback["offset"] = offset
+                fallback["limit"] = limit
                 self.end_json(fallback)
                 return
             self.end_json({"error": str(error)}, status=502)
             return
 
         save_cache(AI_PICKS_CACHE_PATH, payload)
-        self.end_json({**payload, "fromCache": False})
+        sliced = dict(payload)
+        sliced["picks"] = payload.get("picks", [])[offset : offset + limit]
+        self.end_json({**sliced, "fromCache": False, "offset": offset, "limit": limit})
 
 
 def main() -> int:

@@ -119,7 +119,7 @@ MANUAL_HOTSPOTS = [
         "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
         "marketUrl": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
         "marketFallback": {
-            "title": "Sudan civil war ceasefire by...?",
+            "title": "Sudan civil war ceasefire by June 30, 2026?",
             "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
             "yesProbability": "5%",
             "volume": "$61,515",
@@ -140,7 +140,7 @@ MANUAL_HOTSPOTS = [
         "sourceUrl": "https://en.wikipedia.org/wiki/Sudanese_Civil_War",
         "marketUrl": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
         "marketFallback": {
-            "title": "Sudan civil war ceasefire by...?",
+            "title": "Sudan civil war ceasefire by June 30, 2026?",
             "url": "https://polymarket.com/event/sudan-civil-war-ceasefire-by",
             "yesProbability": "5%",
             "volume": "$61,515",

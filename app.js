@@ -30,6 +30,7 @@ const conflictToggle = document.getElementById("conflict-toggle");
 const importantToggle = document.getElementById("important-toggle");
 const aiPicksToggle = document.getElementById("ai-picks-toggle");
 const carrierToggle = document.getElementById("carrier-toggle");
+const moreStoriesHudButton = document.getElementById("more-stories-hud");
 const zoomOutButton = document.getElementById("zoom-out");
 const zoomInButton = document.getElementById("zoom-in");
 const countrySheet = document.getElementById("country-sheet");
@@ -46,6 +47,7 @@ const factStrip = document.querySelector(".fact-strip");
 const spotContext = document.getElementById("spot-context");
 const storySectionLabel = document.getElementById("story-section-label");
 const storyList = document.getElementById("story-list");
+const moreStoriesButton = document.getElementById("more-stories");
 
 const sampleCountryData = window.appData.countries;
 const fallbackImportantSpots = window.appData.importantSpots || [];
@@ -78,13 +80,15 @@ let conflictHoverRoles = new Map();
 let metricHoverMode = null;
 let conflictHotspots = [];
 let hotspotNodes;
-let showConflictHotspots = true;
+let showConflictHotspots = false;
 let importantSpots = [];
 let importantSpotNodes;
-let showImportantSpots = true;
+let showImportantSpots = false;
 let aiPicks = [];
 let aiPickNodes;
 let showAiPicks = true;
+let aiPicksLoadingMore = false;
+let aiPicksHasMore = true;
 let carrierSpots = [];
 let carrierSpotNodes;
 let showCarrierSpots = false;
@@ -465,11 +469,12 @@ function renderMarketCard(cardRoot, marketCard, compact = false) {
   }
 
   const marketUrl = safeExternalUrl(marketCard.url);
+  const marketTitle = getMarketTitle(marketCard);
   const card = document.createElement("article");
   card.className = compact ? "market-card market-card--compact" : "market-card";
   card.innerHTML = `
     <p class="market-card__kicker">Market Signal</p>
-    <h3 class="market-card__title">${escapeHtml(marketCard.title)}</h3>
+    <h3 class="market-card__title">${escapeHtml(marketTitle)}</h3>
     <p class="market-card__prediction">Current prediction: <span>${escapeHtml(marketCard.yesProbability)}</span></p>
     ${
       marketUrl
@@ -591,6 +596,34 @@ function safeExternalUrl(value) {
   return /^https?:\/\//i.test(url) ? url : "";
 }
 
+function formatMarketDate(value) {
+  if (!value || value === "Unavailable") {
+    return "";
+  }
+  const parsed = new Date(`${String(value).slice(0, 10)}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) {
+    return String(value);
+  }
+  return parsed.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function getMarketTitle(marketCard) {
+  const title = String(marketCard?.title || "Polymarket market").trim();
+  const resolveDate = formatMarketDate(marketCard?.resolveDate);
+  if (!resolveDate) {
+    return title;
+  }
+  if (/by\s*\.{2,}\?/i.test(title)) {
+    return title.replace(/by\s*\.{2,}\?/i, `by ${resolveDate}?`);
+  }
+  return title;
+}
+
 function normalizeStoryText(value) {
   return String(value || "")
     .toLowerCase()
@@ -644,6 +677,25 @@ function renderStories(stories) {
       },
     )
     .join("");
+}
+
+function setMoreStoriesVisible(visible) {
+  if (!moreStoriesButton) return;
+  moreStoriesButton.classList.toggle("is-hidden", !visible);
+  moreStoriesButton.disabled = aiPicksLoadingMore || !aiPicksHasMore;
+  moreStoriesButton.textContent = aiPicksLoadingMore
+    ? "Loading..."
+    : aiPicksHasMore
+      ? "More stories"
+      : "No more stories";
+  if (moreStoriesHudButton) {
+    moreStoriesHudButton.disabled = aiPicksLoadingMore || !aiPicksHasMore;
+    moreStoriesHudButton.textContent = aiPicksLoadingMore
+      ? "Loading..."
+      : aiPicksHasMore
+        ? "More Top Stories"
+        : "No more stories";
+  }
 }
 
 function buildCountryStore() {
@@ -704,6 +756,7 @@ function bindMetricHoverHandlers(element, mode) {
 function updateSheet(countryName) {
   const selected = getCountryRecord(countryName);
 
+  setMoreStoriesVisible(false);
   showCountryFacts();
   detailCountry.textContent = selected.name;
   detailRegion.textContent = selected.region || "Metadata not populated yet";
@@ -715,6 +768,7 @@ function updateSheet(countryName) {
 
 function setLoadingState(countryName) {
   const selected = getCountryRecord(countryName);
+  setMoreStoriesVisible(false);
   showCountryFacts();
   detailCountry.textContent = selected.name;
   detailRegion.textContent = selected.region || "Metadata not populated yet";
@@ -734,6 +788,7 @@ function setLoadingState(countryName) {
 }
 
 function updateSpotSheet(spotBriefing) {
+  setMoreStoriesVisible(false);
   showSpotFacts();
   detailCountry.textContent = spotBriefing.label || spotBriefing.name;
   detailRegion.textContent = spotBriefing.kind || "Key area";
@@ -749,6 +804,7 @@ function updateSpotSheet(spotBriefing) {
 
 function updateMarkerBriefingSheet(marker, fallbackKind = "Map marker") {
   const briefing = marker.briefing || {};
+  setMoreStoriesVisible(false);
   showSpotFacts();
   detailCountry.textContent = briefing.label || marker.label || marker.name;
   detailRegion.textContent = briefing.kind || marker.conflict || marker.area || fallbackKind;
@@ -810,6 +866,7 @@ function buildSpotPreviewBriefing(spot) {
 }
 
 function updateAiPickSheet(pick) {
+  setMoreStoriesVisible(true);
   showAiPickFacts();
   detailCountry.textContent = pick.title;
   detailRegion.textContent = pick.place || pick.country || "Top story";
@@ -845,6 +902,40 @@ function updateAiPickSheet(pick) {
           },
         ],
   );
+  setMoreStoriesVisible(true);
+}
+
+function aiPickToStory(pick) {
+  const overlapTags = Array.isArray(pick.overlap)
+    ? pick.overlap.map((item) => item.label || item.type).filter(Boolean)
+    : [];
+  const primarySource = Array.isArray(pick.sources) ? pick.sources[0] : null;
+  return {
+    source: pick.category || "Top story",
+    time: pick.generatedAtLabel || "Recent",
+    title: pick.title,
+    summary: pick.whyItMatters || pick.summary,
+    tags: [pick.freshness, pick.region, pick.country, ...overlapTags].filter(Boolean),
+    url: primarySource?.url || "",
+  };
+}
+
+function updateAiPicksOverviewSheet() {
+  setMoreStoriesVisible(true);
+  showAiPickFacts();
+  detailCountry.textContent = "Top Stories";
+  detailRegion.textContent = "Underlooked global developments";
+  detailConflictLabel.classList.remove("is-hoverable");
+  detailConflictLabel.onmouseenter = null;
+  detailConflictLabel.onmouseleave = null;
+  detailConflictLabel.onfocus = null;
+  detailConflictLabel.onblur = null;
+  detailConflict.replaceChildren();
+  storySectionLabel.textContent = "Current picks";
+  spotContext.classList.add("is-hidden");
+  spotContext.replaceChildren();
+  renderStories(aiPicks.map(aiPickToStory));
+  setMoreStoriesVisible(true);
 }
 
 let activePopupHotspot = null;
@@ -1364,6 +1455,7 @@ function closeCountrySheet() {
   activeFeatureId = null;
   activeSheetRequestId += 1;
   activeSheetKey = "";
+  setMoreStoriesVisible(false);
   countrySheet.classList.add("is-hidden");
   setGlobeShift(false);
   syncCountryClasses();
@@ -1875,7 +1967,7 @@ async function loadAiPicks() {
 
 async function refreshLiveAiPicks() {
   try {
-    const response = await fetch("/api/ai-picks", { cache: "no-store" });
+    const response = await fetch("/api/ai-picks?offset=0&limit=5", { cache: "no-store" });
     if (!response.ok) {
       return;
     }
@@ -1887,10 +1979,59 @@ async function refreshLiveAiPicks() {
         ...pick,
         generatedAtLabel,
       }));
+      aiPicksHasMore = livePicks.length >= 5;
       renderAiPicks();
     }
   } catch (error) {
     console.error("Live AI picks unavailable", error);
+  }
+}
+
+function getAiPickDedupeKey(pick) {
+  const sourceUrl = Array.isArray(pick.sources) && pick.sources[0]?.url
+    ? pick.sources[0].url
+    : "";
+  return (sourceUrl || pick.id || pick.title || "").trim().toLowerCase();
+}
+
+async function loadMoreAiPicks() {
+  if (aiPicksLoadingMore || !aiPicksHasMore) return;
+  aiPicksLoadingMore = true;
+  setMoreStoriesVisible(true);
+  try {
+    const offset = aiPicks.length;
+    const response = await fetch(`/api/ai-picks?offset=${offset}&limit=5`, { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`AI picks request failed: ${response.status}`);
+    }
+    const payload = await response.json();
+    const generatedAtLabel = payload.generatedAt ? `Updated ${formatGeneratedAt(payload.generatedAt)}` : "Top stories";
+    const existing = new Set(aiPicks.map(getAiPickDedupeKey).filter(Boolean));
+    const incoming = Array.isArray(payload.picks) ? payload.picks : [];
+    const additions = incoming
+      .filter((pick) => pick && typeof pick.lat === "number" && typeof pick.lon === "number" && pick.id && pick.title)
+      .filter((pick) => {
+        const key = getAiPickDedupeKey(pick);
+        if (!key || existing.has(key)) return false;
+        existing.add(key);
+        return true;
+      })
+      .map((pick) => ({ ...pick, generatedAtLabel }));
+
+    if (additions.length) {
+      aiPicks = [...aiPicks, ...additions];
+      renderAiPicks();
+      countrySheet.classList.remove("is-hidden");
+      setGlobeShift(true);
+      activeSheetKey = "ai:overview";
+      updateAiPicksOverviewSheet();
+    }
+    aiPicksHasMore = incoming.length >= 5 && additions.length > 0;
+  } catch (error) {
+    console.error("More AI picks unavailable", error);
+  } finally {
+    aiPicksLoadingMore = false;
+    setMoreStoriesVisible(!countrySheet.classList.contains("is-hidden") && activeSheetKey.startsWith("ai:"));
   }
 }
 
@@ -1962,6 +2103,8 @@ conflictToggle.addEventListener("click", () => setConflictHotspotsVisible(!showC
 importantToggle.addEventListener("click", () => setImportantSpotsVisible(!showImportantSpots));
 aiPicksToggle.addEventListener("click", () => setAiPicksVisible(!showAiPicks));
 carrierToggle.addEventListener("click", () => setCarrierSpotsVisible(!showCarrierSpots));
+moreStoriesButton?.addEventListener("click", loadMoreAiPicks);
+moreStoriesHudButton?.addEventListener("click", loadMoreAiPicks);
 zoomOutButton.addEventListener("click", () => setGlobeZoom(globeZoom - GLOBE_ZOOM_STEP));
 zoomInButton.addEventListener("click", () => setGlobeZoom(globeZoom + GLOBE_ZOOM_STEP));
 syncConflictToggle();
