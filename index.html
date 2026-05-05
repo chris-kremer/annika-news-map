@@ -20,17 +20,16 @@
         </div>
 
         <div class="atlas-hud atlas-hud--bottom">
-          <p class="atlas-instruction" id="map-status">Loading globe…</p>
         </div>
 
         <div class="layer-switches" aria-label="Map layers">
           <div class="layer-switch">
             <span class="layer-switch__text">Live conflicts</span>
             <button
-              class="layer-switch__toggle"
+              class="layer-switch__toggle is-active"
               id="conflict-toggle"
               type="button"
-              aria-pressed="false"
+              aria-pressed="true"
             >
               <span class="layer-switch__knob"></span>
             </button>
@@ -47,7 +46,7 @@
             </button>
           </div>
           <div class="layer-switch">
-            <span class="layer-switch__text">AI Picks</span>
+            <span class="layer-switch__text">Top Stories</span>
             <button
               class="layer-switch__toggle is-active"
               id="ai-picks-toggle"
@@ -81,9 +80,7 @@
         </div>
 
         <aside class="country-sheet is-hidden" id="country-sheet">
-          <button class="sheet-close" id="sheet-close" type="button" aria-label="Close country briefing">
-            Done
-          </button>
+          <button class="sheet-close" id="sheet-close" type="button" aria-label="Close country briefing">&#x2715;</button>
 
           <div class="sheet-inner">
             <p class="sheet-kicker" id="detail-region">Region</p>

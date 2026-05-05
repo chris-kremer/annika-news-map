@@ -76,7 +76,7 @@ let conflictHoverRoles = new Map();
 let metricHoverMode = null;
 let conflictHotspots = [];
 let hotspotNodes;
-let showConflictHotspots = false;
+let showConflictHotspots = true;
 let importantSpots = [];
 let importantSpotNodes;
 let showImportantSpots = true;
@@ -416,6 +416,40 @@ function showAiPickFacts() {
   storySectionLabel.textContent = "Source trail";
 }
 
+// ── Polymarket live price cache ──────────────────────────────
+const polymarketPriceCache = new Map();
+
+async function fetchPolymarketPrice(marketUrl) {
+  if (!marketUrl) return null;
+  const cached = polymarketPriceCache.get(marketUrl);
+  if (cached && Date.now() - cached.fetchedAt < 5 * 60 * 1000) return cached;
+  try {
+    const resp = await fetch(`/api/polymarket-price?url=${encodeURIComponent(marketUrl)}`, { cache: "no-store" });
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    if (!data.yesProbability || data.yesProbability === "Unavailable") return null;
+    const result = { yesProbability: data.yesProbability, fetchedAt: Date.now() };
+    polymarketPriceCache.set(marketUrl, result);
+    return result;
+  } catch (e) {
+    console.warn("Polymarket proxy fetch failed", marketUrl, e);
+    return null;
+  }
+}
+
+async function hydrateLiveMarketCard(cardRoot, marketCard, compact = false) {
+  renderMarketCard(cardRoot, marketCard, compact);
+  if (!marketCard?.url) return;
+  const live = await fetchPolymarketPrice(marketCard.url);
+  if (!live) return;
+  const predSpan = cardRoot.querySelector(".market-card__prediction span");
+  if (predSpan && live.yesProbability !== marketCard.yesProbability) {
+    predSpan.textContent = live.yesProbability;
+    predSpan.title = `Live — was ${marketCard.yesProbability} when last saved`;
+    predSpan.style.color = "#4dd2c2";
+  }
+}
+
 function renderMarketCard(cardRoot, marketCard, compact = false) {
   cardRoot.replaceChildren();
   if (!marketCard) {
@@ -441,7 +475,7 @@ function renderMarketCard(cardRoot, marketCard, compact = false) {
 }
 
 function renderSpotContext(spotBriefing) {
-  renderMarketCard(spotContext, spotBriefing.marketCard);
+  hydrateLiveMarketCard(spotContext, spotBriefing.marketCard);
 }
 
 function formatOverlapLabel(overlap) {
@@ -450,26 +484,88 @@ function formatOverlapLabel(overlap) {
   return type ? `Also in ${type}: ${label}` : `Also covered: ${label}`;
 }
 
+function findConflictByOverlapLabel(label) {
+  if (!label) return null;
+  const lowerLabel = label.toLowerCase();
+  return conflictHotspots.find((h) => {
+    return (
+      h.conflict.toLowerCase().includes(lowerLabel) ||
+      lowerLabel.includes(h.conflict.toLowerCase()) ||
+      h.label.toLowerCase().includes(lowerLabel) ||
+      lowerLabel.includes(h.label.toLowerCase())
+    );
+  }) || null;
+}
+
+function renderOverlapTag(overlap) {
+  const type = String(overlap?.type || "").replace(/-/g, " ");
+  const label = overlap?.label || "Related coverage";
+  const text = type ? `Also in ${type}: ${label}` : `Also covered: ${label}`;
+  const matchedHotspot = findConflictByOverlapLabel(label);
+
+  const span = document.createElement("span");
+  span.textContent = text;
+
+  if (matchedHotspot) {
+    span.classList.add("overlap-tag--linked");
+    span.title = `Go to: ${matchedHotspot.label}`;
+    span.addEventListener("mouseenter", () => {
+      const roleMap = buildConflictRoleMap(matchedHotspot, "");
+      setConflictHover(roleMap.size ? roleMap : new Map(
+        (matchedHotspot.countries || []).map((c) => [c, "secondary"])
+      ));
+    });
+    span.addEventListener("mouseleave", () => clearConflictHover());
+    span.addEventListener("click", () => {
+      openConflictMarker(matchedHotspot, null, { hoverPreview: false });
+    });
+  }
+
+  return span;
+}
+
 function renderAiPickContext(pick) {
   spotContext.replaceChildren();
   const card = document.createElement("article");
   const overlaps = Array.isArray(pick.overlap) ? pick.overlap : [];
-  const metaItems = [
+  const plainMetaItems = [
     pick.freshness,
     pick.category || "Global story",
-    `Importance ${Math.round((pick.importance || 0) * 100)}%`,
-    `Location confidence ${Math.round((pick.confidence || 0) * 100)}%`,
-    ...overlaps.map(formatOverlapLabel),
   ].filter(Boolean);
+
   card.className = "ai-context-card";
-  card.innerHTML = `
-    <p class="ai-context-card__kicker">Underlooked AI pick</p>
-    ${pick.angle ? `<p class="ai-context-card__angle">${escapeHtml(pick.angle)}</p>` : ""}
-    <p class="ai-context-card__body">${escapeHtml(pick.whyItMatters || pick.summary)}</p>
-    <div class="ai-context-card__meta">
-      ${metaItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
-    </div>
-  `;
+
+  const kicker = document.createElement("p");
+  kicker.className = "ai-context-card__kicker";
+  kicker.textContent = "Top story";
+  card.appendChild(kicker);
+
+  if (pick.angle) {
+    const angle = document.createElement("p");
+    angle.className = "ai-context-card__angle";
+    angle.textContent = pick.angle;
+    card.appendChild(angle);
+  }
+
+  const body = document.createElement("p");
+  body.className = "ai-context-card__body";
+  body.textContent = pick.whyItMatters || pick.summary;
+  card.appendChild(body);
+
+  const meta = document.createElement("div");
+  meta.className = "ai-context-card__meta";
+
+  for (const item of plainMetaItems) {
+    const span = document.createElement("span");
+    span.textContent = item;
+    meta.appendChild(span);
+  }
+
+  for (const overlap of overlaps) {
+    meta.appendChild(renderOverlapTag(overlap));
+  }
+
+  card.appendChild(meta);
   spotContext.appendChild(card);
   spotContext.classList.remove("is-hidden");
 }
@@ -510,7 +606,6 @@ function renderStories(stories) {
         return `
         <article class="story-card">
           <div class="story-meta">
-            <span>${escapeHtml(story.source)}</span>
             <span>${escapeHtml(story.time)}</span>
           </div>
           <h3 class="story-title">
@@ -643,7 +738,7 @@ function updateMarkerBriefingSheet(marker, fallbackKind = "Map marker") {
   detailConflictLabel.onfocus = null;
   detailConflictLabel.onblur = null;
   detailConflict.replaceChildren();
-  renderMarketCard(spotContext, briefing.marketCard || marker.marketCard);
+  hydrateLiveMarketCard(spotContext, briefing.marketCard || marker.marketCard);
   renderStories(
     briefing.stories || [
       {
@@ -697,7 +792,7 @@ function buildSpotPreviewBriefing(spot) {
 function updateAiPickSheet(pick) {
   showAiPickFacts();
   detailCountry.textContent = pick.title;
-  detailRegion.textContent = pick.place || pick.country || "AI pick";
+  detailRegion.textContent = pick.place || pick.country || "Top story";
   detailConflictLabel.classList.remove("is-hoverable");
   detailConflictLabel.onmouseenter = null;
   detailConflictLabel.onmouseleave = null;
@@ -721,7 +816,7 @@ function updateAiPickSheet(pick) {
         }))
       : [
           {
-            source: "AI Picks",
+            source: "Top story",
             time: "Recent",
             title: pick.title,
             summary: pick.summary,
@@ -733,6 +828,19 @@ function updateAiPickSheet(pick) {
 }
 
 let activePopupHotspot = null;
+let activePopupMarker = null; // { type: 'conflict'|'spot'|'ai'|'carrier', data: ... }
+
+hotspotPopup.addEventListener("click", (e) => {
+  // Don't fire if clicking the source link
+  if (e.target.closest("#popup-link")) return;
+  if (!activePopupMarker) return;
+  const { type, data } = activePopupMarker;
+  cancelHotspotHide();
+  if (type === "conflict") openConflictMarker(data, null, { hoverPreview: false });
+  else if (type === "spot") openImportantSpot(data, { hoverPreview: false });
+  else if (type === "ai") openAiPick(data, { hoverPreview: false });
+  else if (type === "carrier") openCarrierSpot(data, { hoverPreview: false });
+});
 
 function clearConnector() {
   while (connectorLayer.firstChild) connectorLayer.removeChild(connectorLayer.firstChild);
@@ -802,15 +910,46 @@ function refreshConnector() {
   drawConnector(screenX, screenY, hotspotPopup, flipLeft);
 }
 
+function showHoverPopup(label, sub, body, lon, lat) {
+  popupLabel.textContent = label;
+  popupConflict.textContent = sub || "";
+  popupCountries.textContent = body || "";
+  popupMarket.classList.add("is-hidden");
+  popupMarket.replaceChildren();
+  popupLink.classList.add("is-hidden");
+
+  const svgEl = document.getElementById("world-map");
+  const svgRect = svgEl.getBoundingClientRect();
+  const stageRect = atlasStage.getBoundingClientRect();
+  const projected = projection([lon, lat]);
+  if (!projected) return;
+
+  const scaleX = svgRect.width / 1440;
+  const scaleY = svgRect.height / 900;
+  const screenX = svgRect.left - stageRect.left + projected[0] * scaleX;
+  const screenY = svgRect.top - stageRect.top + projected[1] * scaleY;
+
+  const popupW = hotspotPopup.offsetWidth || 230;
+  const offset = 18;
+  const flipLeft = screenX > stageRect.width - popupW - 48;
+  hotspotPopup.classList.toggle("is-flipped", flipLeft);
+  hotspotPopup.style.left = `${flipLeft ? screenX - popupW - offset : screenX + offset}px`;
+  hotspotPopup.style.top = `${screenY - 28}px`;
+  hotspotPopup.classList.remove("is-hidden");
+  activePopupHotspot = { lon, lat };
+  activePopupMarker = null;
+  requestAnimationFrame(() => drawConnector(screenX, screenY, hotspotPopup, flipLeft));
+}
+
 function openConflictHotspot(hotspot, clickEvent, isClick = false) {
   if (isClick) autoRotate = false;
-  mapStatus.textContent = hotspot.label;
+  mapStatus && (mapStatus.textContent = hotspot.label);
 
   // Fill popup content
   popupLabel.textContent = hotspot.label;
   popupConflict.textContent = hotspot.conflict;
   popupCountries.textContent = (hotspot.countries || []).join(" · ");
-  renderMarketCard(popupMarket, hotspot.marketCard, true);
+  hydrateLiveMarketCard(popupMarket, hotspot.marketCard, true);
 
   if (hotspot.sourceUrl) {
     popupLink.href = hotspot.sourceUrl;
@@ -847,6 +986,7 @@ function openConflictHotspot(hotspot, clickEvent, isClick = false) {
   hotspotPopup.style.top = `${top}px`;
   hotspotPopup.classList.remove("is-hidden");
   activePopupHotspot = hotspot;
+  activePopupMarker = { type: "conflict", data: hotspot };
 
   // Draw connector after popup is placed
   requestAnimationFrame(() => drawConnector(screenX, screenY, hotspotPopup, flipLeft));
@@ -902,7 +1042,7 @@ async function refreshCountryBriefing(countryName, requestId) {
         source: "System",
         time: "Now",
         title: "Live briefing failed",
-        summary: error.message || "The deployed API could not refresh this country.",
+        summary: "The deployed API could not refresh this country. Showing cached data.",
         tags: ["API", "Live fetch"],
         url: "",
       },
@@ -929,7 +1069,7 @@ async function refreshSpotBriefing(spotId, requestId) {
     if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
       return;
     }
-    mapStatus.textContent = "Showing cached key area context";
+    mapStatus && (mapStatus.textContent = "Showing cached key area context");
   }
 }
 
@@ -1085,12 +1225,28 @@ function openCountry(feature) {
   updateSheet(feature.properties.name);
   setActiveCountry(feature.id);
   countrySheet.classList.remove("is-hidden");
-  mapStatus.textContent = feature.properties.name;
+  setGlobeShift(true);
+  mapStatus && (mapStatus.textContent = feature.properties.name);
   activeSheetRequestId += 1;
   activeSheetKey = `country:${feature.properties.name}`;
   const requestId = activeSheetRequestId;
   setLoadingState(feature.properties.name);
   refreshCountryBriefing(feature.properties.name, requestId);
+}
+
+function syncSpotClasses() {
+  if (hotspotNodes) {
+    hotspotNodes.classed("is-active-spot", (d) => d.id === activeSpotId);
+  }
+  if (importantSpotNodes) {
+    importantSpotNodes.classed("is-active-spot", (d) => d.id === activeSpotId);
+  }
+  if (aiPickNodes) {
+    aiPickNodes.classed("is-active-spot", (d) => d.id === activeSpotId);
+  }
+  if (carrierSpotNodes) {
+    carrierSpotNodes.classed("is-active-spot", (d) => d.id === activeSpotId);
+  }
 }
 
 function openImportantSpot(spot, options = {}) {
@@ -1106,29 +1262,31 @@ function openImportantSpot(spot, options = {}) {
   if (!hoverPreview) {
     focusCoordinates(spot.lon, spot.lat);
   }
+  if (hoverPreview) return;
   countrySheet.classList.remove("is-hidden");
-  mapStatus.textContent = spot.label;
-  if (activeSheetKey === `spot:${spot.id}` && hoverPreview) {
-    return;
-  }
+  setGlobeShift(true);
+  mapStatus && (mapStatus.textContent = spot.label);
   activeSheetRequestId += 1;
   activeSheetKey = `spot:${spot.id}`;
   const requestId = activeSheetRequestId;
   updateSpotSheet(buildSpotPreviewBriefing(spot));
-  if (!hoverPreview) {
-    refreshSpotBriefing(spot.id, requestId);
-  }
+  refreshSpotBriefing(spot.id, requestId);
+  syncSpotClasses();
 }
 
 function openConflictMarker(hotspot, event, options = {}) {
   const { hoverPreview = false } = options;
   openConflictHotspot(hotspot, event, !hoverPreview);
-  activeSpotId = null;
-  setActiveCountry(null);
-  countrySheet.classList.remove("is-hidden");
-  activeSheetRequestId += 1;
-  activeSheetKey = `conflict:${hotspot.id}`;
-  updateMarkerBriefingSheet(hotspot, "Live conflict");
+  if (!hoverPreview) {
+    activeSpotId = hotspot.id;
+    setActiveCountry(null);
+    countrySheet.classList.remove("is-hidden");
+    setGlobeShift(true);
+    activeSheetRequestId += 1;
+    activeSheetKey = `conflict:${hotspot.id}`;
+    updateMarkerBriefingSheet(hotspot, "Live conflict");
+    syncSpotClasses();
+  }
 }
 
 function openCarrierSpot(spot, options = {}) {
@@ -1142,11 +1300,15 @@ function openCarrierSpot(spot, options = {}) {
   closeHotspotPopup();
   activeSpotId = null;
   setActiveCountry(null);
+  if (hoverPreview) return;
+  activeSpotId = spot.id;
   countrySheet.classList.remove("is-hidden");
-  mapStatus.textContent = `${spot.name}: ${spot.area}`;
+  setGlobeShift(true);
+  mapStatus && (mapStatus.textContent = `${spot.name}: ${spot.area}`);
   activeSheetRequestId += 1;
   activeSheetKey = `carrier:${spot.id}`;
   updateMarkerBriefingSheet(spot, "US carrier");
+  syncSpotClasses();
 }
 
 function openAiPick(pick, options = {}) {
@@ -1162,14 +1324,15 @@ function openAiPick(pick, options = {}) {
   if (!hoverPreview) {
     focusCoordinates(pick.lon, pick.lat);
   }
+  if (hoverPreview) return;
+  activeSpotId = pick.id;
   countrySheet.classList.remove("is-hidden");
-  mapStatus.textContent = pick.title;
-  if (activeSheetKey === `ai:${pick.id}` && hoverPreview) {
-    return;
-  }
+  setGlobeShift(true);
+  mapStatus && (mapStatus.textContent = pick.title);
   activeSheetRequestId += 1;
   activeSheetKey = `ai:${pick.id}`;
   updateAiPickSheet(pick);
+  syncSpotClasses();
 }
 
 function closeCountrySheet() {
@@ -1180,8 +1343,10 @@ function closeCountrySheet() {
   activeSheetRequestId += 1;
   activeSheetKey = "";
   countrySheet.classList.add("is-hidden");
+  setGlobeShift(false);
   syncCountryClasses();
-  mapStatus.textContent = getDefaultMapStatus();
+  syncSpotClasses();
+  mapStatus && (mapStatus.textContent = getDefaultMapStatus());
 }
 
 function buildGlobe() {
@@ -1199,7 +1364,7 @@ function buildGlobe() {
   svg
     .append("circle")
     .attr("class", "globe-glow")
-    .attr("cx", 720)
+    .attr("cx", globeCurrentX)
     .attr("cy", 450)
     .attr("r", 335);
 
@@ -1219,12 +1384,36 @@ function buildGlobe() {
   carrierLayer = svg.append("g").attr("class", "carrier-layer");
 }
 
+const GLOBE_CENTER_X = 720;
+const GLOBE_CENTER_Y = 450;
+const SHEET_WIDTH_SVG = 200; // shift amount in SVG units when sheet is open
+let globeTargetX = GLOBE_CENTER_X;
+let globeCurrentX = GLOBE_CENTER_X;
+
+function setGlobeShift(sheetOpen) {
+  globeTargetX = sheetOpen ? GLOBE_CENTER_X - SHEET_WIDTH_SVG / 2 : GLOBE_CENTER_X;
+}
+
+function stepGlobeShift() {
+  if (Math.abs(globeCurrentX - globeTargetX) < 0.5) {
+    globeCurrentX = globeTargetX;
+  } else {
+    globeCurrentX += (globeTargetX - globeCurrentX) * 0.1;
+  }
+  if (globeCurrentX !== projection.translate()[0]) {
+    projection.translate([globeCurrentX, GLOBE_CENTER_Y]);
+    refreshPaths();
+    // Move the glow circle with the globe
+    svg.select(".globe-glow").attr("cx", globeCurrentX);
+  }
+}
+
 function resizeProjection() {
   const width = 1440;
   const height = 900;
   projection = d3
     .geoOrthographic()
-    .translate([width / 2, height / 2])
+    .translate([globeCurrentX, height / 2])
     .scale(Math.min(width, height) * 0.36)
     .clipAngle(90)
     .precision(0.5)
@@ -1262,7 +1451,7 @@ function attachInteraction() {
       return;
     }
     autoRotate = true;
-    mapStatus.textContent = getDefaultMapStatus();
+    mapStatus && (mapStatus.textContent = getDefaultMapStatus());
   });
 }
 
@@ -1321,7 +1510,6 @@ function renderConflictHotspots() {
       group.append("circle").attr("class", "hotspot-halo hotspot-halo--1");
       group.append("circle").attr("class", "hotspot-halo hotspot-halo--2");
       group.append("circle").attr("class", "hotspot-core");
-      group.append("title");
       return group;
     });
 
@@ -1330,21 +1518,29 @@ function renderConflictHotspots() {
     .attr("aria-label", (hotspot) => hotspot.label)
     .on("mouseenter", (event, hotspot) => {
       cancelHotspotHide();
-      mapStatus.textContent = hotspot.label;
+      mapStatus && (mapStatus.textContent = hotspot.label);
       openConflictMarker(hotspot, event, { hoverPreview: true });
+      setConflictHover(new Map(
+        (hotspot.countries || []).map((c) => [c, "secondary"])
+      ));
     })
     .on("mouseleave", (_, hotspot) => {
       scheduleHotspotHide();
-      mapStatus.textContent = getDefaultMapStatus();
+      clearConflictHover();
+      mapStatus && (mapStatus.textContent = getDefaultMapStatus());
     })
     .on("focus", (event, hotspot) => {
       cancelHotspotHide();
-      mapStatus.textContent = hotspot.label;
+      mapStatus && (mapStatus.textContent = hotspot.label);
       openConflictMarker(hotspot, event, { hoverPreview: true });
+      setConflictHover(new Map(
+        (hotspot.countries || []).map((c) => [c, "secondary"])
+      ));
     })
     .on("blur", () => {
       scheduleHotspotHide();
-      mapStatus.textContent = getDefaultMapStatus();
+      clearConflictHover();
+      mapStatus && (mapStatus.textContent = getDefaultMapStatus());
     })
     .on("click", (event, hotspot) => {
       event.stopPropagation();
@@ -1369,9 +1565,7 @@ function renderConflictHotspots() {
     .select(".hotspot-core")
     .attr("r", (hotspot) => Math.max(3, Math.min(7.5, hotspot.weight * 0.55)));
 
-  hotspotNodes
-    .select("title")
-    .text((hotspot) => `${hotspot.label} — ${hotspot.conflict}`);
+
 
   updateHotspotPositions();
   syncHotspotAnimations();
@@ -1392,7 +1586,6 @@ function renderImportantSpots() {
       group.append("circle").attr("class", "important-hit");
       group.append("circle").attr("class", "important-ring");
       group.append("circle").attr("class", "important-core");
-      group.append("title");
       return group;
     });
 
@@ -1400,18 +1593,24 @@ function renderImportantSpots() {
     .style("pointer-events", () => (showImportantSpots ? "all" : "none"))
     .attr("aria-label", (spot) => spot.label)
     .on("mouseenter", (_, spot) => {
-      mapStatus.textContent = `${spot.label}: ${spot.title}`;
-      openImportantSpot(spot, { hoverPreview: true });
+      cancelHotspotHide();
+      mapStatus && (mapStatus.textContent = `${spot.label}: ${spot.title}`);
+      showHoverPopup(spot.label, spot.kind?.replace(/-/g, " "), spot.title, spot.lon, spot.lat);
+      activePopupMarker = { type: "spot", data: spot };
     })
     .on("mouseleave", () => {
-      mapStatus.textContent = getDefaultMapStatus();
+      scheduleHotspotHide();
+      mapStatus && (mapStatus.textContent = getDefaultMapStatus());
     })
     .on("focus", (_, spot) => {
-      mapStatus.textContent = `${spot.label}: ${spot.title}`;
-      openImportantSpot(spot, { hoverPreview: true });
+      cancelHotspotHide();
+      mapStatus && (mapStatus.textContent = `${spot.label}: ${spot.title}`);
+      showHoverPopup(spot.label, spot.kind?.replace(/-/g, " "), spot.title, spot.lon, spot.lat);
+      activePopupMarker = { type: "spot", data: spot };
     })
     .on("blur", () => {
-      mapStatus.textContent = getDefaultMapStatus();
+      scheduleHotspotHide();
+      mapStatus && (mapStatus.textContent = getDefaultMapStatus());
     })
     .on("click", (event, spot) => {
       event.stopPropagation();
@@ -1440,7 +1639,7 @@ function renderImportantSpots() {
   importantSpotNodes.select(".important-hit").attr("r", 19);
   importantSpotNodes.select(".important-ring").attr("r", 10.5);
   importantSpotNodes.select(".important-core").attr("r", 5);
-  importantSpotNodes.select("title").text((spot) => `${spot.label} — ${spot.title}`);
+
 
   updateImportantSpotPositions();
 }
@@ -1460,7 +1659,6 @@ function renderAiPicks() {
       group.append("circle").attr("class", "ai-pick-hit");
       group.append("circle").attr("class", "ai-pick-ring");
       group.append("circle").attr("class", "ai-pick-core");
-      group.append("title");
       return group;
     });
 
@@ -1468,18 +1666,24 @@ function renderAiPicks() {
     .style("pointer-events", () => (showAiPicks ? "all" : "none"))
     .attr("aria-label", (pick) => pick.title)
     .on("mouseenter", (_, pick) => {
-      mapStatus.textContent = `${pick.place}: ${pick.title}`;
-      openAiPick(pick, { hoverPreview: true });
+      cancelHotspotHide();
+      mapStatus && (mapStatus.textContent = `${pick.place}: ${pick.title}`);
+      showHoverPopup(pick.place, pick.category || "Top story", pick.title, pick.lon, pick.lat);
+      activePopupMarker = { type: "ai", data: pick };
     })
     .on("mouseleave", () => {
-      mapStatus.textContent = getDefaultMapStatus();
+      scheduleHotspotHide();
+      mapStatus && (mapStatus.textContent = getDefaultMapStatus());
     })
     .on("focus", (_, pick) => {
-      mapStatus.textContent = `${pick.place}: ${pick.title}`;
-      openAiPick(pick, { hoverPreview: true });
+      cancelHotspotHide();
+      mapStatus && (mapStatus.textContent = `${pick.place}: ${pick.title}`);
+      showHoverPopup(pick.place, pick.category || "Top story", pick.title, pick.lon, pick.lat);
+      activePopupMarker = { type: "ai", data: pick };
     })
     .on("blur", () => {
-      mapStatus.textContent = getDefaultMapStatus();
+      scheduleHotspotHide();
+      mapStatus && (mapStatus.textContent = getDefaultMapStatus());
     })
     .on("click", (event, pick) => {
       event.stopPropagation();
@@ -1495,7 +1699,7 @@ function renderAiPicks() {
   aiPickNodes.select(".ai-pick-hit").attr("r", 20);
   aiPickNodes.select(".ai-pick-ring").attr("r", (pick) => 8 + (pick.importance || 0.6) * 6);
   aiPickNodes.select(".ai-pick-core").attr("r", (pick) => 3.6 + (pick.importance || 0.6) * 2.8);
-  aiPickNodes.select("title").text((pick) => `${pick.place} — ${pick.title}`);
+
 
   updateAiPickPositions();
 }
@@ -1515,7 +1719,6 @@ function renderCarrierSpots() {
       group.append("circle").attr("class", "carrier-hit");
       group.append("circle").attr("class", "carrier-ring");
       group.append("circle").attr("class", "carrier-core");
-      group.append("title");
       return group;
     });
 
@@ -1523,18 +1726,24 @@ function renderCarrierSpots() {
     .style("pointer-events", () => (showCarrierSpots ? "all" : "none"))
     .attr("aria-label", (spot) => spot.name)
     .on("mouseenter", (_, spot) => {
-      mapStatus.textContent = `${spot.name}: ${spot.area}`;
-      openCarrierSpot(spot, { hoverPreview: true });
+      cancelHotspotHide();
+      mapStatus && (mapStatus.textContent = `${spot.name}: ${spot.area}`);
+      showHoverPopup(spot.name, "US carrier", spot.area, spot.lon, spot.lat);
+      activePopupMarker = { type: "carrier", data: spot };
     })
     .on("mouseleave", () => {
-      mapStatus.textContent = getDefaultMapStatus();
+      scheduleHotspotHide();
+      mapStatus && (mapStatus.textContent = getDefaultMapStatus());
     })
     .on("focus", (_, spot) => {
-      mapStatus.textContent = `${spot.name}: ${spot.area}`;
-      openCarrierSpot(spot, { hoverPreview: true });
+      cancelHotspotHide();
+      mapStatus && (mapStatus.textContent = `${spot.name}: ${spot.area}`);
+      showHoverPopup(spot.name, "US carrier", spot.area, spot.lon, spot.lat);
+      activePopupMarker = { type: "carrier", data: spot };
     })
     .on("blur", () => {
-      mapStatus.textContent = getDefaultMapStatus();
+      scheduleHotspotHide();
+      mapStatus && (mapStatus.textContent = getDefaultMapStatus());
     })
     .on("click", (event, spot) => {
       event.stopPropagation();
@@ -1550,9 +1759,6 @@ function renderCarrierSpots() {
   carrierSpotNodes.select(".carrier-hit").attr("r", 13);
   carrierSpotNodes.select(".carrier-ring").attr("r", 9);
   carrierSpotNodes.select(".carrier-core").attr("r", 4.2);
-  carrierSpotNodes
-    .select("title")
-    .text((spot) => `${spot.name} — ${spot.area} — ${spot.status}`);
 
   updateCarrierPositions();
 }
@@ -1621,7 +1827,7 @@ async function refreshLiveAiPicks() {
     const payload = await response.json();
     const livePicks = Array.isArray(payload.picks) ? payload.picks : [];
     if (livePicks.length) {
-      const generatedAtLabel = payload.generatedAt ? `Generated ${formatGeneratedAt(payload.generatedAt)}` : "AI curated";
+      const generatedAtLabel = payload.generatedAt ? `Updated ${formatGeneratedAt(payload.generatedAt)}` : "Top stories";
       aiPicks = livePicks.map((pick) => ({
         ...pick,
         generatedAtLabel,
@@ -1656,6 +1862,7 @@ function animate(timestamp) {
     refreshPaths();
   }
 
+  stepGlobeShift();
   refreshConnector();
   lastTimestamp = timestamp;
   requestAnimationFrame(animate);
@@ -1686,10 +1893,10 @@ async function loadGlobe() {
     refreshPaths();
     attachInteraction();
     requestAnimationFrame(animate);
-    mapStatus.textContent = "Drag the globe. Click a country.";
+    mapStatus && (mapStatus.textContent = "Drag the globe. Click a country.");
   } catch (error) {
     console.error(error);
-    mapStatus.textContent = "Globe assets failed to load.";
+    mapStatus && (mapStatus.textContent = "Globe assets failed to load.");
   }
 }
 
