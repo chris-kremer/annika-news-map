@@ -98,6 +98,7 @@ body {
 
 .atlas-mark {
   position: relative;
+  isolation: isolate;
   pointer-events: auto;
   cursor: help;
   transition:
@@ -111,55 +112,66 @@ body {
 
 .atlas-mark:hover,
 .atlas-mark:focus-visible {
-  padding: 11px 22px 10px;
-  border-color: rgba(255, 171, 64, 0.82);
-  border-radius: 45% 55% 42% 58% / 62% 62% 38% 38%;
+  padding: 13px 28px 12px;
+  border-color: rgba(255, 171, 64, 0.94);
+  border-radius: 38% 42% 40% 39% / 68% 68% 48% 48%;
   background:
-    radial-gradient(ellipse at 18% 52%, rgba(255, 159, 38, 0.24), transparent 36%),
-    radial-gradient(ellipse at 36% 52%, rgba(255, 171, 64, 0.2), transparent 38%),
-    radial-gradient(ellipse at 50% 52%, rgba(255, 197, 91, 0.16), transparent 40%),
-    radial-gradient(ellipse at 64% 52%, rgba(255, 171, 64, 0.2), transparent 38%),
-    radial-gradient(ellipse at 82% 52%, rgba(255, 159, 38, 0.24), transparent 36%),
-    rgba(58, 28, 8, 0.72);
+    radial-gradient(ellipse at 9% 50%, rgba(154, 66, 9, 0.72) 0 28%, transparent 30%),
+    radial-gradient(ellipse at 24% 50%, rgba(210, 91, 12, 0.66) 0 33%, transparent 35%),
+    radial-gradient(ellipse at 50% 48%, rgba(245, 132, 25, 0.7) 0 42%, transparent 45%),
+    radial-gradient(ellipse at 76% 50%, rgba(210, 91, 12, 0.66) 0 33%, transparent 35%),
+    radial-gradient(ellipse at 91% 50%, rgba(154, 66, 9, 0.72) 0 28%, transparent 30%),
+    linear-gradient(180deg, rgba(255, 182, 72, 0.18), rgba(83, 33, 4, 0.24)),
+    rgba(83, 33, 4, 0.88);
   color: var(--text);
   outline: none;
   box-shadow:
-    inset 13px 0 18px rgba(86, 37, 7, 0.28),
-    inset -13px 0 18px rgba(86, 37, 7, 0.28),
-    inset 0 -8px 14px rgba(91, 36, 4, 0.24),
-    0 0 0 1px rgba(255, 171, 64, 0.16),
+    inset 18px 0 20px rgba(72, 27, 2, 0.32),
+    inset -18px 0 20px rgba(72, 27, 2, 0.32),
+    inset 0 -10px 16px rgba(68, 24, 0, 0.3),
+    -18px 2px 0 -4px rgba(202, 88, 11, 0.74),
+    18px 2px 0 -4px rgba(202, 88, 11, 0.74),
+    -31px 5px 0 -12px rgba(128, 54, 7, 0.66),
+    31px 5px 0 -12px rgba(128, 54, 7, 0.66),
+    0 0 0 1px rgba(255, 188, 82, 0.22),
     0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 22px rgba(255, 171, 64, 0.1);
+    0 0 24px rgba(255, 133, 20, 0.14);
 }
 
 .atlas-mark::before {
   content: "";
   position: absolute;
-  top: -9px;
+  top: -14px;
   left: 50%;
-  width: 13px;
-  height: 12px;
-  border-radius: 7px 7px 3px 3px;
-  background: linear-gradient(135deg, rgba(80, 92, 36, 0.95), rgba(125, 83, 31, 0.92));
-  transform: translateX(-50%) rotate(-8deg);
+  width: 18px;
+  height: 18px;
+  border-radius: 11px 9px 5px 5px;
+  background: linear-gradient(135deg, rgba(63, 90, 34, 0.98), rgba(117, 72, 23, 0.96));
+  transform: translateX(-50%) rotate(-10deg);
   opacity: 0;
-  box-shadow: 0 0 0 1px rgba(255, 171, 64, 0.16);
+  box-shadow:
+    0 0 0 1px rgba(255, 171, 64, 0.16),
+    10px -2px 0 -7px rgba(87, 119, 49, 0.8);
   transition: opacity 180ms ease;
 }
 
 .atlas-mark::after {
   content: "";
   position: absolute;
-  inset: 4px 19px 5px;
-  border-left: 2px solid rgba(255, 205, 123, 0.2);
-  border-right: 2px solid rgba(255, 205, 123, 0.2);
+  inset: 4px 20px 5px;
+  border-left: 2px solid rgba(255, 216, 142, 0.28);
+  border-right: 2px solid rgba(255, 216, 142, 0.28);
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
   transition: opacity 180ms ease;
   box-shadow:
-    -15px 0 0 -13px rgba(255, 205, 123, 0.22),
-    15px 0 0 -13px rgba(255, 205, 123, 0.22);
+    -18px 0 0 -15px rgba(255, 216, 142, 0.3),
+    18px 0 0 -15px rgba(255, 216, 142, 0.3),
+    -35px 0 0 -31px rgba(255, 216, 142, 0.22),
+    35px 0 0 -31px rgba(255, 216, 142, 0.22),
+    inset 0 8px 0 -7px rgba(255, 231, 177, 0.28),
+    inset 0 -8px 0 -7px rgba(68, 24, 0, 0.35);
 }
 
 .atlas-mark:hover::before,
