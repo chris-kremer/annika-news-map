@@ -154,7 +154,7 @@ body {
   height: 61px;
   background: url("assets/pumpkin-header.svg") center / contain no-repeat;
   opacity: 0;
-  transform: translate(-50%, -49%) scale(0.94, 0.86);
+  transform: translate(-50%, -55%) scale(0.94, 0.86);
   transform-origin: center;
   transition:
     opacity 340ms cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -188,7 +188,7 @@ body {
 .atlas-mark:hover::before,
 .atlas-mark:focus::before,
 .atlas-mark:focus-visible::before {
-  transform: translate(-50%, -49%) scale(1);
+  transform: translate(-50%, -55%) scale(1);
 }
 
 .atlas-mark:hover::after,
