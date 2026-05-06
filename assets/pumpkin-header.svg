@@ -1,55 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" role="img" aria-label="Wide pumpkin">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 92" role="img" aria-label="Pumpkin pill">
   <defs>
-    <filter id="soft-shadow" x="-12%" y="-30%" width="124%" height="160%">
-      <feDropShadow dx="0" dy="16" stdDeviation="12" flood-color="#160600" flood-opacity="0.42"/>
-      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#ff8a1d" flood-opacity="0.2"/>
+    <filter id="ambient" x="-14%" y="-24%" width="128%" height="156%">
+      <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#140500" flood-opacity="0.42"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#ff8a1e" flood-opacity="0.22"/>
     </filter>
-    <linearGradient id="skin" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#ffb23f"/>
-      <stop offset="0.34" stop-color="#ff8612"/>
-      <stop offset="0.7" stop-color="#df5700"/>
-      <stop offset="1" stop-color="#873000"/>
+    <linearGradient id="body" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffb347"/>
+      <stop offset="0.36" stop-color="#ff8614"/>
+      <stop offset="0.72" stop-color="#d94f00"/>
+      <stop offset="1" stop-color="#7d2b00"/>
     </linearGradient>
-    <linearGradient id="side-skin" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#f98a18"/>
-      <stop offset="0.55" stop-color="#d94e00"/>
-      <stop offset="1" stop-color="#782600"/>
-    </linearGradient>
-    <linearGradient id="rim" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#ffd071" stop-opacity="0.8"/>
-      <stop offset="0.52" stop-color="#b63900" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#4d1600" stop-opacity="0.65"/>
+    <linearGradient id="side" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f07b10"/>
+      <stop offset="0.58" stop-color="#c84500"/>
+      <stop offset="1" stop-color="#652000"/>
     </linearGradient>
     <linearGradient id="stem" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#8a742b"/>
-      <stop offset="0.48" stop-color="#5b461d"/>
-      <stop offset="1" stop-color="#292f17"/>
+      <stop offset="0" stop-color="#87913a"/>
+      <stop offset="0.5" stop-color="#5c4b22"/>
+      <stop offset="1" stop-color="#252d17"/>
     </linearGradient>
-    <radialGradient id="gloss" cx="0.42" cy="0.18" r="0.72">
-      <stop offset="0" stop-color="#ffe08a" stop-opacity="0.5"/>
-      <stop offset="0.26" stop-color="#ffc558" stop-opacity="0.2"/>
-      <stop offset="1" stop-color="#ff8c12" stop-opacity="0"/>
+    <radialGradient id="gloss" cx="0.42" cy="0.2" r="0.68">
+      <stop offset="0" stop-color="#ffe6a2" stop-opacity="0.54"/>
+      <stop offset="0.32" stop-color="#ffc25f" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ff8b16" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
-  <g filter="url(#soft-shadow)">
-    <path d="M356 30c13-24 32-25 43-8 9 13 13 34 6 54l-39 1c9-22 5-38-10-47z" fill="url(#stem)" stroke="#211407" stroke-width="3"/>
-    <path d="M383 27c7 12 10 29 4 47" fill="none" stroke="#b89b42" stroke-width="4" stroke-linecap="round" opacity="0.38"/>
+  <g filter="url(#ambient)">
+    <path d="M178 20c5-12 15-13 21-6 5 7 5 17 1 27h-20c5-10 3-17-2-21z" fill="url(#stem)" stroke="#1f1508" stroke-width="1.8"/>
+    <path d="M192 17c4 6 4 14 1 23" fill="none" stroke="#b79a43" stroke-width="2.2" stroke-linecap="round" opacity="0.38"/>
 
-    <g stroke="url(#rim)" stroke-width="4">
-      <path d="M74 93c0-37 28-58 70-58 31 0 50 22 53 59-3 40-23 61-54 61-42 0-69-22-69-62z" fill="url(#side-skin)"/>
-      <path d="M112 92c0-43 33-67 82-67 36 0 59 25 63 69-4 47-28 72-64 72-49 0-81-26-81-74z" fill="url(#side-skin)"/>
-      <path d="M168 92c0-49 38-77 94-77 42 0 69 29 73 80-4 54-33 82-74 82-57 0-93-30-93-85z" fill="url(#skin)"/>
-      <path d="M246 93c0-53 42-84 102-84 46 0 75 32 79 87-4 59-36 88-81 88-61 0-100-33-100-91z" fill="url(#skin)"/>
-      <path d="M331 93c0-57 46-89 109-89 49 0 80 34 84 91-4 62-38 92-86 92-64 0-107-35-107-94z" fill="url(#skin)"/>
-      <path d="M474 93c0-53-42-84-102-84-46 0-75 32-79 87 4 59 36 88 81 88 61 0 100-33 100-91z" fill="url(#skin)"/>
-      <path d="M552 92c0-49-38-77-94-77-42 0-69 29-73 80 4 54 33 82 74 82 57 0 93-30 93-85z" fill="url(#skin)"/>
-      <path d="M608 92c0-43-33-67-82-67-36 0-59 25-63 69 4 47 28 72 64 72 49 0 81-26 81-74z" fill="url(#side-skin)"/>
-      <path d="M646 93c0-37-28-58-70-58-31 0-50 22-53 59 3 40 23 61 54 61 42 0 69-22 69-62z" fill="url(#side-skin)"/>
-    </g>
+    <path d="M24 53c0-24 20-37 48-37 23 0 36 15 38 38-2 25-15 38-38 38-29 0-48-14-48-39z" fill="url(#side)" stroke="#7a2300" stroke-width="2.4"/>
+    <path d="M56 52c0-29 24-45 57-45 28 0 44 18 47 47-3 31-19 47-47 47-34 0-57-18-57-49z" fill="url(#side)" stroke="#8c2a00" stroke-width="2.4"/>
+    <path d="M103 52c0-32 27-50 64-50 31 0 50 20 53 52-3 35-22 53-53 53-38 0-64-20-64-55z" fill="url(#body)" stroke="#9d3100" stroke-width="2.4"/>
+    <path d="M155 52c0-35 31-54 71-54 34 0 55 22 58 55-3 38-25 57-58 57-42 0-71-22-71-58z" fill="url(#body)" stroke="#a53600" stroke-width="2.5"/>
+    <path d="M205 52c0-32 27-50 64-50 31 0 50 20 53 52-3 35-22 53-53 53-38 0-64-20-64-55z" fill="url(#body)" stroke="#9d3100" stroke-width="2.4"/>
+    <path d="M250 52c0-29 24-45 57-45 28 0 44 18 47 47-3 31-19 47-47 47-34 0-57-18-57-49z" fill="url(#side)" stroke="#8c2a00" stroke-width="2.4"/>
+    <path d="M288 53c0-24 20-37 48-37 23 0 36 15 38 38-2 25-15 38-38 38-29 0-48-14-48-39z" fill="url(#side)" stroke="#7a2300" stroke-width="2.4"/>
 
-    <path d="M126 62c54-26 113-29 176-12 42-29 91-31 146-5 64-18 116-11 156 19" fill="none" stroke="#ffca61" stroke-width="6" stroke-linecap="round" opacity="0.28"/>
-    <ellipse cx="360" cy="82" rx="252" ry="67" fill="url(#gloss)" opacity="0.86"/>
-    <path d="M181 58c-30 14-42 40-37 77M255 43c-31 21-41 57-30 103M337 34c-21 29-25 73-8 122M383 34c21 29 25 73 8 122M465 43c31 21 41 57 30 103M539 58c30 14 42 40 37 77" fill="none" stroke="#782400" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
+    <ellipse cx="180" cy="45" rx="132" ry="34" fill="url(#gloss)" opacity="0.72"/>
+    <path d="M72 25c25-13 58-15 95-6 37-14 73-14 108 0 32-9 61-6 86 8" fill="none" stroke="#ffd079" stroke-width="3.2" stroke-linecap="round" opacity="0.24"/>
+    <path d="M74 31c-17 9-25 28-21 50M117 22c-17 13-24 36-18 62M165 16c-12 17-15 44-6 70M195 16c12 17 15 44 6 70M243 22c17 13 24 36 18 62M286 31c17 9 25 28 21 50" fill="none" stroke="#6e2000" stroke-width="2.6" stroke-linecap="round" opacity="0.38"/>
   </g>
 </svg>
