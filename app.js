@@ -138,6 +138,7 @@ function syncImportantToggle() {
 function syncAiPicksToggle() {
   aiPicksToggle.classList.toggle("is-active", showAiPicks);
   aiPicksToggle.setAttribute("aria-pressed", String(showAiPicks));
+  moreStoriesHudButton?.classList.toggle("is-hidden", !showAiPicks);
 }
 
 function syncCarrierToggle() {
@@ -744,6 +745,7 @@ function setMoreStoriesVisible(visible) {
       ? "More stories"
       : "No more stories";
   if (moreStoriesHudButton) {
+    moreStoriesHudButton.classList.toggle("is-hidden", !showAiPicks);
     moreStoriesHudButton.disabled = aiPicksLoadingMore || !aiPicksHasMore;
     moreStoriesHudButton.textContent = aiPicksLoadingMore
       ? "Searching the globe..."

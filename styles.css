@@ -213,6 +213,10 @@ body {
   opacity: 0.58;
 }
 
+.more-top-stories.is-hidden {
+  display: none;
+}
+
 .zoom-control {
   appearance: none;
   -webkit-appearance: none;
