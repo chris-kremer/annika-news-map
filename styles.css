@@ -100,14 +100,25 @@ body {
   position: relative;
   pointer-events: auto;
   cursor: help;
-  padding: 10px 18px;
-  border-color: rgba(255, 171, 64, 0.5);
+  transition:
+    border-color 180ms ease,
+    border-radius 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease;
+}
+
+.atlas-mark:hover,
+.atlas-mark:focus-visible {
+  border-color: rgba(255, 171, 64, 0.58);
   border-radius: 48% 52% 45% 55% / 58% 57% 43% 42%;
   background:
     radial-gradient(ellipse at 28% 50%, rgba(255, 171, 64, 0.13), transparent 32%),
     radial-gradient(ellipse at 50% 50%, rgba(255, 171, 64, 0.09), transparent 35%),
     radial-gradient(ellipse at 72% 50%, rgba(255, 171, 64, 0.12), transparent 32%),
     rgba(4, 10, 16, 0.72);
+  color: var(--text);
+  outline: none;
   box-shadow:
     inset 10px 0 18px rgba(255, 171, 64, 0.05),
     inset -10px 0 18px rgba(255, 171, 64, 0.05),
@@ -125,7 +136,9 @@ body {
   border-radius: 6px 6px 2px 2px;
   background: rgba(127, 94, 46, 0.82);
   transform: translateX(-50%) rotate(-6deg);
+  opacity: 0;
   box-shadow: 0 0 0 1px rgba(255, 171, 64, 0.16);
+  transition: opacity 180ms ease;
 }
 
 .atlas-mark::after {
@@ -136,6 +149,15 @@ body {
   border-right: 1px solid rgba(255, 171, 64, 0.13);
   border-radius: 50%;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.atlas-mark:hover::before,
+.atlas-mark:hover::after,
+.atlas-mark:focus-visible::before,
+.atlas-mark:focus-visible::after {
+  opacity: 1;
 }
 
 .layer-switches {
