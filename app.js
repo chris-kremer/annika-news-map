@@ -31,7 +31,6 @@ const importantToggle = document.getElementById("important-toggle");
 const aiPicksToggle = document.getElementById("ai-picks-toggle");
 const carrierToggle = document.getElementById("carrier-toggle");
 const moreStoriesHudButton = document.getElementById("more-stories-hud");
-const discoveryPreviewButton = document.getElementById("discovery-preview");
 const cacheStatusMark = document.getElementById("cache-status-mark");
 const zoomOutButton = document.getElementById("zoom-out");
 const zoomInButton = document.getElementById("zoom-in");
@@ -98,7 +97,6 @@ let showAiPicks = true;
 let aiPicksLoadingMore = false;
 let aiPicksHasMore = true;
 let aiPicksRefreshing = false;
-let discoveryPreviewLoading = false;
 let carrierSpots = [];
 let carrierSpotNodes;
 let showCarrierSpots = false;
@@ -734,52 +732,6 @@ function renderStories(stories) {
     .join("");
 }
 
-function renderDiscoveryCandidates(candidates) {
-  if (!Array.isArray(candidates) || candidates.length === 0) {
-    storyList.innerHTML = `
-      <article class="story-card story-card--empty">
-        <div class="story-meta">
-          <span>Discovery</span>
-          <span>Preview</span>
-        </div>
-        <h3 class="story-title">No candidates returned</h3>
-        <p class="story-copy">The discovery providers did not return reviewable candidates in this pass.</p>
-      </article>
-    `;
-    return;
-  }
-
-  storyList.innerHTML = candidates
-    .map((candidate) => {
-      const url = safeExternalUrl(candidate.url);
-      const score = Number(candidate.qualityScore || 0);
-      const scoreLabel = score.toFixed(2);
-      const scoreClass = score >= 0.35 ? "is-strong" : score >= 0.2 ? "is-watch" : "is-weak";
-      const reasons = Array.isArray(candidate.qualityReasons) ? candidate.qualityReasons : [];
-      return `
-        <article class="discovery-card">
-          <div class="story-meta">
-            <span>${escapeHtml(candidate.provider || "Discovery")}</span>
-            <span class="discovery-score ${scoreClass}">${escapeHtml(scoreLabel)}</span>
-          </div>
-          <h3 class="story-title">
-            ${
-              url
-                ? `<a class="story-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(candidate.title)}</a>`
-                : escapeHtml(candidate.title)
-            }
-          </h3>
-          <p class="story-copy">${escapeHtml(candidate.domain || "Unknown source")}</p>
-          <div class="story-tags">
-            <span>${escapeHtml(candidate.queryCategory || "Candidate")}</span>
-            ${reasons.map((reason) => `<span>${escapeHtml(reason)}</span>`).join("")}
-          </div>
-        </article>
-      `;
-    })
-    .join("");
-}
-
 function setMoreStoriesVisible(visible) {
   if (!moreStoriesButton) return;
   moreStoriesButton.classList.toggle("is-hidden", !visible);
@@ -1092,83 +1044,6 @@ function showAiPicksOverviewSheet() {
   activeSheetKey = "ai:overview";
   updateAiPicksOverviewSheet();
   syncSpotClasses();
-}
-
-function setDiscoveryPreviewLoading(active) {
-  discoveryPreviewLoading = active;
-  if (!discoveryPreviewButton) return;
-  discoveryPreviewButton.disabled = active;
-  discoveryPreviewButton.textContent = active ? "Loading..." : "Discovery Preview";
-}
-
-function updateDiscoveryPreviewSheet(payload) {
-  setMoreStoriesVisible(false);
-  showAiPickFacts();
-  detailCountry.textContent = "Discovery Preview";
-  detailRegion.textContent = `${payload.candidateCount || 0} candidates`;
-  detailConflictLabel.classList.remove("is-hoverable");
-  detailConflictLabel.onmouseenter = null;
-  detailConflictLabel.onmouseleave = null;
-  detailConflictLabel.onfocus = null;
-  detailConflictLabel.onblur = null;
-  detailConflict.replaceChildren();
-  storySectionLabel.textContent = "Quality diagnostics";
-  spotContext.classList.add("is-hidden");
-  spotContext.replaceChildren();
-  renderDiscoveryCandidates(payload.candidates || []);
-}
-
-async function openDiscoveryPreview() {
-  if (discoveryPreviewLoading) return;
-  autoRotate = false;
-  clearConflictHover();
-  setMetricHover(null);
-  closeHotspotPopup();
-  activeSpotId = null;
-  setActiveCountry(null);
-  countrySheet.classList.remove("is-hidden");
-  setGlobeShift(true);
-  activeSheetRequestId += 1;
-  activeSheetKey = "discovery:preview";
-  setDiscoveryPreviewLoading(true);
-  showAiPickFacts();
-  detailCountry.textContent = "Discovery Preview";
-  detailRegion.textContent = "Fetching candidates";
-  detailConflict.replaceChildren();
-  storySectionLabel.textContent = "Quality diagnostics";
-  renderStories([
-    {
-      source: "Discovery",
-      time: "Now",
-      title: "Loading discovery candidates",
-      summary: "This preview does not alter live Top Stories.",
-      tags: ["Read-only", "Preview"],
-      url: "",
-    },
-  ]);
-  try {
-    const response = await fetch("/api/ai-picks/preview?limit=15", { cache: "no-store" });
-    const payload = await response.json();
-    if (!response.ok) {
-      throw new Error(payload.error || `Discovery preview failed: ${response.status}`);
-    }
-    updateDiscoveryPreviewSheet(payload);
-    mapStatus && (mapStatus.textContent = `Discovery preview: ${payload.candidateCount || 0} candidates`);
-  } catch (error) {
-    console.error("Discovery preview unavailable", error);
-    renderStories([
-      {
-        source: "Discovery",
-        time: "Now",
-        title: "Discovery preview failed",
-        summary: "The preview endpoint could not fetch candidates. Live Top Stories were not changed.",
-        tags: ["Read-only", "Error"],
-        url: "",
-      },
-    ]);
-  } finally {
-    setDiscoveryPreviewLoading(false);
-  }
 }
 
 let activePopupHotspot = null;
@@ -2378,7 +2253,6 @@ aiPicksToggle.addEventListener("click", () => setAiPicksVisible(!showAiPicks));
 carrierToggle.addEventListener("click", () => setCarrierSpotsVisible(!showCarrierSpots));
 moreStoriesButton?.addEventListener("click", loadMoreAiPicks);
 moreStoriesHudButton?.addEventListener("click", loadMoreAiPicks);
-discoveryPreviewButton?.addEventListener("click", openDiscoveryPreview);
 zoomOutButton.addEventListener("click", () => setGlobeZoom(globeZoom - GLOBE_ZOOM_STEP));
 zoomInButton.addEventListener("click", () => setGlobeZoom(globeZoom + GLOBE_ZOOM_STEP));
 syncConflictToggle();
