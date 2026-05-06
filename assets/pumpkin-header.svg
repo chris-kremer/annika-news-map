@@ -20,9 +20,9 @@
   </defs>
 
   <g filter="url(#soft-ui-shadow)">
-    <path d="M129 14c1-9 8-15 17-14 10 1 16 8 14 17-2 10-13 15-28 11 15-5 18-12-3-14z" fill="url(#stem-shadow)" stroke="#253016" stroke-width="1.2"/>
-    <path d="M136 13c2-9 10-13 17-8 7 5 4 15-7 19" fill="none" stroke="url(#stem-fill)" stroke-width="5.4" stroke-linecap="round"/>
-    <path d="M147 6c5 4 4 11-3 16" fill="none" stroke="#d5b45f" stroke-width="1.35" stroke-linecap="round" opacity="0.36"/>
+    <path d="M132 25c-5-8-2-19 6-23 9-5 22-1 24 9 2 9-6 18-20 18 12-4 17-11 13-17-4-7-14-8-20-2-5 5-4 11 1 17z" fill="url(#stem-shadow)" stroke="#253016" stroke-width="1.15"/>
+    <path d="M136 25c-6-9-3-19 5-23 9-5 20-1 22 8 2 8-5 15-17 15" fill="none" stroke="url(#stem-fill)" stroke-width="5.3" stroke-linecap="round"/>
+    <path d="M140 21c-3-7 0-13 6-15 7-3 14 0 15 6" fill="none" stroke="#d5b45f" stroke-width="1.35" stroke-linecap="round" opacity="0.36"/>
 
     <path d="M21 34c0-17 13-27 34-27h158c22 0 35 10 35 27s-13 27-35 27H55c-21 0-34-10-34-27z" fill="url(#pumpkin-fill)" stroke="#a93e07" stroke-width="1.8"/>
     <path d="M36 34c0-14 10-22 26-22h144c17 0 27 8 27 22s-10 22-27 22H62c-16 0-26-8-26-22z" fill="#ff8d27" opacity="0.18"/>
