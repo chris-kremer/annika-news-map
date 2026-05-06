@@ -29,7 +29,8 @@ AI_PICKS_CACHE_TTL = timedelta(hours=6)
 POLYMARKET_CACHE_TTL = timedelta(minutes=30)
 AI_PICKS_TARGET_COUNT = 25
 AI_PICKS_PAGE_LIMIT = 5
-AI_PICKS_BACKGROUND_ENABLED = os.environ.get("AI_PICKS_BACKGROUND_REFRESH", "1") == "1"
+AI_PICKS_BACKGROUND_ENABLED = os.environ.get("AI_PICKS_BACKGROUND_REFRESH", "0") == "1"
+AI_PICKS_MORE_BACKGROUND_ENABLED = os.environ.get("AI_PICKS_MORE_BACKGROUND_REFRESH", "1") == "1"
 ai_picks_refresh_lock = threading.Lock()
 ai_picks_refresh_thread: threading.Thread | None = None
 ai_picks_more_refresh_lock = threading.Lock()
@@ -191,11 +192,10 @@ def fetch_ai_picks_payload(limit: int = 10) -> dict:
 
 
 def best_available_ai_picks_cache() -> dict:
-    cached = load_cache(AI_PICKS_CACHE_PATH)
     static = load_cache(AI_PICKS_STATIC_PATH)
-    if len(static.get("picks", [])) > len(cached.get("picks", [])):
+    if static.get("picks"):
         return static
-    return cached
+    return load_cache(AI_PICKS_CACHE_PATH)
 
 
 def refresh_ai_picks_cache(limit: int = AI_PICKS_TARGET_COUNT) -> dict:
@@ -331,6 +331,25 @@ def ai_picks_more_scheduler() -> None:
 def canonical_story_key(pick: dict) -> str:
     if pick.get("storyKey"):
         return str(pick["storyKey"]).strip().lower()
+    theme_text = " ".join(
+        [
+            str(pick.get("title", "")),
+            str(pick.get("summary", "")),
+            str(pick.get("whyItMatters", "")),
+            str(pick.get("place", "")),
+            str(pick.get("country", "")),
+        ]
+    ).lower()
+    if (
+        "afghanistan" in theme_text
+        and "pakistan" in theme_text
+        and any(term in theme_text for term in ["border", "cross-border", "security threat", "attacks"])
+    ):
+        return "theme:afghanistan-pakistan-border"
+    if "hantavirus" in theme_text and "canary" in theme_text:
+        return "theme:canary-islands-hantavirus"
+    if "sudan" in theme_text and "chad" in theme_text and any(term in theme_text for term in ["border", "refugee", "displacement"]):
+        return "theme:chad-sudan-border"
     source_url = ""
     sources = pick.get("sources")
     if isinstance(sources, list) and sources:
@@ -712,8 +731,9 @@ def main() -> int:
     print(f"Serving Pumpkin News on http://{host}:{port}/", flush=True)
     if AI_PICKS_BACKGROUND_ENABLED:
         start_ai_picks_refresh("startup")
-        start_ai_picks_more_refresh("startup")
         threading.Thread(target=ai_picks_scheduler, daemon=True).start()
+    if AI_PICKS_MORE_BACKGROUND_ENABLED:
+        start_ai_picks_more_refresh("startup")
         threading.Thread(target=ai_picks_more_scheduler, daemon=True).start()
     try:
         server.serve_forever()
