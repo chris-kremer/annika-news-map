@@ -101,6 +101,7 @@ body {
   isolation: isolate;
   pointer-events: auto;
   cursor: help;
+  overflow: visible;
   transition:
     border-color 180ms ease,
     border-radius 180ms ease,
@@ -110,68 +111,107 @@ body {
     padding 180ms ease;
 }
 
+.atlas-mark__text {
+  position: relative;
+  z-index: 2;
+}
+
 .atlas-mark:hover,
 .atlas-mark:focus-visible {
-  padding: 13px 28px 12px;
-  border-color: rgba(255, 171, 64, 0.94);
-  border-radius: 38% 42% 40% 39% / 68% 68% 48% 48%;
+  min-width: 238px;
+  padding: 14px 42px 13px;
+  border-color: rgba(255, 171, 64, 0.9);
+  border-radius: 50% 50% 43% 43% / 65% 65% 46% 46%;
   background:
-    radial-gradient(ellipse at 9% 50%, rgba(154, 66, 9, 0.72) 0 28%, transparent 30%),
-    radial-gradient(ellipse at 24% 50%, rgba(210, 91, 12, 0.66) 0 33%, transparent 35%),
-    radial-gradient(ellipse at 50% 48%, rgba(245, 132, 25, 0.7) 0 42%, transparent 45%),
-    radial-gradient(ellipse at 76% 50%, rgba(210, 91, 12, 0.66) 0 33%, transparent 35%),
-    radial-gradient(ellipse at 91% 50%, rgba(154, 66, 9, 0.72) 0 28%, transparent 30%),
-    linear-gradient(180deg, rgba(255, 182, 72, 0.18), rgba(83, 33, 4, 0.24)),
-    rgba(83, 33, 4, 0.88);
-  color: var(--text);
+    radial-gradient(ellipse at 7% 54%, rgba(150, 52, 0, 0.95) 0 25%, transparent 28%),
+    radial-gradient(ellipse at 18% 52%, rgba(203, 77, 0, 0.94) 0 31%, transparent 34%),
+    radial-gradient(ellipse at 30% 51%, rgba(226, 94, 1, 0.96) 0 33%, transparent 36%),
+    radial-gradient(ellipse at 43% 50%, rgba(239, 117, 8, 0.98) 0 35%, transparent 38%),
+    radial-gradient(ellipse at 50% 49%, rgba(255, 134, 14, 0.98) 0 36%, transparent 39%),
+    radial-gradient(ellipse at 57% 50%, rgba(239, 117, 8, 0.98) 0 35%, transparent 38%),
+    radial-gradient(ellipse at 70% 51%, rgba(226, 94, 1, 0.96) 0 33%, transparent 36%),
+    radial-gradient(ellipse at 82% 52%, rgba(203, 77, 0, 0.94) 0 31%, transparent 34%),
+    radial-gradient(ellipse at 93% 54%, rgba(150, 52, 0, 0.95) 0 25%, transparent 28%),
+    linear-gradient(180deg, rgba(255, 195, 76, 0.36), rgba(214, 78, 0, 0.1) 42%, rgba(83, 25, 0, 0.34)),
+    rgba(214, 81, 0, 0.96);
+  color: #ffe0a3;
   outline: none;
   box-shadow:
-    inset 18px 0 20px rgba(72, 27, 2, 0.32),
-    inset -18px 0 20px rgba(72, 27, 2, 0.32),
-    inset 0 -10px 16px rgba(68, 24, 0, 0.3),
-    -18px 2px 0 -4px rgba(202, 88, 11, 0.74),
-    18px 2px 0 -4px rgba(202, 88, 11, 0.74),
-    -31px 5px 0 -12px rgba(128, 54, 7, 0.66),
-    31px 5px 0 -12px rgba(128, 54, 7, 0.66),
-    0 0 0 1px rgba(255, 188, 82, 0.22),
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 24px rgba(255, 133, 20, 0.14);
+    inset 18px 0 24px rgba(91, 24, 0, 0.32),
+    inset -18px 0 24px rgba(91, 24, 0, 0.32),
+    inset 0 9px 9px rgba(255, 205, 102, 0.24),
+    inset 0 -12px 16px rgba(79, 21, 0, 0.34),
+    -32px 1px 0 -7px rgba(202, 72, 0, 0.94),
+    32px 1px 0 -7px rgba(202, 72, 0, 0.94),
+    -58px 4px 0 -21px rgba(141, 47, 0, 0.82),
+    58px 4px 0 -21px rgba(141, 47, 0, 0.82),
+    0 0 0 1px rgba(255, 205, 91, 0.26),
+    0 13px 32px rgba(0, 0, 0, 0.32),
+    0 0 25px rgba(255, 112, 10, 0.18);
+}
+
+.atlas-mark:hover .atlas-mark__text,
+.atlas-mark:focus-visible .atlas-mark__text {
+  text-shadow:
+    0 1px 0 rgba(255, 247, 205, 0.72),
+    0 2px 3px rgba(86, 24, 0, 0.86),
+    0 0 10px rgba(255, 198, 88, 0.28);
 }
 
 .atlas-mark::before {
   content: "";
   position: absolute;
-  top: -14px;
+  top: -22px;
   left: 50%;
-  width: 18px;
-  height: 18px;
-  border-radius: 11px 9px 5px 5px;
-  background: linear-gradient(135deg, rgba(63, 90, 34, 0.98), rgba(117, 72, 23, 0.96));
-  transform: translateX(-50%) rotate(-10deg);
+  z-index: 0;
+  width: 24px;
+  height: 31px;
+  border-radius: 70% 30% 54% 30% / 25% 42% 58% 78%;
+  background:
+    linear-gradient(100deg, transparent 0 29%, rgba(255, 216, 119, 0.18) 31% 38%, transparent 40%),
+    linear-gradient(145deg, rgba(56, 87, 31, 0.98), rgba(111, 73, 25, 0.98) 58%, rgba(53, 60, 28, 0.98));
+  transform: translateX(-40%) rotate(-24deg);
+  transform-origin: 50% 100%;
   opacity: 0;
   box-shadow:
-    0 0 0 1px rgba(255, 171, 64, 0.16),
-    10px -2px 0 -7px rgba(87, 119, 49, 0.8);
+    inset 4px 0 4px rgba(255, 221, 129, 0.14),
+    0 1px 0 rgba(52, 24, 0, 0.42),
+    8px -2px 0 -7px rgba(105, 132, 53, 0.84);
   transition: opacity 180ms ease;
 }
 
 .atlas-mark::after {
   content: "";
   position: absolute;
-  inset: 4px 20px 5px;
-  border-left: 2px solid rgba(255, 216, 142, 0.28);
-  border-right: 2px solid rgba(255, 216, 142, 0.28);
-  border-radius: 50%;
+  inset: 3px 9px 5px;
+  z-index: 1;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg,
+      transparent 0 9%,
+      rgba(88, 24, 0, 0.24) 10%,
+      rgba(255, 218, 124, 0.16) 12%,
+      transparent 15% 23%,
+      rgba(89, 24, 0, 0.28) 25%,
+      rgba(255, 218, 124, 0.18) 27%,
+      transparent 30% 38%,
+      rgba(92, 25, 0, 0.3) 40%,
+      rgba(255, 223, 133, 0.2) 42%,
+      transparent 45% 55%,
+      rgba(92, 25, 0, 0.3) 58%,
+      rgba(255, 223, 133, 0.2) 60%,
+      transparent 63% 71%,
+      rgba(89, 24, 0, 0.28) 73%,
+      rgba(255, 218, 124, 0.18) 75%,
+      transparent 78% 86%,
+      rgba(88, 24, 0, 0.24) 88%,
+      rgba(255, 218, 124, 0.16) 90%,
+      transparent 93% 100%),
+    linear-gradient(180deg, rgba(255, 239, 176, 0.28), transparent 24%, transparent 72%, rgba(67, 17, 0, 0.3));
   pointer-events: none;
   opacity: 0;
   transition: opacity 180ms ease;
-  box-shadow:
-    -18px 0 0 -15px rgba(255, 216, 142, 0.3),
-    18px 0 0 -15px rgba(255, 216, 142, 0.3),
-    -35px 0 0 -31px rgba(255, 216, 142, 0.22),
-    35px 0 0 -31px rgba(255, 216, 142, 0.22),
-    inset 0 8px 0 -7px rgba(255, 231, 177, 0.28),
-    inset 0 -8px 0 -7px rgba(68, 24, 0, 0.35);
+  box-shadow: inset 0 -6px 0 -5px rgba(54, 14, 0, 0.45);
 }
 
 .atlas-mark:hover::before,
