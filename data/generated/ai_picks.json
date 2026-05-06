@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-05T08:47:36.763014+00:00",
-  "provider": "openai:gpt-5-nano",
-  "windowHours": 240,
+  "generatedAt": "2026-05-05T15:05:44.459275+00:00",
+  "provider": "underlooked-story-desk",
+  "windowHours": 48,
   "selectionPrinciple": "International stories with cross-border stakes that are easy to miss, avoiding obvious week-long headline cycles unless there is a fresh, specific angle.",
   "picks": [
     {
@@ -34,7 +34,7 @@
     },
     {
       "id": "ecuador-curfew-gangs-20260505",
-      "title": "Dozens held for violating Ecuador anti - gang curfew",
+      "title": "Ecuador extends curfews as gang violence becomes a governance problem",
       "summary": "A fresh curfew across nine provinces shows Ecuador's security emergency is no longer just a crime story; it is shaping daily economic life and state capacity.",
       "whyItMatters": "Ecuador rarely stays in the international top slot, but the combination of ports, cocaine routes, emergency rule, and economic disruption makes this a strategic Latin America watch item.",
       "angle": "Gang pressure is forcing emergency governance across major provinces.",
@@ -46,16 +46,12 @@
       "region": "South America",
       "category": "Organized crime",
       "importance": 0.84,
-      "confidence": 0.78,
+      "confidence": 0.66,
       "overlap": [],
       "sources": [
         {
-          "title": "Dozens held for violating Ecuador anti - gang curfew",
-          "url": "https://www.spacewar.com/afp/260504175716.0gg8knit.html"
-        },
-        {
-          "title": "More than 120 arrested in Ecuador during anti-drug curfew",
-          "url": "https://oglobo.globo.com/mundo/noticia/2026/05/04/mais-de-120-sao-presos-no-equador-durante-toque-de-reloger-contra-o-narcotrafico.ghtml"
+          "title": "Noboa decreta 15 días de toque de queda en nueve provincias",
+          "url": "https://elpais.com/america/2026-05-02/noboa-decreta-15-dias-de-toque-de-queda-en-nueve-provincias-y-reaviva-el-choque-con-los-sectores-productivos.html"
         }
       ]
     },
@@ -64,7 +60,7 @@
       "title": "Haiti's gang map is shifting, but armed groups still dominate the capital",
       "summary": "Local police leadership says gangs control less of metropolitan Port-au-Prince than before, yet the reported 72% figure still points to a capital where armed groups shape movement, services, and politics.",
       "whyItMatters": "The interesting part is not simply that Haiti is violent; it is whether small territorial reversals change the balance before the international security mission winds down.",
-      "angle": "Granular update on territorial control, not another generic Haiti-is-in-crisis card.",
+      "angle": "A granular update on territorial control, not another generic Haiti-is-in-crisis card.",
       "freshness": "Recent local update",
       "lat": 18.5944,
       "lon": -72.3074,

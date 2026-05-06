@@ -31,6 +31,8 @@ const importantToggle = document.getElementById("important-toggle");
 const aiPicksToggle = document.getElementById("ai-picks-toggle");
 const carrierToggle = document.getElementById("carrier-toggle");
 const moreStoriesHudButton = document.getElementById("more-stories-hud");
+const discoveryPreviewButton = document.getElementById("discovery-preview");
+const cacheStatusMark = document.getElementById("cache-status-mark");
 const zoomOutButton = document.getElementById("zoom-out");
 const zoomInButton = document.getElementById("zoom-in");
 const countrySheet = document.getElementById("country-sheet");
@@ -96,6 +98,7 @@ let showAiPicks = true;
 let aiPicksLoadingMore = false;
 let aiPicksHasMore = true;
 let aiPicksRefreshing = false;
+let discoveryPreviewLoading = false;
 let carrierSpots = [];
 let carrierSpotNodes;
 let showCarrierSpots = false;
@@ -649,6 +652,33 @@ function formatGeneratedAt(value) {
   });
 }
 
+function formatCacheTooltipTime(value) {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return "not written yet";
+  }
+  return parsed.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
+}
+
+function updateCacheStatusTooltip(payload = {}) {
+  if (!cacheStatusMark) return;
+  const topStoriesAt = payload.generatedAt || null;
+  const moreStoriesAt = payload.moreCacheGeneratedAt || null;
+  const latestAt = payload.latestCacheGeneratedAt || topStoriesAt || moreStoriesAt;
+  cacheStatusMark.title = [
+    `Latest cache write: ${formatCacheTooltipTime(latestAt)}`,
+    `Top Stories: ${formatCacheTooltipTime(topStoriesAt)}`,
+    `More Stories: ${formatCacheTooltipTime(moreStoriesAt)}`,
+  ].join("\n");
+}
+
 function normalizeStoryText(value) {
   return String(value || "")
     .toLowerCase()
@@ -704,21 +734,67 @@ function renderStories(stories) {
     .join("");
 }
 
+function renderDiscoveryCandidates(candidates) {
+  if (!Array.isArray(candidates) || candidates.length === 0) {
+    storyList.innerHTML = `
+      <article class="story-card story-card--empty">
+        <div class="story-meta">
+          <span>Discovery</span>
+          <span>Preview</span>
+        </div>
+        <h3 class="story-title">No candidates returned</h3>
+        <p class="story-copy">The discovery providers did not return reviewable candidates in this pass.</p>
+      </article>
+    `;
+    return;
+  }
+
+  storyList.innerHTML = candidates
+    .map((candidate) => {
+      const url = safeExternalUrl(candidate.url);
+      const score = Number(candidate.qualityScore || 0);
+      const scoreLabel = score.toFixed(2);
+      const scoreClass = score >= 0.35 ? "is-strong" : score >= 0.2 ? "is-watch" : "is-weak";
+      const reasons = Array.isArray(candidate.qualityReasons) ? candidate.qualityReasons : [];
+      return `
+        <article class="discovery-card">
+          <div class="story-meta">
+            <span>${escapeHtml(candidate.provider || "Discovery")}</span>
+            <span class="discovery-score ${scoreClass}">${escapeHtml(scoreLabel)}</span>
+          </div>
+          <h3 class="story-title">
+            ${
+              url
+                ? `<a class="story-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(candidate.title)}</a>`
+                : escapeHtml(candidate.title)
+            }
+          </h3>
+          <p class="story-copy">${escapeHtml(candidate.domain || "Unknown source")}</p>
+          <div class="story-tags">
+            <span>${escapeHtml(candidate.queryCategory || "Candidate")}</span>
+            ${reasons.map((reason) => `<span>${escapeHtml(reason)}</span>`).join("")}
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
 function setMoreStoriesVisible(visible) {
   if (!moreStoriesButton) return;
   moreStoriesButton.classList.toggle("is-hidden", !visible);
-  moreStoriesButton.disabled = aiPicksLoadingMore || (!aiPicksHasMore && !aiPicksRefreshing);
+  moreStoriesButton.disabled = aiPicksLoadingMore || !aiPicksHasMore;
   moreStoriesButton.textContent = aiPicksLoadingMore
-    ? "Loading..."
+    ? "Searching..."
     : aiPicksRefreshing && !aiPicksHasMore
       ? "Refreshing..."
     : aiPicksHasMore
       ? "More stories"
       : "No more stories";
   if (moreStoriesHudButton) {
-    moreStoriesHudButton.disabled = aiPicksLoadingMore || (!aiPicksHasMore && !aiPicksRefreshing);
+    moreStoriesHudButton.disabled = aiPicksLoadingMore || !aiPicksHasMore;
     moreStoriesHudButton.textContent = aiPicksLoadingMore
-      ? "Loading..."
+      ? "Searching the globe..."
       : aiPicksRefreshing && !aiPicksHasMore
         ? "Refreshing..."
       : aiPicksHasMore
@@ -766,8 +842,8 @@ function normalizeAiPick(pick, generatedAtLabel = pick.generatedAtLabel) {
   const [centroidLon, centroidLat] = centroid || [];
   return {
     ...pick,
-    lon: centroid ? centroidLon : pick.lon,
-    lat: centroid ? centroidLat : pick.lat,
+    lon: hasUsableCoordinates ? pick.lon : centroidLon,
+    lat: hasUsableCoordinates ? pick.lat : centroidLat,
     generatedAtLabel,
     isMappable: Boolean(centroid || hasUsableCoordinates),
   };
@@ -989,6 +1065,7 @@ function aiPickToStory(pick) {
 }
 
 function updateAiPicksOverviewSheet() {
+  activeSpotId = null;
   setMoreStoriesVisible(true);
   showAiPickFacts();
   detailCountry.textContent = "Top Stories";
@@ -1004,6 +1081,94 @@ function updateAiPicksOverviewSheet() {
   spotContext.replaceChildren();
   renderStories(aiPicks.map(aiPickToStory));
   setMoreStoriesVisible(true);
+}
+
+function showAiPicksOverviewSheet() {
+  activeSpotId = null;
+  activeFeatureId = null;
+  setActiveCountry(null);
+  countrySheet.classList.remove("is-hidden");
+  setGlobeShift(true);
+  activeSheetKey = "ai:overview";
+  updateAiPicksOverviewSheet();
+  syncSpotClasses();
+}
+
+function setDiscoveryPreviewLoading(active) {
+  discoveryPreviewLoading = active;
+  if (!discoveryPreviewButton) return;
+  discoveryPreviewButton.disabled = active;
+  discoveryPreviewButton.textContent = active ? "Loading..." : "Discovery Preview";
+}
+
+function updateDiscoveryPreviewSheet(payload) {
+  setMoreStoriesVisible(false);
+  showAiPickFacts();
+  detailCountry.textContent = "Discovery Preview";
+  detailRegion.textContent = `${payload.candidateCount || 0} candidates`;
+  detailConflictLabel.classList.remove("is-hoverable");
+  detailConflictLabel.onmouseenter = null;
+  detailConflictLabel.onmouseleave = null;
+  detailConflictLabel.onfocus = null;
+  detailConflictLabel.onblur = null;
+  detailConflict.replaceChildren();
+  storySectionLabel.textContent = "Quality diagnostics";
+  spotContext.classList.add("is-hidden");
+  spotContext.replaceChildren();
+  renderDiscoveryCandidates(payload.candidates || []);
+}
+
+async function openDiscoveryPreview() {
+  if (discoveryPreviewLoading) return;
+  autoRotate = false;
+  clearConflictHover();
+  setMetricHover(null);
+  closeHotspotPopup();
+  activeSpotId = null;
+  setActiveCountry(null);
+  countrySheet.classList.remove("is-hidden");
+  setGlobeShift(true);
+  activeSheetRequestId += 1;
+  activeSheetKey = "discovery:preview";
+  setDiscoveryPreviewLoading(true);
+  showAiPickFacts();
+  detailCountry.textContent = "Discovery Preview";
+  detailRegion.textContent = "Fetching candidates";
+  detailConflict.replaceChildren();
+  storySectionLabel.textContent = "Quality diagnostics";
+  renderStories([
+    {
+      source: "Discovery",
+      time: "Now",
+      title: "Loading discovery candidates",
+      summary: "This preview does not alter live Top Stories.",
+      tags: ["Read-only", "Preview"],
+      url: "",
+    },
+  ]);
+  try {
+    const response = await fetch("/api/ai-picks/preview?limit=15", { cache: "no-store" });
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || `Discovery preview failed: ${response.status}`);
+    }
+    updateDiscoveryPreviewSheet(payload);
+    mapStatus && (mapStatus.textContent = `Discovery preview: ${payload.candidateCount || 0} candidates`);
+  } catch (error) {
+    console.error("Discovery preview unavailable", error);
+    renderStories([
+      {
+        source: "Discovery",
+        time: "Now",
+        title: "Discovery preview failed",
+        summary: "The preview endpoint could not fetch candidates. Live Top Stories were not changed.",
+        tags: ["Read-only", "Error"],
+        url: "",
+      },
+    ]);
+  } finally {
+    setDiscoveryPreviewLoading(false);
+  }
 }
 
 let activePopupHotspot = null;
@@ -2044,14 +2209,13 @@ async function refreshLiveAiPicks() {
       return;
     }
     const payload = await response.json();
+    updateCacheStatusTooltip(payload);
     const livePicks = Array.isArray(payload.picks) ? payload.picks : [];
     if (livePicks.length) {
       const generatedAtLabel = payload.generatedAt ? `Updated ${formatGeneratedAt(payload.generatedAt)}` : "Top stories";
       aiPicks = filterRenderableAiPicks(livePicks.map((pick) => normalizeAiPick(pick, generatedAtLabel)));
       aiPicksRefreshing = Boolean(payload.refreshing);
-      aiPicksHasMore = typeof payload.totalAvailable === "number"
-        ? aiPicks.length < payload.totalAvailable || aiPicksRefreshing
-        : livePicks.length >= 5;
+      aiPicksHasMore = true;
       renderAiPicks();
       setMoreStoriesVisible(!countrySheet.classList.contains("is-hidden") && activeSheetKey.startsWith("ai:"));
     }
@@ -2067,12 +2231,34 @@ function getAiPickDedupeKey(pick) {
   return (sourceUrl || pick.id || pick.title || "").trim().toLowerCase();
 }
 
+function getAiPickStoryKey(pick) {
+  if (pick.storyKey) return String(pick.storyKey).trim().toLowerCase();
+  const title = String(pick.title || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return title.split(" ").filter((word) => word.length > 2).slice(0, 8).join(" ");
+}
+
+function getAiPickCountryKey(pick) {
+  return String(pick.country || pick.place || "").split("/")[0].trim().toLowerCase();
+}
+
 async function loadMoreAiPicks() {
   if (aiPicksLoadingMore || (!aiPicksHasMore && !aiPicksRefreshing)) return;
   aiPicksLoadingMore = true;
   setMoreStoriesVisible(true);
   try {
-    const response = await fetch("/api/ai-picks?offset=0&limit=20", { cache: "no-store" });
+    const params = new URLSearchParams({ limit: "5" });
+    aiPicks.forEach((pick) => {
+      if (pick.id) params.append("skipId", pick.id);
+      const storyKey = getAiPickStoryKey(pick);
+      if (storyKey) params.append("skipStory", storyKey);
+      const countryKey = getAiPickCountryKey(pick);
+      if (countryKey) params.append("skipCountry", countryKey);
+    });
+    const response = await fetch(`/api/ai-picks/more?${params.toString()}`, { cache: "no-store" });
     if (!response.ok) {
       throw new Error(`AI picks request failed: ${response.status}`);
     }
@@ -2092,23 +2278,25 @@ async function loadMoreAiPicks() {
 
     const previousCount = aiPicks.length;
     if (nextPicks.length) {
-      aiPicks = nextPicks;
+      aiPicks = [...aiPicks, ...nextPicks];
     }
 
     if (aiPicks.length) {
       renderAiPicks();
-      countrySheet.classList.remove("is-hidden");
-      setGlobeShift(true);
-      activeSheetKey = "ai:overview";
-      updateAiPicksOverviewSheet();
+      showAiPicksOverviewSheet();
+      requestAnimationFrame(() => {
+        if (activeSheetKey === "ai:overview") {
+          showAiPicksOverviewSheet();
+        }
+      });
       const addedCount = Math.max(0, aiPicks.length - previousCount);
       mapStatus && (mapStatus.textContent = addedCount
         ? `Loaded ${addedCount} more top ${addedCount === 1 ? "story" : "stories"}`
         : `Showing ${aiPicks.length} cached top ${aiPicks.length === 1 ? "story" : "stories"}`);
     }
     aiPicksHasMore = typeof payload.totalAvailable === "number"
-      ? aiPicks.length < payload.totalAvailable || aiPicksRefreshing
-      : false;
+      ? payload.totalAvailable > nextPicks.length
+      : nextPicks.length >= 5;
     if (!nextPicks.length) {
       mapStatus && (mapStatus.textContent = aiPicksRefreshing ? "Top stories cache is still refreshing" : "No additional top stories returned");
     }
@@ -2190,6 +2378,7 @@ aiPicksToggle.addEventListener("click", () => setAiPicksVisible(!showAiPicks));
 carrierToggle.addEventListener("click", () => setCarrierSpotsVisible(!showCarrierSpots));
 moreStoriesButton?.addEventListener("click", loadMoreAiPicks);
 moreStoriesHudButton?.addEventListener("click", loadMoreAiPicks);
+discoveryPreviewButton?.addEventListener("click", openDiscoveryPreview);
 zoomOutButton.addEventListener("click", () => setGlobeZoom(globeZoom - GLOBE_ZOOM_STEP));
 zoomInButton.addEventListener("click", () => setGlobeZoom(globeZoom + GLOBE_ZOOM_STEP));
 syncConflictToggle();

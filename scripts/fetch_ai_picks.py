@@ -64,13 +64,90 @@ RSS_FEEDS = [
 ]
 
 DISCOVERY_FORBIDDEN_TERMS = {
+    "analysis:",
+    "bowen:",
     "footballer",
     "fudbaler",
+    "guide",
     "hashish",
     "hašiš",
+    "map of",
+    "mapped",
     "commodity",
+    "explainer",
     "resource wealth",
     "mapping mali",
+    "what is",
+    "why ",
+}
+
+DISCOVERY_REQUIRED_TERMS = {
+    "aid",
+    "army",
+    "attack",
+    "attacks",
+    "blackout",
+    "blockade",
+    "border",
+    "cartel",
+    "ceasefire",
+    "clashes",
+    "conflict",
+    "coup",
+    "cruise ship",
+    "curfew",
+    "displacement",
+    "drought",
+    "emergency",
+    "export controls",
+    "famine",
+    "food security",
+    "gang",
+    "gangs",
+    "hormuz",
+    "humanitarian",
+    "incursion",
+    "junta",
+    "missile",
+    "military",
+    "no-confidence",
+    "ousted",
+    "outbreak",
+    "naval",
+    "protests",
+    "refugee",
+    "refugees",
+    "sanctions",
+    "shipping",
+    "standoff",
+    "strike",
+    "strikes",
+    "succession",
+    "trade war",
+    "transport workers",
+}
+
+DISCOVERY_GENERIC_TERMS = {
+    "holds talks",
+    "held talks",
+    "what kim",
+    "outfits tell us",
+    "raises risk",
+}
+
+DISCOVERY_KEY_AREA_TERMS = {
+    "hormuz": "hormuz",
+    "strait of hormuz": "hormuz",
+}
+
+DISCOVERY_STRONG_PATTERNS = {
+    "no-confidence": 0.2,
+    "ousted": 0.16,
+    "transport workers": 0.18,
+    "fuel": 0.08,
+    "outbreak": 0.18,
+    "cruise ship": 0.14,
+    "succession": 0.12,
 }
 
 
@@ -85,7 +162,18 @@ COUNTRY_COORDINATES = {
     "Democratic Republic of the Congo": (-4.0383, 21.7587),
     "Indonesia": (-2.5489, 118.0149),
     "Haiti": (18.9712, -72.2852),
+    "Afghanistan": (33.9391, 67.71),
+    "Bolivia": (-16.2902, -63.5887),
+    "North Korea": (40.3399, 127.5101),
+    "Pakistan": (30.3753, 69.3451),
+    "Romania": (45.9432, 24.9668),
+    "Spain": (40.4168, -3.7038),
+    "Ukraine": (48.3794, 31.1656),
     "Zambia": (-13.1339, 27.8493),
+}
+
+LOCATION_COORDINATES = {
+    "Canary Islands, Spain": (28.2916, -16.6291),
 }
 
 try:
@@ -313,9 +401,30 @@ def source_from_article(article: dict) -> dict:
     }
 
 
+def normalize_text_for_quality(value: str) -> str:
+    replacements = {
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201a": "'",
+        "\u201b": "'",
+        "\u201c": '"',
+        "\u201d": '"',
+        "\u201e": '"',
+        "\u201f": '"',
+        "\u2013": "-",
+        "\u2014": "-",
+        "\u2212": "-",
+        "\u00a0": " ",
+    }
+    text = str(value or "")
+    for source, target in replacements.items():
+        text = text.replace(source, target)
+    return " ".join(text.split())
+
+
 def discovery_candidate(query_config: dict, article: dict, index: int) -> dict:
     domain = article.get("domain") or article.get("source", "Discovery")
-    title = " ".join(str(article.get("title") or "").split())
+    title = normalize_text_for_quality(article.get("title") or "")
     if not title:
         return {}
     return {
@@ -329,6 +438,179 @@ def discovery_candidate(query_config: dict, article: dict, index: int) -> dict:
         "queryCategory": query_config["category"],
         "matchedQuery": query_config["query"],
         "provider": article.get("provider") or query_config.get("provider") or "GDELT",
+    }
+
+
+def score_candidate(candidate: dict) -> tuple[float, list[str]]:
+    title = normalize_text_for_quality(candidate.get("title", ""))
+    text = " ".join(
+        [
+            title,
+            str(candidate.get("queryCategory", "")),
+            str(candidate.get("domain", "")),
+            str(candidate.get("provider", "")),
+        ]
+    ).lower()
+    score = 0.0
+    reasons: list[str] = []
+    if not title:
+        return 0.0, ["missing title"]
+    if not title.isascii():
+        score -= 0.4
+        reasons.append("non-ascii title")
+    matched_terms = sorted(term for term in DISCOVERY_REQUIRED_TERMS if term in text)
+    if matched_terms:
+        score += min(0.45, 0.12 * len(matched_terms))
+        reasons.append("matched: " + ", ".join(matched_terms[:4]))
+    else:
+        score -= 0.35
+        reasons.append("no required story-type terms")
+    forbidden_terms = sorted(term for term in DISCOVERY_FORBIDDEN_TERMS if term in text)
+    if forbidden_terms:
+        score -= 0.5
+        reasons.append("forbidden: " + ", ".join(forbidden_terms[:3]))
+    generic_terms = sorted(term for term in DISCOVERY_GENERIC_TERMS if term in text)
+    if generic_terms:
+        score -= 0.22
+        reasons.append("generic: " + ", ".join(generic_terms[:3]))
+    strong_matches = [term for term, boost in DISCOVERY_STRONG_PATTERNS.items() if term in text]
+    if strong_matches:
+        boost = min(0.35, sum(DISCOVERY_STRONG_PATTERNS[term] for term in strong_matches))
+        score += boost
+        reasons.append("boost: " + ", ".join(strong_matches[:4]))
+    key_areas = sorted({label for term, label in DISCOVERY_KEY_AREA_TERMS.items() if term in text})
+    if key_areas:
+        score += 0.08
+        reasons.append("key-area match: " + ", ".join(key_areas))
+    provider = candidate.get("provider", "")
+    if provider in {"The News API", "ReliefWeb"}:
+        score += 0.15
+        reasons.append(f"provider: {provider}")
+    elif provider == "GDELT":
+        score += 0.05
+        reasons.append("provider: GDELT")
+    elif provider == "RSS" and "aljazeera" in str(candidate.get("domain", "")).lower():
+        score -= 0.04
+        reasons.append("source caution: Al Jazeera RSS")
+    if safe_external_url(candidate.get("url", "")):
+        score += 0.05
+    else:
+        reasons.append("missing url")
+    return max(0.0, min(1.0, score)), reasons
+
+
+def safe_external_url(value: str) -> str:
+    url = str(value or "").strip()
+    return url if url.lower().startswith(("http://", "https://")) else ""
+
+
+def preview_discovery(args: argparse.Namespace) -> dict:
+    candidates = discover_candidates(args)
+    scored = []
+    for candidate in candidates:
+        score, reasons = score_candidate(candidate)
+        scored.append({**candidate, "qualityScore": score, "qualityReasons": reasons})
+    scored.sort(key=lambda item: item["qualityScore"], reverse=True)
+    return {
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "selectionPrinciple": SELECTION_PRINCIPLE,
+        "candidateCount": len(candidates),
+        "candidates": scored[: args.preview_limit],
+    }
+
+
+def story_fingerprint(value: str) -> str:
+    text = normalize_text_for_quality(value).lower()
+    for token in [" - ", ":", ",", ".", "'", '"', "’", "‘", "“", "”"]:
+        text = text.replace(token, " ")
+    stopwords = {
+        "a",
+        "after",
+        "ahead",
+        "and",
+        "as",
+        "at",
+        "by",
+        "for",
+        "from",
+        "in",
+        "of",
+        "on",
+        "says",
+        "the",
+        "to",
+        "with",
+    }
+    words = [word for word in text.split() if len(word) > 2 and word not in stopwords]
+    return " ".join(words[:8])
+
+
+def candidate_to_pick(candidate: dict) -> dict | None:
+    score, reasons = score_candidate(candidate)
+    title = normalize_text_for_quality(candidate.get("title", ""))
+    if not title or not title.isascii():
+        return None
+    text = title.lower()
+    is_north_korea_succession = "succession" in text and ("north korea" in text or "kim ju ae" in text)
+    if score < 0.25 and not is_north_korea_succession:
+        return None
+    if any(term in text for term in DISCOVERY_FORBIDDEN_TERMS):
+        return None
+
+    country = ""
+    place = ""
+    region = ""
+    lat = 0.0
+    lon = 0.0
+    country_hints = {
+        "afghanistan": ("Afghanistan", "Afghanistan", "South Asia"),
+        "pakistan": ("Pakistan", "Pakistan", "South Asia"),
+        "bolivia": ("Bolivia", "Bolivia", "South America"),
+        "canary islands": ("Spain", "Canary Islands, Spain", "Europe"),
+        "chad": ("Chad", "Lake Chad region", "Central Africa"),
+        "ecuador": ("Ecuador", "Ecuador", "South America"),
+        "mali": ("Mali", "Mali", "West Africa"),
+        "kim ju ae": ("North Korea", "North Korea", "East Asia"),
+        "north korea": ("North Korea", "North Korea", "East Asia"),
+        "romania": ("Romania", "Romania", "Europe"),
+        "russia": ("Ukraine", "Ukraine", "Europe"),
+        "sudan": ("Sudan", "Sudan", "Northeast Africa"),
+        "ukraine": ("Ukraine", "Ukraine", "Europe"),
+    }
+    for hint, values in country_hints.items():
+        if hint in text:
+            country, place, region = values
+            break
+    if not country:
+        return None
+    if place in LOCATION_COORDINATES:
+        lat, lon = LOCATION_COORDINATES[place]
+    elif country in COUNTRY_COORDINATES:
+        lat, lon = COUNTRY_COORDINATES[country]
+    else:
+        return None
+
+    category = str(candidate.get("queryCategory") or "Discovered story")
+    reason_label = reasons[0] if reasons else category
+    return {
+        "id": f"{candidate['id']}-{datetime.now(timezone.utc).strftime('%Y%m%d')}",
+        "title": title,
+        "summary": f"Discovery candidate from {candidate.get('domain', 'news coverage')}.",
+        "whyItMatters": reason_label,
+        "angle": category,
+        "freshness": "Fresh",
+        "lat": lat,
+        "lon": lon,
+        "place": place,
+        "country": country,
+        "region": region,
+        "category": category,
+        "importance": min(0.95, max(0.45, score)),
+        "confidence": min(0.9, max(0.45, score)),
+        "overlap": [],
+        "provider": candidate.get("provider", "Discovery"),
+        "storyKey": story_fingerprint(title),
+        "sources": [{"title": title, "url": candidate.get("url", "")}],
     }
 
 
@@ -422,6 +704,9 @@ def clean_discovery_pick(raw_pick: dict, candidate_by_id: dict[str, dict]) -> di
     candidate = candidate_by_id.get(raw_id)
     if not candidate:
         return None
+    candidate_score, _ = score_candidate(candidate)
+    if candidate_score < 0.25:
+        return None
 
     try:
         lat = float(raw_pick.get("lat"))
@@ -431,11 +716,11 @@ def clean_discovery_pick(raw_pick: dict, candidate_by_id: dict[str, dict]) -> di
     if not (-90 <= lat <= 90 and -180 <= lon <= 180):
         return None
 
-    title = str(raw_pick.get("title") or candidate["title"]).strip()
-    place = str(raw_pick.get("place", "")).strip()
-    country = str(raw_pick.get("country", "")).strip()
-    summary = str(raw_pick.get("summary", "")).strip()
-    why_it_matters = str(raw_pick.get("whyItMatters", "")).strip()
+    title = normalize_text_for_quality(raw_pick.get("title") or candidate["title"])
+    place = normalize_text_for_quality(raw_pick.get("place", ""))
+    country = normalize_text_for_quality(raw_pick.get("country", ""))
+    summary = normalize_text_for_quality(raw_pick.get("summary", ""))
+    why_it_matters = normalize_text_for_quality(raw_pick.get("whyItMatters", ""))
     if not (title and place and country and summary and why_it_matters):
         return None
     combined_text = " ".join([title, summary, why_it_matters, str(raw_pick.get("angle", ""))]).lower()
@@ -453,13 +738,16 @@ def clean_discovery_pick(raw_pick: dict, candidate_by_id: dict[str, dict]) -> di
     except (TypeError, ValueError):
         confidence = 0.55
 
-    source_title = str(raw_pick.get("sourceTitle") or candidate["title"]).strip()
+    source_title = normalize_text_for_quality(raw_pick.get("sourceTitle") or candidate["title"])
     if not source_title.isascii():
         return None
     coord_country = country.split("/")[0].replace(" and ", "/").split("/")[0].strip()
-    if coord_country in COUNTRY_COORDINATES:
+    has_specific_coordinates = not (abs(lat) < 0.001 and abs(lon) < 0.001)
+    if place in LOCATION_COORDINATES:
+        lat, lon = LOCATION_COORDINATES[place]
+    elif not has_specific_coordinates and coord_country in COUNTRY_COORDINATES:
         lat, lon = COUNTRY_COORDINATES[coord_country]
-    elif abs(lat) < 0.001 and abs(lon) < 0.001:
+    elif not has_specific_coordinates:
         return None
     return {
         "id": f"{raw_id}-{datetime.now(timezone.utc).strftime('%Y%m%d')}",
@@ -966,6 +1254,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--skip-gdelt", action="store_true", help="Use seeded candidates without GDELT enrichment.")
     parser.add_argument("--skip-rss", action="store_true", help="Do not include RSS feed candidates.")
     parser.add_argument("--skip-discovery", action="store_true", help="Use only seeded watchlist candidates.")
+    parser.add_argument("--preview-discovery", action="store_true", help="Print discovery candidates and quality diagnostics without writing output.")
+    parser.add_argument("--preview-limit", type=int, default=25, help="Maximum discovery preview candidates to print.")
     return parser.parse_args()
 
 
@@ -1021,7 +1311,13 @@ def build_payload(args: argparse.Namespace | None = None) -> dict:
 
 
 def main() -> int:
-    payload = build_payload()
+    args = parse_args()
+    if args.preview_discovery:
+        payload = preview_discovery(args)
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+        return 0
+
+    payload = build_payload(args)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
     print(f"Wrote {len(payload['picks'])} AI picks to {OUTPUT_PATH}")

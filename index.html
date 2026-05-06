@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pumpkin News</title>
-    <link rel="stylesheet" href="styles.css?v=20260505j" />
+    <link rel="stylesheet" href="styles.css?v=20260506a" />
     <script src="vendor/d3.min.js"></script>
     <script src="vendor/topojson-client.min.js"></script>
   </head>
@@ -12,7 +12,7 @@
     <main class="atlas-shell">
       <section class="atlas-stage">
         <div class="atlas-hud atlas-hud--top">
-          <p class="atlas-mark">Pumpkin News</p>
+          <p class="atlas-mark" id="cache-status-mark" title="Cache status loading">Pumpkin News</p>
         </div>
 
         <div class="atlas-canvas">
@@ -71,6 +71,7 @@
 
         <div class="zoom-controls" aria-label="Globe zoom controls">
           <button class="more-top-stories" id="more-stories-hud" type="button">More Top Stories</button>
+          <button class="discovery-preview-button" id="discovery-preview" type="button">Discovery Preview</button>
           <button class="zoom-control" id="zoom-out" type="button" aria-label="Zoom out">
             -
           </button>
@@ -124,6 +125,6 @@
     </main>
 
     <script src="data.js?v=20260505d"></script>
-    <script src="app.js?v=20260505j"></script>
+    <script src="app.js?v=20260506g"></script>
   </body>
 </html>

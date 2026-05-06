@@ -2,3 +2,5 @@
 __pycache__/
 *.py[cod]
 data/cache/ai_picks.json
+data/cache/ai_picks_more.json
+data/cache/polymarket_prices.json
