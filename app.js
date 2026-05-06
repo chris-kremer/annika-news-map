@@ -149,7 +149,7 @@ function syncCarrierToggle() {
 function isInteractiveElement(target) {
   return Boolean(
     target?.closest?.(
-      ".country, .conflict-hotspot, .important-spot, .ai-pick, .carrier-spot, .country-sheet, .layer-switches, .zoom-controls, .hotspot-popup",
+      ".country, .conflict-hotspot, .important-spot, .ai-pick, .carrier-spot, .country-sheet, .atlas-mark, .layer-switches, .zoom-controls, .hotspot-popup",
     ),
   );
 }
@@ -1442,6 +1442,14 @@ function focusCoordinates(lon, lat) {
   refreshPaths();
 }
 
+function restartGlobeSpin() {
+  if (!projection || autoRotate) {
+    return;
+  }
+  autoRotate = true;
+  mapStatus && (mapStatus.textContent = getDefaultMapStatus());
+}
+
 function openCountry(feature) {
   autoRotate = false;
   clearConflictHover();
@@ -2255,6 +2263,17 @@ aiPicksToggle.addEventListener("click", () => setAiPicksVisible(!showAiPicks));
 carrierToggle.addEventListener("click", () => setCarrierSpotsVisible(!showCarrierSpots));
 moreStoriesButton?.addEventListener("click", loadMoreAiPicks);
 moreStoriesHudButton?.addEventListener("click", loadMoreAiPicks);
+cacheStatusMark?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  restartGlobeSpin();
+});
+cacheStatusMark?.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") {
+    return;
+  }
+  event.preventDefault();
+  restartGlobeSpin();
+});
 zoomOutButton.addEventListener("click", () => setGlobeZoom(globeZoom - GLOBE_ZOOM_STEP));
 zoomInButton.addEventListener("click", () => setGlobeZoom(globeZoom + GLOBE_ZOOM_STEP));
 syncConflictToggle();
