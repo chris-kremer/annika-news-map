@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 92" role="img" aria-label="Pumpkin pill">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 112" role="img" aria-label="Pumpkin pill">
   <defs>
-    <filter id="ambient" x="-14%" y="-24%" width="128%" height="156%">
+    <filter id="ambient" x="-14%" y="-18%" width="128%" height="148%">
       <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#140500" flood-opacity="0.42"/>
       <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#ff8a1e" flood-opacity="0.22"/>
     </filter>
@@ -28,8 +28,8 @@
   </defs>
 
   <g filter="url(#ambient)">
-    <path d="M178 20c5-12 15-13 21-6 5 7 5 17 1 27h-20c5-10 3-17-2-21z" fill="url(#stem)" stroke="#1f1508" stroke-width="1.8"/>
-    <path d="M192 17c4 6 4 14 1 23" fill="none" stroke="#b79a43" stroke-width="2.2" stroke-linecap="round" opacity="0.38"/>
+    <path d="M178 18c3-12 14-18 22-11 9 8 9 24 1 38h-22c7-12 7-21-1-27z" fill="url(#stem)" stroke="#1f1508" stroke-width="1.9"/>
+    <path d="M193 10c5 8 5 21 0 33" fill="none" stroke="#b79a43" stroke-width="2.3" stroke-linecap="round" opacity="0.42"/>
 
     <path d="M24 53c0-24 20-37 48-37 23 0 36 15 38 38-2 25-15 38-38 38-29 0-48-14-48-39z" fill="url(#side)" stroke="#7a2300" stroke-width="2.4"/>
     <path d="M56 52c0-29 24-45 57-45 28 0 44 18 47 47-3 31-19 47-47 47-34 0-57-18-57-49z" fill="url(#side)" stroke="#8c2a00" stroke-width="2.4"/>
