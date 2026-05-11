@@ -89,6 +89,14 @@ def latest_iso_timestamp(*values: str | None) -> str | None:
     return max(valid_values, key=lambda item: item[0])[1]
 
 
+def cache_generated_at(payload: dict) -> datetime | None:
+    return parse_cached_at(payload.get("generatedAt"))
+
+
+def has_picks(payload: dict) -> bool:
+    return bool(payload.get("picks"))
+
+
 def build_market_card(url: str, fallback_card: dict | None = None) -> dict:
     try:
         return fetch_important_spots.fetch_polymarket_card(url, fallback_card)
@@ -193,9 +201,14 @@ def fetch_ai_picks_payload(limit: int = 10) -> dict:
 
 def best_available_ai_picks_cache() -> dict:
     static = load_cache(AI_PICKS_STATIC_PATH)
-    if static.get("picks"):
-        return static
-    return load_cache(AI_PICKS_CACHE_PATH)
+    runtime = load_cache(AI_PICKS_CACHE_PATH)
+    candidates = [payload for payload in (runtime, static) if has_picks(payload)]
+    if not candidates:
+        return runtime
+    return max(
+        candidates,
+        key=lambda payload: cache_generated_at(payload) or datetime.min.replace(tzinfo=timezone.utc),
+    )
 
 
 def refresh_ai_picks_cache(limit: int = AI_PICKS_TARGET_COUNT) -> dict:
@@ -572,9 +585,20 @@ class AppHandler(SimpleHTTPRequestHandler):
         cached = best_available_ai_picks_cache()
         more_cache = load_cache(AI_PICKS_MORE_CACHE_PATH)
         refreshing = False
+        warning = None
 
-        if force_refresh or not cached.get("picks") or not is_ai_picks_fresh(cached) or len(cached.get("picks", [])) < AI_PICKS_TARGET_COUNT:
-            refreshing = start_ai_picks_refresh("api-request", force=force_refresh)
+        needs_refresh = (
+            force_refresh
+            or not cached.get("picks")
+            or not is_ai_picks_fresh(cached)
+            or len(cached.get("picks", [])) < AI_PICKS_TARGET_COUNT
+        )
+        if needs_refresh:
+            try:
+                cached = refresh_ai_picks_cache()
+            except Exception as error:
+                warning = str(error)
+                refreshing = start_ai_picks_refresh("api-request", force=force_refresh)
 
         if cached.get("picks"):
             sliced = dict(cached)
@@ -589,6 +613,7 @@ class AppHandler(SimpleHTTPRequestHandler):
                     "totalAvailable": len(cached.get("picks", [])),
                     "moreCacheGeneratedAt": more_cache.get("generatedAt"),
                     "latestCacheGeneratedAt": latest_iso_timestamp(cached.get("generatedAt"), more_cache.get("generatedAt")),
+                    "warning": warning,
                 }
             )
             return
