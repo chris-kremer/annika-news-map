@@ -1,11 +1,86 @@
 {
-  "generatedAt": "2026-05-05T15:05:44.459275+00:00",
-  "provider": "underlooked-story-desk",
-  "windowHours": 48,
+  "generatedAt": "2026-05-11T15:40:28.158893+00:00",
+  "provider": "discovery-fallback+seeded",
+  "windowHours": 240,
   "selectionPrinciple": "International stories with cross-border stakes that are easy to miss, avoiding obvious week-long headline cycles unless there is a fresh, specific angle.",
   "picks": [
     {
-      "id": "mali-coordinated-attacks-20260505",
+      "id": "candidate-aljazeera-world-0-20260511",
+      "title": "Israeli killings in Lebanon rise: Is even the pretence of a ceasefire over?",
+      "summary": "Discovery candidate from aljazeera-world.",
+      "whyItMatters": "matched: ceasefire",
+      "angle": "Global wire",
+      "freshness": "Fresh",
+      "lat": 33.8547,
+      "lon": 35.8623,
+      "place": "Lebanon",
+      "country": "Lebanon",
+      "region": "Middle East",
+      "category": "Global wire",
+      "importance": 0.45,
+      "confidence": 0.45,
+      "overlap": [],
+      "provider": "RSS",
+      "storyKey": "israeli killings lebanon rise even pretence ceasefire over?",
+      "sources": [
+        {
+          "title": "Israeli killings in Lebanon rise: Is even the pretence of a ceasefire over?",
+          "url": "https://www.aljazeera.com/news/2026/5/11/israeli-killings-in-lebanon-rise-is-even-the-pretence-of-a-ceasefire-over?traffic_source=rss"
+        }
+      ]
+    },
+    {
+      "id": "candidate-aljazeera-world-4-20260511",
+      "title": "Lebanese civil defence worker captures moment of Israeli strike",
+      "summary": "Discovery candidate from aljazeera-world.",
+      "whyItMatters": "matched: strike",
+      "angle": "Global wire",
+      "freshness": "Fresh",
+      "lat": 33.8547,
+      "lon": 35.8623,
+      "place": "Lebanon",
+      "country": "Lebanon",
+      "region": "Middle East",
+      "category": "Global wire",
+      "importance": 0.45,
+      "confidence": 0.45,
+      "overlap": [],
+      "provider": "RSS",
+      "storyKey": "lebanese civil defence worker captures moment israeli strike",
+      "sources": [
+        {
+          "title": "Lebanese civil defence worker captures moment of Israeli strike",
+          "url": "https://www.aljazeera.com/video/newsfeed/2026/5/11/lebanese-civil-defence-worker-captures-moment-of-israeli-strike?traffic_source=rss"
+        }
+      ]
+    },
+    {
+      "id": "candidate-bbc-world-17-20260511",
+      "title": "Dozens of Nigerian fishermen feared dead after Chad air strikes on Boko Haram",
+      "summary": "Discovery candidate from bbc-world.",
+      "whyItMatters": "matched: strike, strikes",
+      "angle": "Global wire",
+      "freshness": "Fresh",
+      "lat": 15.4542,
+      "lon": 18.7322,
+      "place": "Lake Chad region",
+      "country": "Chad",
+      "region": "Central Africa",
+      "category": "Global wire",
+      "importance": 0.45,
+      "confidence": 0.45,
+      "overlap": [],
+      "provider": "RSS",
+      "storyKey": "dozens nigerian fishermen feared dead chad air strikes",
+      "sources": [
+        {
+          "title": "Dozens of Nigerian fishermen feared dead after Chad air strikes on Boko Haram",
+          "url": "https://www.bbc.com/news/articles/cr5p85v446ro?at_medium=RSS&at_campaign=rss"
+        }
+      ]
+    },
+    {
+      "id": "mali-coordinated-attacks-20260511",
       "title": "Mali's late-April attacks look bigger than a routine insurgent flare-up",
       "summary": "Coordinated attacks around Bamako and several regional cities put pressure on Mali's junta and its Russian-backed security model.",
       "whyItMatters": "This is the kind of Sahel story that can move fast without leading global homepages: a capital-security shock, junta legitimacy, rebel-jihadist coordination, and spillover risk for Niger and Burkina Faso.",
@@ -33,7 +108,7 @@
       ]
     },
     {
-      "id": "ecuador-curfew-gangs-20260505",
+      "id": "ecuador-curfew-gangs-20260511",
       "title": "Ecuador extends curfews as gang violence becomes a governance problem",
       "summary": "A fresh curfew across nine provinces shows Ecuador's security emergency is no longer just a crime story; it is shaping daily economic life and state capacity.",
       "whyItMatters": "Ecuador rarely stays in the international top slot, but the combination of ports, cocaine routes, emergency rule, and economic disruption makes this a strategic Latin America watch item.",
@@ -56,7 +131,7 @@
       ]
     },
     {
-      "id": "haiti-gang-territory-20260505",
+      "id": "haiti-gang-territory-20260511",
       "title": "Haiti's gang map is shifting, but armed groups still dominate the capital",
       "summary": "Local police leadership says gangs control less of metropolitan Port-au-Prince than before, yet the reported 72% figure still points to a capital where armed groups shape movement, services, and politics.",
       "whyItMatters": "The interesting part is not simply that Haiti is violent; it is whether small territorial reversals change the balance before the international security mission winds down.",
@@ -79,7 +154,7 @@
       ]
     },
     {
-      "id": "southern-africa-drought-20260505",
+      "id": "southern-africa-drought-20260511",
       "title": "Southern Africa's drought is turning into a power, food, and budget story",
       "summary": "Drought pressure across parts of Southern Africa keeps showing up as hydropower shortages, food insecurity, and fiscal strain rather than one dramatic breaking-news event.",
       "whyItMatters": "Slow disasters are easy to miss. This one matters because electricity, crops, debt, and migration pressure can reinforce each other across borders.",
@@ -102,7 +177,7 @@
       ]
     },
     {
-      "id": "chad-sudan-spillover-20260505",
+      "id": "chad-sudan-spillover-20260511",
       "title": "Chad is the overlooked pressure valve for Sudan's war",
       "summary": "The Chad-Sudan border is carrying refugee flows, cross-border security risk, and political strain that rarely gets separated from the broader Sudan war headline.",
       "whyItMatters": "If Sudan is already on the conflict layer, Chad is the adjacent-system story: where displacement, aid access, and Sahel politics turn a war into a regional stress test.",

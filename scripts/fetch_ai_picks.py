@@ -11,7 +11,7 @@ import time
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import fetch_briefings
@@ -159,6 +159,9 @@ COUNTRY_COORDINATES = {
     "Serbia": (44.0165, 21.0059),
     "Sudan": (12.8628, 30.2176),
     "Lebanon": (33.8547, 35.8623),
+    "Iran": (32.4279, 53.688),
+    "Israel": (31.0461, 34.8516),
+    "Nigeria": (9.082, 8.6753),
     "Democratic Republic of the Congo": (-4.0383, 21.7587),
     "Indonesia": (-2.5489, 118.0149),
     "Haiti": (18.9712, -72.2852),
@@ -331,11 +334,12 @@ def fetch_url_text(url: str) -> str:
         return response.read().decode("utf-8", "ignore")
 
 
-def fetch_thenews_discovery(query: str, api_token: str, limit: int) -> list[dict]:
+def fetch_thenews_discovery(query: str, api_token: str, limit: int, window_hours: int) -> list[dict]:
     params = {
         "api_token": api_token,
         "search": query,
         "search_fields": "title,description,keywords",
+        "published_after": (datetime.now(timezone.utc) - timedelta(hours=window_hours)).strftime("%Y-%m-%d"),
         "language": "en",
         "sort": "published_at",
         "limit": str(limit),
@@ -551,8 +555,32 @@ def candidate_to_pick(candidate: dict) -> dict | None:
     if not title or not title.isascii():
         return None
     text = title.lower()
+    country_hints = {
+        "afghanistan": ("Afghanistan", "Afghanistan", "South Asia"),
+        "pakistan": ("Pakistan", "Pakistan", "South Asia"),
+        "bolivia": ("Bolivia", "Bolivia", "South America"),
+        "canary islands": ("Spain", "Canary Islands, Spain", "Europe"),
+        "chad": ("Chad", "Lake Chad region", "Central Africa"),
+        "ecuador": ("Ecuador", "Ecuador", "South America"),
+        "iran": ("Iran", "Iran", "Middle East"),
+        "lebanon": ("Lebanon", "Lebanon", "Middle East"),
+        "lebanese": ("Lebanon", "Lebanon", "Middle East"),
+        "israel": ("Israel", "Israel", "Middle East"),
+        "israeli": ("Israel", "Israel", "Middle East"),
+        "mali": ("Mali", "Mali", "West Africa"),
+        "kim ju ae": ("North Korea", "North Korea", "East Asia"),
+        "nigeria": ("Nigeria", "Nigeria", "West Africa"),
+        "nigerian": ("Nigeria", "Nigeria", "West Africa"),
+        "north korea": ("North Korea", "North Korea", "East Asia"),
+        "romania": ("Romania", "Romania", "Europe"),
+        "russia": ("Ukraine", "Ukraine", "Europe"),
+        "sudan": ("Sudan", "Sudan", "Northeast Africa"),
+        "ukraine": ("Ukraine", "Ukraine", "Europe"),
+    }
+    has_country_hint = any(hint in text for hint in country_hints)
+    has_required_term = any(term in text for term in DISCOVERY_REQUIRED_TERMS)
     is_north_korea_succession = "succession" in text and ("north korea" in text or "kim ju ae" in text)
-    if score < 0.25 and not is_north_korea_succession:
+    if score < 0.25 and not is_north_korea_succession and not (score >= 0.12 and has_country_hint and has_required_term):
         return None
     if any(term in text for term in DISCOVERY_FORBIDDEN_TERMS):
         return None
@@ -562,21 +590,6 @@ def candidate_to_pick(candidate: dict) -> dict | None:
     region = ""
     lat = 0.0
     lon = 0.0
-    country_hints = {
-        "afghanistan": ("Afghanistan", "Afghanistan", "South Asia"),
-        "pakistan": ("Pakistan", "Pakistan", "South Asia"),
-        "bolivia": ("Bolivia", "Bolivia", "South America"),
-        "canary islands": ("Spain", "Canary Islands, Spain", "Europe"),
-        "chad": ("Chad", "Lake Chad region", "Central Africa"),
-        "ecuador": ("Ecuador", "Ecuador", "South America"),
-        "mali": ("Mali", "Mali", "West Africa"),
-        "kim ju ae": ("North Korea", "North Korea", "East Asia"),
-        "north korea": ("North Korea", "North Korea", "East Asia"),
-        "romania": ("Romania", "Romania", "Europe"),
-        "russia": ("Ukraine", "Ukraine", "Europe"),
-        "sudan": ("Sudan", "Sudan", "Northeast Africa"),
-        "ukraine": ("Ukraine", "Ukraine", "Europe"),
-    }
     for hint, values in country_hints.items():
         if hint in text:
             country, place, region = values
@@ -612,6 +625,22 @@ def candidate_to_pick(candidate: dict) -> dict | None:
         "storyKey": story_fingerprint(title),
         "sources": [{"title": title, "url": candidate.get("url", "")}],
     }
+
+
+def dedupe_picks(picks: list[dict]) -> list[dict]:
+    seen_keys = set()
+    deduped = []
+    for pick in picks:
+        source_url = ""
+        sources = pick.get("sources")
+        if isinstance(sources, list) and sources:
+            source_url = str(sources[0].get("url", "")).strip().lower()
+        key = source_url or str(pick.get("storyKey") or pick.get("title") or "").strip().lower()
+        if not key or key in seen_keys:
+            continue
+        seen_keys.add(key)
+        deduped.append(pick)
+    return deduped
 
 
 def build_pick(config: dict, articles: list[dict]) -> dict:
@@ -809,7 +838,12 @@ def discover_candidates(args: argparse.Namespace) -> list[dict]:
             if candidates and query_index:
                 time.sleep(min(args.delay_seconds, 1.0))
             try:
-                articles = fetch_thenews_discovery(query_config["query"], api_token, args.secondary_per_query)
+                articles = fetch_thenews_discovery(
+                    query_config["query"],
+                    api_token,
+                    args.secondary_per_query,
+                    args.window_hours,
+                )
             except Exception as error:
                 print(f"warning: The News API discovery query {query_config['id']} failed: {error}", file=sys.stderr)
                 continue
@@ -1264,21 +1298,37 @@ def build_payload(args: argparse.Namespace | None = None) -> dict:
         args = parse_args()
     env = load_env()
     provider = "underlooked-story-desk"
+    discovery_picks = []
 
-    if not args.skip_discovery and not args.skip_openai:
+    if not args.skip_discovery:
         candidates = discover_candidates(args)
-        try:
-            discovered = curate_discovery_with_openai(candidates, args.limit, env)
-        except Exception as error:
-            print(f"warning: OpenAI discovery curation failed: {error}", file=sys.stderr)
-            discovered = []
-        if discovered:
+        if not args.skip_openai:
+            try:
+                discovered = curate_discovery_with_openai(candidates, args.limit, env)
+            except Exception as error:
+                print(f"warning: OpenAI discovery curation failed: {error}", file=sys.stderr)
+                discovered = []
+            if discovered:
+                return {
+                    "generatedAt": datetime.now(timezone.utc).isoformat(),
+                    "provider": f"openai-discovery:{env.get('OPENAI_AI_PICKS_MODEL', DEFAULT_OPENAI_MODEL)}",
+                    "windowHours": args.window_hours,
+                    "selectionPrinciple": SELECTION_PRINCIPLE,
+                    "picks": translate_source_titles_with_openai(discovered[: args.limit], env),
+                }
+        for candidate in candidates:
+            pick = candidate_to_pick(candidate)
+            if pick:
+                discovery_picks.append(pick)
+        discovery_picks = dedupe_picks(discovery_picks)
+        discovery_picks.sort(key=lambda pick: (pick.get("importance", 0), pick.get("confidence", 0)), reverse=True)
+        if len(discovery_picks) >= args.limit:
             return {
                 "generatedAt": datetime.now(timezone.utc).isoformat(),
-                "provider": f"openai-discovery:{env.get('OPENAI_AI_PICKS_MODEL', DEFAULT_OPENAI_MODEL)}",
+                "provider": "discovery-fallback",
                 "windowHours": args.window_hours,
                 "selectionPrinciple": SELECTION_PRINCIPLE,
-                "picks": translate_source_titles_with_openai(discovered[: args.limit], env),
+                "picks": discovery_picks[: args.limit],
             }
 
     picks = []
@@ -1294,6 +1344,15 @@ def build_payload(args: argparse.Namespace | None = None) -> dict:
         picks.append(build_pick(config, articles))
 
     picks.sort(key=lambda pick: pick["importance"], reverse=True)
+    if discovery_picks:
+        picks = dedupe_picks(discovery_picks + picks)
+        return {
+            "generatedAt": datetime.now(timezone.utc).isoformat(),
+            "provider": "discovery-fallback+seeded",
+            "windowHours": args.window_hours,
+            "selectionPrinciple": SELECTION_PRINCIPLE,
+            "picks": picks[: args.limit],
+        }
     if not args.skip_openai:
         try:
             picks = curate_with_openai(picks, args.limit, env)

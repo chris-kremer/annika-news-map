@@ -215,9 +215,9 @@ def refresh_ai_picks_cache(limit: int = AI_PICKS_TARGET_COUNT) -> dict:
     with ai_picks_refresh_lock:
         previous = best_available_ai_picks_cache()
         payload = fetch_ai_picks_payload(limit)
-        if len(payload.get("picks", [])) < len(previous.get("picks", [])):
+        if not payload.get("picks") and previous.get("picks"):
             print(
-                f"warning: keeping existing AI picks cache with {len(previous.get('picks', []))} picks; refresh only produced {len(payload.get('picks', []))}",
+                "warning: keeping existing AI picks cache because refresh produced no picks",
                 flush=True,
                 file=sys.stderr,
             )
