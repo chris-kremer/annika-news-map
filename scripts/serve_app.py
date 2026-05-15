@@ -195,7 +195,9 @@ def fetch_ai_picks_payload(limit: int = 10) -> dict:
     args.secondary_per_query = 10
     args.rss_per_feed = 12
     args.window_hours = 240
-    args.delay_seconds = 3.0
+    args.delay_seconds = 0.0
+    args.skip_gdelt = True
+    args.skip_openai = True
     return fetch_ai_picks.build_payload(args)
 
 
