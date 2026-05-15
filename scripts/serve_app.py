@@ -30,7 +30,7 @@ POLYMARKET_CACHE_TTL = timedelta(minutes=30)
 AI_PICKS_TARGET_COUNT = 25
 AI_PICKS_PAGE_LIMIT = 5
 AI_PICKS_BACKGROUND_ENABLED = os.environ.get("AI_PICKS_BACKGROUND_REFRESH", "0") == "1"
-AI_PICKS_MORE_BACKGROUND_ENABLED = os.environ.get("AI_PICKS_MORE_BACKGROUND_REFRESH", "1") == "1"
+AI_PICKS_MORE_BACKGROUND_ENABLED = os.environ.get("AI_PICKS_MORE_BACKGROUND_REFRESH", "0") == "1"
 ai_picks_refresh_lock = threading.Lock()
 ai_picks_refresh_thread: threading.Thread | None = None
 ai_picks_more_refresh_lock = threading.Lock()
@@ -292,8 +292,10 @@ def run_ai_picks_more_refresh(reason: str, full: bool = True) -> None:
         print(f"warning: AI picks more refresh failed: {error}", flush=True, file=sys.stderr)
 
 
-def start_ai_picks_more_refresh(reason: str, full: bool = True) -> bool:
+def start_ai_picks_more_refresh(reason: str, full: bool = True, force: bool = False) -> bool:
     global ai_picks_more_refresh_thread
+    if not AI_PICKS_MORE_BACKGROUND_ENABLED and not force:
+        return False
     if ai_picks_more_refresh_thread and ai_picks_more_refresh_thread.is_alive():
         return False
     cached = load_cache(AI_PICKS_MORE_CACHE_PATH)
