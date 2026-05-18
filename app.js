@@ -106,6 +106,10 @@ const MAX_GLOBE_ZOOM = 1.55;
 const GLOBE_ZOOM_STEP = 0.12;
 let globeZoom = 1;
 
+function isMobileViewport() {
+  return window.matchMedia("(max-width: 640px)").matches;
+}
+
 function getCanonicalCountryName(countryName) {
   return countryNameAliases.get(countryName) || countryName;
 }
@@ -1127,6 +1131,25 @@ function drawConnector(dotX, dotY, popupEl, flipped) {
   connectorLayer.appendChild(dot);
 }
 
+function placeHotspotPopup(markerPoint, preferredWidth = 270) {
+  const popupW = Math.min(hotspotPopup.offsetWidth || preferredWidth, markerPoint.stageRect.width - 20);
+  const popupH = hotspotPopup.offsetHeight || 120;
+  const offset = isMobileViewport() ? 12 : 18;
+  const margin = isMobileViewport() ? 10 : 14;
+  const flipLeft = markerPoint.x > markerPoint.stageRect.width - popupW - 48;
+  const rawLeft = flipLeft ? markerPoint.x - popupW - offset : markerPoint.x + offset;
+  const rawTop = markerPoint.y - 28;
+  const maxLeft = Math.max(margin, markerPoint.stageRect.width - popupW - margin);
+  const maxTop = Math.max(margin, markerPoint.stageRect.height - popupH - margin);
+  const left = Math.min(Math.max(rawLeft, margin), maxLeft);
+  const top = Math.min(Math.max(rawTop, margin), maxTop);
+
+  hotspotPopup.classList.toggle("is-flipped", flipLeft);
+  hotspotPopup.style.left = `${left}px`;
+  hotspotPopup.style.top = `${top}px`;
+  return flipLeft;
+}
+
 function closeHotspotPopup() {
   hotspotPopup.classList.add("is-hidden");
   popupMarket.classList.add("is-hidden");
@@ -1163,12 +1186,7 @@ function showHoverPopup(label, sub, body, lon, lat) {
   const markerPoint = getProjectedStagePoint(lon, lat);
   if (!markerPoint) return;
 
-  const popupW = hotspotPopup.offsetWidth || 230;
-  const offset = 18;
-  const flipLeft = markerPoint.x > markerPoint.stageRect.width - popupW - 48;
-  hotspotPopup.classList.toggle("is-flipped", flipLeft);
-  hotspotPopup.style.left = `${flipLeft ? markerPoint.x - popupW - offset : markerPoint.x + offset}px`;
-  hotspotPopup.style.top = `${markerPoint.y - 28}px`;
+  const flipLeft = placeHotspotPopup(markerPoint, 230);
   hotspotPopup.classList.remove("is-hidden");
   activePopupHotspot = { lon, lat };
   activePopupMarker = null;
@@ -1195,18 +1213,7 @@ function openConflictHotspot(hotspot, clickEvent, isClick = false) {
   const markerPoint = getProjectedStagePoint(hotspot.lon, hotspot.lat);
   if (!markerPoint) return;
 
-  const popupW = hotspotPopup.offsetWidth || 270;
-  const offset = 18;
-  const flipThreshold = markerPoint.stageRect.width - popupW - 48;
-
-  const flipLeft = markerPoint.x > flipThreshold;
-  hotspotPopup.classList.toggle("is-flipped", flipLeft);
-
-  const left = flipLeft ? markerPoint.x - popupW - offset : markerPoint.x + offset;
-  const top = markerPoint.y - 28;
-
-  hotspotPopup.style.left = `${left}px`;
-  hotspotPopup.style.top = `${top}px`;
+  const flipLeft = placeHotspotPopup(markerPoint, 270);
   hotspotPopup.classList.remove("is-hidden");
   activePopupHotspot = hotspot;
   activePopupMarker = { type: "conflict", data: hotspot };
@@ -1626,11 +1633,19 @@ let globeTargetX = GLOBE_CENTER_X;
 let globeCurrentX = GLOBE_CENTER_X;
 
 function setGlobeShift(sheetOpen) {
-  globeTargetX = sheetOpen ? GLOBE_CENTER_X - SHEET_WIDTH_SVG / 2 : GLOBE_CENTER_X;
+  globeTargetX = sheetOpen && !isMobileViewport() ? GLOBE_CENTER_X - SHEET_WIDTH_SVG / 2 : GLOBE_CENTER_X;
 }
 
 function getBaseGlobeScale() {
-  return Math.min(1440, 900) * BASE_GLOBE_SCALE_RATIO;
+  const mobileBoost = isMobileViewport() ? 1.18 : 1;
+  return Math.min(1440, 900) * BASE_GLOBE_SCALE_RATIO * mobileBoost;
+}
+
+function syncResponsiveViewport() {
+  svg.attr("preserveAspectRatio", isMobileViewport() ? "xMidYMid slice" : "xMidYMid meet");
+  setGlobeShift(!countrySheet.classList.contains("is-hidden"));
+  applyGlobeZoom();
+  refreshConnector();
 }
 
 function syncZoomControls() {
@@ -2224,6 +2239,7 @@ function animate(timestamp) {
 
 async function loadGlobe() {
   try {
+    svg.attr("preserveAspectRatio", isMobileViewport() ? "xMidYMid slice" : "xMidYMid meet");
     resizeProjection();
     buildGlobe();
 
@@ -2276,6 +2292,7 @@ cacheStatusMark?.addEventListener("keydown", (event) => {
 });
 zoomOutButton.addEventListener("click", () => setGlobeZoom(globeZoom - GLOBE_ZOOM_STEP));
 zoomInButton.addEventListener("click", () => setGlobeZoom(globeZoom + GLOBE_ZOOM_STEP));
+window.addEventListener("resize", syncResponsiveViewport);
 syncConflictToggle();
 syncImportantToggle();
 syncAiPicksToggle();
