@@ -26,6 +26,8 @@ RELIEFWEB_ENDPOINT = "https://api.reliefweb.int/v2/reports"
 OPENAI_RESPONSES_ENDPOINT = "https://api.openai.com/v1/responses"
 DEFAULT_OPENAI_MODEL = "gpt-5-nano"
 SELECTION_PRINCIPLE = "International stories with cross-border stakes that are easy to miss, avoiding obvious week-long headline cycles unless there is a fresh, specific angle."
+SOURCE_EXCLUSION_COUNTRIES = {"Israel", "Lebanon", "Iran", "Qatar"}
+SOURCE_EXCLUSION_PATTERNS = ("aljazeera", "al jazeera")
 
 DISCOVERY_QUERIES = [
     {
@@ -47,11 +49,6 @@ DISCOVERY_QUERIES = [
 
 RSS_FEEDS = [
     {
-        "id": "reuters-world",
-        "url": "https://feeds.reuters.com/reuters/worldNews",
-        "category": "Global wire",
-    },
-    {
         "id": "aljazeera-world",
         "url": "https://www.aljazeera.com/xml/rss/all.xml",
         "category": "Global wire",
@@ -59,6 +56,11 @@ RSS_FEEDS = [
     {
         "id": "bbc-world",
         "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+        "category": "Global wire",
+    },
+    {
+        "id": "france24-world",
+        "url": "https://www.france24.com/en/rss",
         "category": "Global wire",
     },
 ]
@@ -153,6 +155,7 @@ DISCOVERY_STRONG_PATTERNS = {
 
 COUNTRY_COORDINATES = {
     "Chad": (15.4542, 18.7322),
+    "DR Congo": (-4.0383, 21.7587),
     "Ecuador": (-1.8312, -78.1834),
     "Mali": (17.5707, -3.9962),
     "Mexico": (23.6345, -102.5528),
@@ -405,6 +408,34 @@ def source_from_article(article: dict) -> dict:
     }
 
 
+def source_text_from_pick(pick: dict) -> str:
+    values = [
+        str(pick.get("country", "")),
+        str(pick.get("place", "")),
+        str(pick.get("title", "")),
+        str(pick.get("provider", "")),
+    ]
+    sources = pick.get("sources")
+    if isinstance(sources, list):
+        for source in sources:
+            if isinstance(source, dict):
+                values.append(str(source.get("title", "")))
+                values.append(str(source.get("url", "")))
+    return " ".join(values).lower()
+
+
+def should_exclude_ai_pick(pick: dict) -> bool:
+    country = str(pick.get("country") or pick.get("place") or "").split("/")[0].strip()
+    if country not in SOURCE_EXCLUSION_COUNTRIES:
+        return False
+    source_text = source_text_from_pick(pick)
+    return any(pattern in source_text for pattern in SOURCE_EXCLUSION_PATTERNS)
+
+
+def filter_excluded_ai_picks(picks: list[dict]) -> list[dict]:
+    return [pick for pick in picks if not should_exclude_ai_pick(pick)]
+
+
 def normalize_text_for_quality(value: str) -> str:
     replacements = {
         "\u2018": "'",
@@ -561,6 +592,9 @@ def candidate_to_pick(candidate: dict) -> dict | None:
         "bolivia": ("Bolivia", "Bolivia", "South America"),
         "canary islands": ("Spain", "Canary Islands, Spain", "Europe"),
         "chad": ("Chad", "Lake Chad region", "Central Africa"),
+        "dr congo": ("DR Congo", "Eastern DR Congo", "Central Africa"),
+        "drc": ("DR Congo", "Eastern DR Congo", "Central Africa"),
+        "congo": ("DR Congo", "Eastern DR Congo", "Central Africa"),
         "ecuador": ("Ecuador", "Ecuador", "South America"),
         "iran": ("Iran", "Iran", "Middle East"),
         "lebanon": ("Lebanon", "Lebanon", "Middle East"),
@@ -605,7 +639,7 @@ def candidate_to_pick(candidate: dict) -> dict | None:
 
     category = str(candidate.get("queryCategory") or "Discovered story")
     reason_label = reasons[0] if reasons else category
-    return {
+    pick = {
         "id": f"{candidate['id']}-{datetime.now(timezone.utc).strftime('%Y%m%d')}",
         "title": title,
         "summary": f"Discovery candidate from {candidate.get('domain', 'news coverage')}.",
@@ -625,10 +659,14 @@ def candidate_to_pick(candidate: dict) -> dict | None:
         "storyKey": story_fingerprint(title),
         "sources": [{"title": title, "url": candidate.get("url", "")}],
     }
+    if should_exclude_ai_pick(pick):
+        return None
+    return pick
 
 
 def dedupe_picks(picks: list[dict]) -> list[dict]:
     seen_keys = set()
+    seen_countries = set()
     deduped = []
     for pick in picks:
         source_url = ""
@@ -636,9 +674,14 @@ def dedupe_picks(picks: list[dict]) -> list[dict]:
         if isinstance(sources, list) and sources:
             source_url = str(sources[0].get("url", "")).strip().lower()
         key = source_url or str(pick.get("storyKey") or pick.get("title") or "").strip().lower()
+        country_key = str(pick.get("country") or pick.get("place") or "").split("/")[0].strip().lower()
         if not key or key in seen_keys:
             continue
+        if country_key and country_key in seen_countries:
+            continue
         seen_keys.add(key)
+        if country_key:
+            seen_countries.add(country_key)
         deduped.append(pick)
     return deduped
 
@@ -1288,6 +1331,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--skip-gdelt", action="store_true", help="Use seeded candidates without GDELT enrichment.")
     parser.add_argument("--skip-rss", action="store_true", help="Do not include RSS feed candidates.")
     parser.add_argument("--skip-discovery", action="store_true", help="Use only seeded watchlist candidates.")
+    parser.add_argument("--allow-seeded-fallback", action="store_true", help="Use fixed editorial seed picks when fresh discovery is empty.")
     parser.add_argument("--preview-discovery", action="store_true", help="Print discovery candidates and quality diagnostics without writing output.")
     parser.add_argument("--preview-limit", type=int, default=25, help="Maximum discovery preview candidates to print.")
     return parser.parse_args()
@@ -1308,6 +1352,7 @@ def build_payload(args: argparse.Namespace | None = None) -> dict:
             except Exception as error:
                 print(f"warning: OpenAI discovery curation failed: {error}", file=sys.stderr)
                 discovered = []
+            discovered = filter_excluded_ai_picks(discovered)
             if discovered:
                 return {
                     "generatedAt": datetime.now(timezone.utc).isoformat(),
@@ -1321,14 +1366,23 @@ def build_payload(args: argparse.Namespace | None = None) -> dict:
             if pick:
                 discovery_picks.append(pick)
         discovery_picks = dedupe_picks(discovery_picks)
+        discovery_picks = filter_excluded_ai_picks(discovery_picks)
         discovery_picks.sort(key=lambda pick: (pick.get("importance", 0), pick.get("confidence", 0)), reverse=True)
-        if len(discovery_picks) >= args.limit:
+        if discovery_picks:
             return {
                 "generatedAt": datetime.now(timezone.utc).isoformat(),
                 "provider": "discovery-fallback",
                 "windowHours": args.window_hours,
                 "selectionPrinciple": SELECTION_PRINCIPLE,
                 "picks": discovery_picks[: args.limit],
+            }
+        if not args.allow_seeded_fallback:
+            return {
+                "generatedAt": datetime.now(timezone.utc).isoformat(),
+                "provider": "discovery-empty",
+                "windowHours": args.window_hours,
+                "selectionPrinciple": SELECTION_PRINCIPLE,
+                "picks": [],
             }
 
     picks = []
@@ -1346,6 +1400,7 @@ def build_payload(args: argparse.Namespace | None = None) -> dict:
     picks.sort(key=lambda pick: pick["importance"], reverse=True)
     if discovery_picks:
         picks = dedupe_picks(discovery_picks + picks)
+        picks = filter_excluded_ai_picks(picks)
         return {
             "generatedAt": datetime.now(timezone.utc).isoformat(),
             "provider": "discovery-fallback+seeded",

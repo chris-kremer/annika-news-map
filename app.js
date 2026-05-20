@@ -82,6 +82,7 @@ let activeSpotId = null;
 let countryStore = new Map();
 let activeSheetRequestId = 0;
 let activeSheetKey = "";
+let countryLoadingTimer = null;
 let countryPaths;
 let conflictHoverRoles = new Map();
 let metricHoverMode = null;
@@ -432,7 +433,94 @@ function showCountryFacts() {
   factStrip.hidden = false;
   spotContext.classList.add("is-hidden");
   spotContext.replaceChildren();
-  storySectionLabel.textContent = "Recent stories";
+  storySectionLabel.textContent = "Current news";
+}
+
+function clearCountryLoadingProgress() {
+  if (countryLoadingTimer) {
+    clearInterval(countryLoadingTimer);
+    countryLoadingTimer = null;
+  }
+}
+
+function renderRecentHistory(history) {
+  if (!history?.summary) {
+    return;
+  }
+  const existingLoadingProgress = spotContext.querySelector(".loading-progress")?.outerHTML || "";
+  const sources = Array.isArray(history.sources) ? history.sources.filter(Boolean) : [];
+  const sourceLinks = sources.slice(0, 3).map((url, index) => {
+    const safeUrl = safeExternalUrl(url);
+    if (!safeUrl) return "";
+    return `<a href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">Source ${index + 1}</a>`;
+  }).filter(Boolean);
+  spotContext.innerHTML = `
+    <article class="history-card">
+      <p class="section-label">Recent history</p>
+      ${renderSummaryBullets(history.summary)}
+      ${sourceLinks.length ? `<div class="history-sources">${sourceLinks.join("")}</div>` : ""}
+    </article>
+    ${existingLoadingProgress}
+  `;
+  spotContext.classList.remove("is-hidden");
+}
+
+function splitSummarySentences(text) {
+  const value = String(text || "").trim();
+  const sentenceMatches = value.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g) || [];
+  const sentences = sentenceMatches.map((item) => item.trim()).filter(Boolean);
+  const semicolonCount = (value.match(/;/g) || []).length;
+  const parts = sentences.length <= 1 && semicolonCount >= 2 ? value.split(";") : sentences;
+  return parts
+    .map((item) => item.trim().replace(/^[,;:\s]+|[,;:\s]+$/g, ""))
+    .filter((item) => /[A-Za-z0-9]/.test(item));
+}
+
+function renderSummaryBullets(text) {
+  const bullets = splitSummarySentences(text);
+  if (!bullets.length) {
+    return `<p>${escapeHtml(text || "")}</p>`;
+  }
+  return `
+    <ul class="summary-bullets">
+      ${bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}
+    </ul>
+  `;
+}
+
+function renderLoadingProgress(stageIndex = 0) {
+  const stages = [
+    "Loading stories",
+    "Analyzing conflicts",
+    "Summarizing political tensions",
+    "Comparing to neighbors",
+    "Deep analysis",
+    "Finalizing report",
+  ];
+  const activeIndex = Math.min(stageIndex, stages.length - 1);
+  const items = stages.map((stage, index) => `
+    <li class="${index < activeIndex ? "is-complete" : index === activeIndex ? "is-active" : ""}">
+      <span></span>${escapeHtml(stage)}
+    </li>
+  `).join("");
+  const existingHistory = spotContext.querySelector(".history-card")?.outerHTML || "";
+  spotContext.innerHTML = `
+    ${existingHistory}
+    <article class="loading-progress" aria-live="polite">
+      <ol>${items}</ol>
+    </article>
+  `;
+  spotContext.classList.remove("is-hidden");
+}
+
+function startCountryLoadingProgress() {
+  clearCountryLoadingProgress();
+  let stageIndex = 0;
+  renderLoadingProgress(stageIndex);
+  countryLoadingTimer = setInterval(() => {
+    stageIndex = Math.min(stageIndex + 1, 5);
+    renderLoadingProgress(stageIndex);
+  }, 1600);
 }
 
 function showSpotFacts() {
@@ -727,14 +815,50 @@ function renderStories(stories) {
             }
           </h3>
           ${shouldShowSummary ? `<p class="story-copy">${escapeHtml(story.summary)}</p>` : ""}
-          <div class="story-tags">
-            ${(story.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
-          </div>
         </article>
       `;
       },
     )
     .join("");
+}
+
+function isAiCountryBriefing(record) {
+  return String(record?.sourceNote || "").toLowerCase().includes("openai");
+}
+
+function renderBriefingSections(stories) {
+  if (!Array.isArray(stories) || stories.length === 0) {
+    renderStories(stories);
+    return;
+  }
+
+  storyList.innerHTML = stories
+    .map((story) => {
+      const storyUrl = safeExternalUrl(story.url);
+      return `
+        <article class="story-card briefing-card">
+          <h3 class="story-title">
+            ${
+              storyUrl
+                ? `<a class="story-link" href="${escapeHtml(storyUrl)}" target="_blank" rel="noreferrer">${escapeHtml(story.title || "Current development")}</a>`
+                : escapeHtml(story.title || "Current development")
+            }
+          </h3>
+          ${renderSummaryBullets(story.summary)}
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderCountryCoverage(record) {
+  if (isAiCountryBriefing(record)) {
+    storySectionLabel.textContent = "Current briefing";
+    renderBriefingSections(record.stories);
+    return;
+  }
+  storySectionLabel.textContent = "Current news";
+  renderStories(record.stories);
 }
 
 function setMoreStoriesVisible(visible) {
@@ -858,32 +982,37 @@ function bindMetricHoverHandlers(element, mode) {
 function updateSheet(countryName) {
   const selected = getCountryRecord(countryName);
 
+  clearCountryLoadingProgress();
   setMoreStoriesVisible(false);
   showCountryFacts();
+  renderRecentHistory(selected.recentHistory);
   detailCountry.textContent = selected.name;
   detailRegion.textContent = selected.region || "Metadata not populated yet";
   detailDemocracyIndex.textContent = selected.democracyIndex || "Pending score source";
   detailEconomicGrowth.textContent = selected.economicGrowth || "No recent World Bank data";
   renderConflictDetails(selected);
-  renderStories(selected.stories);
+  renderCountryCoverage(selected);
 }
 
 function setLoadingState(countryName) {
   const selected = getCountryRecord(countryName);
   setMoreStoriesVisible(false);
   showCountryFacts();
+  renderRecentHistory(selected.recentHistory);
+  startCountryLoadingProgress();
   detailCountry.textContent = selected.name;
   detailRegion.textContent = selected.region || "Metadata not populated yet";
   detailDemocracyIndex.textContent = selected.democracyIndex || "Pending score source";
   detailEconomicGrowth.textContent = selected.economicGrowth || "No recent World Bank data";
   renderConflictDetails(selected);
+  storySectionLabel.textContent = "Current briefing";
   renderStories([
     {
       source: "System",
       time: "Now",
       title: "Loading briefing",
-      summary: "This country only refreshes when clicked. Results stay cached for 24 hours.",
-      tags: ["Cache", "On demand"],
+      summary: "The server keeps story caches fresh in the background and refreshes this country on demand when needed.",
+      tags: ["Cache", "Live fetch"],
       url: "",
     },
   ]);
@@ -1235,8 +1364,8 @@ function setSpotLoadingState(spot) {
       source: "System",
       time: "Now",
       title: "Loading key area coverage",
-      summary: "This key area refreshes on click and then stays cached for 24 hours.",
-      tags: ["Cache", "Key area", "On demand"],
+      summary: "The server keeps key-area coverage fresh in the background and refreshes this selection on demand when needed.",
+      tags: ["Cache", "Key area", "Live fetch"],
       url: "",
     },
   ]);
@@ -1254,13 +1383,22 @@ async function refreshCountryBriefing(countryName, requestId) {
       cache: "no-store",
     });
     const payload = await response.json();
+    if (payload.briefing) {
+      mergeRemoteBriefing(countryName, payload.briefing);
+      if (requestId === activeSheetRequestId && activeSheetKey === sheetKey) {
+        renderRecentHistory(payload.briefing.recentHistory);
+      }
+    }
+    if (response.status === 202 && payload.refreshing) {
+      await pollCountryBriefing(countryName, requestId, sheetKey);
+      return;
+    }
     if (!response.ok) {
       throw new Error(payload.error || `Briefing request failed: ${response.status}`);
     }
     if (requestId !== activeSheetRequestId || activeSheetKey !== sheetKey) {
       return;
     }
-    mergeRemoteBriefing(countryName, payload.briefing);
     updateSheet(countryName);
   } catch (error) {
     console.error("Briefing refresh failed", error);
@@ -1278,6 +1416,30 @@ async function refreshCountryBriefing(countryName, requestId) {
       },
     ]);
   }
+}
+
+async function pollCountryBriefing(countryName, requestId, sheetKey) {
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < 90000) {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const response = await fetch(`/api/briefing?country=${encodeURIComponent(countryName)}`, {
+      cache: "no-store",
+    });
+    const payload = await response.json();
+    if (payload.briefing) {
+      mergeRemoteBriefing(countryName, payload.briefing);
+      if (requestId === activeSheetRequestId && activeSheetKey === sheetKey) {
+        renderRecentHistory(payload.briefing.recentHistory);
+      }
+    }
+    if (response.ok && payload.briefing?.stories?.length) {
+      if (requestId === activeSheetRequestId && activeSheetKey === sheetKey) {
+        updateSheet(countryName);
+      }
+      return;
+    }
+  }
+  throw new Error("Briefing refresh timed out");
 }
 
 async function refreshSpotBriefing(spotId, requestId) {

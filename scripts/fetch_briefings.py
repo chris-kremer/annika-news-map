@@ -57,6 +57,9 @@ COUNTRY_OVERRIDES = {
     },
 }
 
+SOURCE_EXCLUSION_COUNTRIES = {"Israel", "Lebanon", "Iran", "Qatar"}
+SOURCE_EXCLUSION_PATTERNS = ("aljazeera", "al jazeera")
+
 
 def load_env() -> dict[str, str]:
     values: dict[str, str] = dict(os.environ)
@@ -111,6 +114,16 @@ def get_country_config(country_name: str) -> dict[str, str]:
         "locale": config.get("locale", ""),
         "language": config.get("language", ""),
     }
+
+
+def should_exclude_source(config: dict[str, str], article: dict) -> bool:
+    if config["display_name"] not in SOURCE_EXCLUSION_COUNTRIES:
+        return False
+    source_text = " ".join(
+        str(article.get(key, ""))
+        for key in ("source", "domain", "url")
+    ).lower()
+    return any(pattern in source_text for pattern in SOURCE_EXCLUSION_PATTERNS)
 
 
 def format_story_date(raw_value: str) -> str:
@@ -190,7 +203,12 @@ def fetch_thenews_articles(
 
     url = f"{THE_NEWS_ENDPOINT}?{urllib.parse.urlencode(params)}"
     payload = curl_json(url)
-    return [normalize_thenews_article(article) for article in payload.get("data", [])]
+    articles = [
+        article
+        for article in payload.get("data", [])
+        if not should_exclude_source(config, article)
+    ]
+    return [normalize_thenews_article(article) for article in articles]
 
 
 def fetch_gdelt_articles(config: dict[str, str], limit: int, window_days: int = 3) -> list[dict]:
@@ -203,7 +221,11 @@ def fetch_gdelt_articles(config: dict[str, str], limit: int, window_days: int = 
     }
     url = f"{GDELT_ENDPOINT}?{urllib.parse.urlencode(params)}"
     payload = curl_json(url)
-    articles = payload.get("articles", [])
+    articles = [
+        article
+        for article in payload.get("articles", [])
+        if not should_exclude_source(config, article)
+    ]
     return [normalize_gdelt_article(article) for article in articles]
 
 

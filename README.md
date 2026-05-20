@@ -31,24 +31,27 @@ Map-first global news prototype.
 ## Live Briefings
 
 - Store your token in `.env.local` as `THE_NEWS_API_TOKEN=...`
+- Add `OPENAI_API_KEY=...` to let the refresh job search, select, summarize, and translate stories before writing them to the store
+- Country refreshes use the Responses API `web_search` tool by default, controlled by `OPENAI_COUNTRY_WEB_SEARCH=1`
 - Start the app with `python3 scripts/serve_app.py`
 - Open `http://127.0.0.1:4173/`
-- A country refreshes only when clicked
-- Once fetched, the result is cached for 24 hours in `data/cache/briefings.json`
-- After 24 hours, the next click refreshes that country again
+- Country briefings and top stories are served from `data/story_store.sqlite`
+- The background refresher updates stale rows; user requests read the store and do not call live providers or OpenAI inline
+- Seed or refresh manually with `python3 scripts/refresh_story_store.py --seed --top-stories --stale-countries 5`
+- Tune the background pass with `BRIEFINGS_REFRESH_INTERVAL_MINUTES`, `BRIEFINGS_REFRESH_BATCH_SIZE`, `BRIEFINGS_REFRESH_COUNTRIES`, and `IMPORTANT_SPOTS_REFRESH_IDS`
 
 ## Notes
 
 - `The News API` is the scalable primary source in this first pass.
 - `GDELT` is only used as a supplement when The News API comes back sparse.
-- Click-triggered caching is the main API-usage control now.
+- The SQLite store plus scheduled refresh controls API usage and keeps page loads fast.
 
 ## AI Picks
 
-- Run `python3 scripts/fetch_ai_picks.py`
-- Generated picks land in `data/generated/ai_picks.json`
+- Run `python3 scripts/refresh_story_store.py --top-stories`
+- Generated picks land in `data/story_store.sqlite`
 - The frontend renders these as the `AI Picks` globe layer
-- The first version uses GDELT watchlist queries and cached output; LLM ranking can be added inside the generator without changing the frontend data contract
+- The refresh job uses provider candidates plus OpenAI curation when `OPENAI_API_KEY` is present; otherwise it falls back to deterministic scoring
 
 ## Country Facts
 
