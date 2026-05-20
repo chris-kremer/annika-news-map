@@ -434,6 +434,23 @@ def refresh_top_stories(limit: int = 25) -> dict[str, Any]:
 
 
 def seed_from_json_caches() -> None:
+    history_seed_path = ROOT / "data" / "generated" / "country_histories_seed.json"
+    if history_seed_path.exists():
+        payload = json.loads(history_seed_path.read_text())
+        for item in payload.get("histories", []):
+            country = item.get("country")
+            history = item.get("payload")
+            if not country or not isinstance(history, dict):
+                continue
+            if not story_store.read_country_history(country):
+                story_store.write_country_history(
+                    country,
+                    history,
+                    stale_after=item.get("staleAfter") or stale_after(COUNTRY_HISTORY_TTL),
+                    status=item.get("status") or "ready",
+                    warning=item.get("warning"),
+                )
+
     top_path = ROOT / "data" / "cache" / "ai_picks.json"
     if top_path.exists() and not story_store.read_story_set("top_stories"):
         payload = json.loads(top_path.read_text())
