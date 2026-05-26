@@ -2,6 +2,8 @@
 
 Map-first global news prototype.
 
+<!-- Railway redeploy trigger: no runtime impact. -->
+
 ## Mockup
 
 - Open [index.html](./index.html) directly in a browser for the current mockup.
